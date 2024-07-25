@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: 'auth-server'
+
+
+server:
+  port: 8085
+
+# Registering application in Eureka Server
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8081/eureka
