@@ -25,20 +25,17 @@ public class ProfileServiceImp implements ProfileService {
 
     @Override
     public ProfileDTO updateProfile(ProfileDTO profileDTO) {
-        Profile profile = profileRepository.findById(profileDTO.getId()).orElseThrow();
 
-        // Tạo hoặc cập nhật contact
-        Contact contact = profileDTO.getContactDTO() != null
-                ? Contact.builder()
-                .address(profileDTO.getContactDTO().getAddress())
-                .phone(profileDTO.getContactDTO().getPhone())
-                .email(profileDTO.getContactDTO().getEmail())
-                .build()
-                : profile.getContact();
-
+        Profile profile = convertToModel(profileDTO);
+        profile.setContact(profileRepository.findById(profileDTO.getId()).orElseThrow().getContact());
         return convertToDTO(profileRepository.save(profile));
     }
-
+    @Override
+    public void updateContactByProfile(Contact contact,Integer id){
+        Profile profile=profileRepository.findById(id).orElseThrow();
+        profile.setContact(contact);
+        profileRepository.save(profile);
+    }
 
 
     public ProfileDTO convertToDTO(Profile profile) {
@@ -60,7 +57,6 @@ public class ProfileServiceImp implements ProfileService {
                 .workExperience(profileDTO.getWorkExperience())
                 .skills(profileDTO.getSkills())
                 .id(getGenerationId())
-                .contact(convertToContact(profileDTO.getContactDTO()))
                 .build();
         return profileRepository.save(profile);
     }
