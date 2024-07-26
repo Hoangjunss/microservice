@@ -22,7 +22,6 @@ public class Profile {
     private String skills;
 
 
-
     @OneToOne
     @JoinColumn(name = "idContact", referencedColumnName = "id")
     private Contact contact;

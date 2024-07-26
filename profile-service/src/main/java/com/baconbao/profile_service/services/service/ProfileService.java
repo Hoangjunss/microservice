@@ -4,4 +4,5 @@ import com.baconbao.profile_service.dto.ProfileDTO;
 
 public interface ProfileService {
     ProfileDTO saveProfile(ProfileDTO profileDTO);
+    ProfileDTO updateProfile(ProfileDTO profileDTO);
 }
