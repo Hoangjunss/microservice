@@ -1,9 +1,11 @@
 package com.baconbao.profile_service.model;
 
 import jakarta.persistence.Id;
+import lombok.Data;
 
-public class TypeProfile {
-    @Id
-    private Integer id;
-    private String name;
+
+
+public enum TypeProfile {
+  java;
+
 }

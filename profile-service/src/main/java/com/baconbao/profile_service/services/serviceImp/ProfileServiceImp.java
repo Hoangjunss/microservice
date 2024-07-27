@@ -4,14 +4,16 @@ import com.baconbao.profile_service.dto.ContactDTO;
 import com.baconbao.profile_service.dto.ProfileDTO;
 import com.baconbao.profile_service.model.Contact;
 import com.baconbao.profile_service.model.Profile;
+import com.baconbao.profile_service.model.TypeProfile;
 import com.baconbao.profile_service.repository.ProfileRepository;
 import com.baconbao.profile_service.services.service.ProfileService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
-
+@Service
 public class ProfileServiceImp implements ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
@@ -55,6 +57,7 @@ public class ProfileServiceImp implements ProfileService {
                 .objective(profileDTO.getObjective())
                 .education(profileDTO.getEducation())
                 .workExperience(profileDTO.getWorkExperience())
+                .typeProfile(TypeProfile.valueOf(profileDTO.getTypeProfile()))
                 .skills(profileDTO.getSkills())
                 .id(getGenerationId())
                 .build();

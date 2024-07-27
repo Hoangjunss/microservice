@@ -9,9 +9,10 @@ import com.baconbao.profile_service.services.service.ContactService;
 import com.baconbao.profile_service.services.service.ProfileService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-
+@Service
 public class ContactServiceImp implements ContactService {
     @Autowired
     private ModelMapper modelMapper;
