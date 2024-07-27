@@ -27,6 +27,5 @@ public class Project {
     }
     private String url;
 
-
 }
 
