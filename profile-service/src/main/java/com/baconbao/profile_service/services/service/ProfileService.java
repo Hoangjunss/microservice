@@ -15,4 +15,5 @@ public interface ProfileService {
     ProfileDTO convertToDTO(Profile profile);
     Profile convertToModel(ProfileDTO profileDTO);
     void updateContactByProfile(Contact contact, Integer id);
+    List<ProfileDTO> getAllProfile();
 }

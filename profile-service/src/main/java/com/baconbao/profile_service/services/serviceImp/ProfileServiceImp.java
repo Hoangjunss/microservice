@@ -90,4 +90,9 @@ public class ProfileServiceImp implements ProfileService {
         profile.setContact(contact);
         profileRepository.save(profile);
     }
+
+    @Override
+    public List<ProfileDTO> getAllProfile() {
+        return convertToDTOList(profileRepository.findAll());
+    }
 }

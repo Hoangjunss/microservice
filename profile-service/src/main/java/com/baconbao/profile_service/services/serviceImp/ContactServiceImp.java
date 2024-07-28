@@ -58,6 +58,6 @@ public class ContactServiceImp implements ContactService {
     @Override
     public ContactDTO getContactByProfile(Integer id) {
         Profile profile=profileService.convertToModel(profileService.findById(id));
-        return convertToDTO(contactRepository.findByProfile(profile));
+        return null;
     }
 }

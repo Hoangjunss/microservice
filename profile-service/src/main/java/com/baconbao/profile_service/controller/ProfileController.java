@@ -26,4 +26,8 @@ public class ProfileController {
     public ResponseEntity<List<ProfileDTO>> findProfilesByType(@RequestParam String typeProfile){
         return ResponseEntity.ok(profileService.findProfilesByType(TypeProfile.valueOf(typeProfile)));
     }
+    @GetMapping("/getAll")
+    public ResponseEntity<List<ProfileDTO>> getAll(){
+        return ResponseEntity.ok(profileService.getAllProfile());
+    }
 }

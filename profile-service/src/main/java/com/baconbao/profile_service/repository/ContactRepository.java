@@ -5,5 +5,5 @@ import com.baconbao.profile_service.model.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ContactRepository extends JpaRepository<Contact,Integer> {
-    Contact findByProfile(Profile profile);
+
 }
