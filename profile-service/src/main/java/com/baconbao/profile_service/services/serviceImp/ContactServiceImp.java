@@ -20,19 +20,7 @@ public class ContactServiceImp implements ContactService {
     private ContactRepository contactRepository;
     @Autowired
     private ProfileService profileService;
-    @Override
-    public ContactDTO saveContact(ContactDTO contactDTO) {
-        Contact contact=save(contactDTO);
-        profileService.updateContactByProfile(contact,contactDTO.getProfileID());
-        return convertToDTO(contact);
-    }
 
-    @Override
-    public ContactDTO updateContact(ContactDTO contactDTO) {
-        Contact contact=contactRepository.save(convertToModel(contactDTO));
-        profileService.updateContactByProfile(contact,contactDTO.getProfileID());
-        return convertToDTO(contact);
-    }
     private Contact save(ContactDTO contactDTO){
         Contact contact=Contact.builder()
                 .id(getGenerationId())
@@ -44,7 +32,6 @@ public class ContactServiceImp implements ContactService {
     }
     public Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
-        // Use most significant bits and ensure it's within the integer range
         return (int) (uuid.getMostSignificantBits() & 0xFFFFFFFFL);
     }
     public ContactDTO convertToDTO(Contact contact) {
@@ -55,4 +42,22 @@ public class ContactServiceImp implements ContactService {
         return modelMapper.map(contactDTO, Contact.class);
     }
 
+
+    @Override
+    public ContactDTO saveContact(ContactDTO contactDTO) {
+        Contact contact = save(contactDTO);
+        profileService.updateContactByProfile(contact,contactDTO.getProfileID());
+        return convertToDTO(contact);
+    }
+
+    @Override
+    public ContactDTO updateContact(ContactDTO contactDTO) {
+        return convertToDTO(contactRepository.save(convertToModel(contactDTO)));
+    }
+
+    @Override
+    public ContactDTO getContactByProfile(Integer id) {
+        Profile profile=profileService.convertToModel(profileService.findById(id));
+        return convertToDTO(contactRepository.findByProfile(profile));
+    }
 }

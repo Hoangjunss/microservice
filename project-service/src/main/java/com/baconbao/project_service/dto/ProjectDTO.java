@@ -18,6 +18,7 @@ public class ProjectDTO {
     private String description;
     private LocalDateTime createAt;
     private String url;
+    private Integer imageId;
     private MultipartFile imageFile;
     private Integer idProfile;
 }

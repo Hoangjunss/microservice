@@ -56,4 +56,11 @@ public class NotificationServiceImpl implements NotificationService {
     public NotificationDTO findById(Integer id) {
         return convertToDTO(notificationRepository.findById(id).orElseThrow());
     }
+
+    @Override
+    public NotificationDTO seenNotification(Integer id) {
+        Notification notification =notificationRepository.findById(id).orElseThrow();
+        notification.setRead(true);
+        return convertToDTO(notificationRepository.save(notification));
+    }
 }

@@ -5,4 +5,5 @@ import com.baconbao.profile_service.dto.ContactDTO;
 public interface ContactService {
     ContactDTO saveContact(ContactDTO contactDTO);
     ContactDTO updateContact(ContactDTO contactDTO);
+    ContactDTO getContactByProfile(Integer id);
 }

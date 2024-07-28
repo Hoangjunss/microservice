@@ -17,7 +17,8 @@ public class ProfileDTO {
     private String education;
     private String workExperience;
     private String skills;
-        private String typeProfile;
+    private String typeProfile;
+    private Integer userId;
+    private String url;
     private MultipartFile imageFile;
-
 }

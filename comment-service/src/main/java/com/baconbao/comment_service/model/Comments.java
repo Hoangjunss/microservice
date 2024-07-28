@@ -19,9 +19,5 @@ public class Comments {
     private Integer id;
     private String content;
     private LocalDateTime createAt;
-    @PrePersist
-    protected void onCreate() {
-        createAt = LocalDateTime.now();
-    }
 }
 

@@ -1,13 +1,13 @@
 package com.baconbao.profile_service.controller;
 
 import com.baconbao.profile_service.dto.ProfileDTO;
+import com.baconbao.profile_service.model.TypeProfile;
 import com.baconbao.profile_service.services.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/profile")
@@ -21,5 +21,9 @@ public class ProfileController {
     @PostMapping("/update")
     public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO profileDTO){
         return ResponseEntity.ok(profileService.updateProfile(profileDTO));
+    }
+    @GetMapping("/findProfileByType")
+    public ResponseEntity<List<ProfileDTO>> findProfilesByType(@RequestParam String typeProfile){
+        return ResponseEntity.ok(profileService.findProfilesByType(TypeProfile.valueOf(typeProfile)));
     }
 }

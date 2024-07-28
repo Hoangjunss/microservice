@@ -22,55 +22,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ModelMapper modelMapper;
 
-    private Project save(ProjectDTO projectDTO) {
-        Project project=Project.builder()
-                .id(getGenerationId())
-                .title(projectDTO.getTitle())
-                .description(projectDTO.getDescription())
-                .url(projectDTO.getUrl())
-                .build();
-        return projectRepository.save(project);
-    }
-    public Integer getGenerationId() {
-        UUID uuid = UUID.randomUUID();
-        // Use most significant bits and ensure it's within the integer range
-        return (int) (uuid.getMostSignificantBits() & 0xFFFFFFFFL);
-    }
-
-    @Override
-    public ProjectDTO saveProject(ProjectDTO projectDTO) {
-        log.info("Save project");
-        Project project=save(projectDTO);
-        //profileService.updateProjectByProfile(project,projectDTO.getIdProfile());
-        return convertToDTO(project);
-    }
-
-    @Override
-    public ProjectDTO updateProject(ProjectDTO projectDTO) {
-        log.info("Update project");
-        projectDTO.setCreateAt(findById(projectDTO).getCreateAt());
-        Project project=projectRepository.save(convertToModel(projectDTO));
-
-        return convertToDTO(project);
-    }
-
-    @Override
-    public ProjectDTO findById(ProjectDTO projectDTO) {
-        log.info("Find project by id: {}", projectDTO.getId());
-        return convertToDTO(projectRepository.findById(projectDTO.getId())
-                .orElseThrow());
-    }
-
-    @Override
-    public List<ProjectDTO> getAllProjectDTOByProfile(Integer idProfile) {
-        log.info("Find all projects by idProfile: {}", idProfile);
-        List<ProjectDTO> projectDTOS = new ArrayList<>();
-        for (Project project : projectRepository.getProjectByProfile(idProfile)) {
-            projectDTOS.add(convertToDTO(project));
-        }
-        return projectDTOS;
-    }
-
     private ProjectDTO convertToDTO(Project project) {
         return modelMapper.map(project, ProjectDTO.class);
     }
@@ -79,11 +30,55 @@ public class ProjectServiceImpl implements ProjectService {
         return modelMapper.map(projectDTO, Project.class);
     }
 
-    public List<ProjectDTO> convertToDTOList(List<Project> projects) {
-
+    private List<ProjectDTO> convertToDTOList(List<Project> projects){
         return projects.stream()
                 .map(project -> modelMapper.map(project, ProjectDTO.class))
                 .collect(Collectors.toList());
     }
 
+
+    private Project save(ProjectDTO projectDTO) {
+        Project project=Project.builder()
+                .id(getGenerationId())
+                .title(projectDTO.getTitle())
+                .description(projectDTO.getDescription())
+                //.image()
+                //.profile
+                .url(projectDTO.getUrl())
+                .build();
+        return projectRepository.save(project);
+    }
+    public Integer getGenerationId() {
+        UUID uuid = UUID.randomUUID();
+        return (int) (uuid.getMostSignificantBits() & 0xFFFFFFFFL);
+    }
+
+    @Override
+    public ProjectDTO saveProject(ProjectDTO projectDTO) {
+        log.info("Save project");
+        return convertToDTO(save(projectDTO));
+    }
+
+    @Override
+    public ProjectDTO updateProject(ProjectDTO projectDTO) {
+        log.info("Update project");
+        projectDTO.setCreateAt(findById(projectDTO.getId()).getCreateAt());
+        Project project=projectRepository.save(convertToModel(projectDTO));
+        return convertToDTO(project);
+    }
+
+    @Override
+    public ProjectDTO findById(Integer id) {
+        log.info("Find project by id: {}", id);
+        return convertToDTO(projectRepository.findById(id)
+                .orElseThrow());
+    }
+
+    @Override
+    public List<ProjectDTO> getAllProjectDTOByProfile(Integer idProfile) {
+        log.info("Find all projects by idProfile: {}", idProfile);
+        //Profile profile=profileService.convertToModel(profileService.findById(idProfile));
+        List<Project> projects=projectRepository.getProjectByProfile(idProfile);
+        return convertToDTOList(projects);
+    }
 }

@@ -11,8 +11,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Service
 public class ProfileServiceImp implements ProfileService {
     @Autowired
@@ -20,25 +23,15 @@ public class ProfileServiceImp implements ProfileService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Override
-    public ProfileDTO saveProfile(ProfileDTO profileDTO) {
-        return convertToDTO(save(profileDTO));
+    public Contact convertToContact(ContactDTO contactDTO) {
+        return modelMapper.map(contactDTO, Contact.class);
     }
 
-    @Override
-    public ProfileDTO updateProfile(ProfileDTO profileDTO) {
-
-        Profile profile = convertToModel(profileDTO);
-        profile.setContact(profileRepository.findById(profileDTO.getId()).orElseThrow().getContact());
-        return convertToDTO(profileRepository.save(profile));
+    public List<ProfileDTO> convertToDTOList(List<Profile> profiles) {
+        return profiles.stream()
+                .map(project -> modelMapper.map(project, ProfileDTO.class))
+                .collect(Collectors.toList());
     }
-    @Override
-    public void updateContactByProfile(Contact contact,Integer id){
-        Profile profile=profileRepository.findById(id).orElseThrow();
-        profile.setContact(contact);
-        profileRepository.save(profile);
-    }
-
 
     public ProfileDTO convertToDTO(Profile profile) {
         return modelMapper.map(profile, ProfileDTO.class);
@@ -48,10 +41,6 @@ public class ProfileServiceImp implements ProfileService {
         return modelMapper.map(profileDTO, Profile.class);
     }
 
-    public Contact convertToContact(ContactDTO contactDTO) {
-        return modelMapper.map(contactDTO, Contact.class);
-    }
-
     private Profile save(ProfileDTO profileDTO) {
         Profile profile = Profile.builder()
                 .objective(profileDTO.getObjective())
@@ -59,6 +48,7 @@ public class ProfileServiceImp implements ProfileService {
                 .workExperience(profileDTO.getWorkExperience())
                 .typeProfile(TypeProfile.valueOf(profileDTO.getTypeProfile()))
                 .skills(profileDTO.getSkills())
+                //.image()
                 .id(getGenerationId())
                 .build();
         return profileRepository.save(profile);
@@ -66,7 +56,38 @@ public class ProfileServiceImp implements ProfileService {
 
     public Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
-        // Use most significant bits and ensure it's within the integer range
         return (int) (uuid.getMostSignificantBits() & 0xFFFFFFFFL);
+    }
+
+    @Override
+    public ProfileDTO updateProfile(ProfileDTO profileDTO) {
+        return convertToDTO(profileRepository.save(convertToModel(profileDTO)));
+
+    }
+
+    @Override
+    public ProfileDTO saveProfile(ProfileDTO profileDTO) {
+        Profile profile = save(profileDTO);
+        //userService.updateProfileByUser(profile, profileDTO.getUserId());
+        return convertToDTO(profile);
+    }
+
+    @Override
+    public ProfileDTO findById(Integer id) {
+        return convertToDTO(profileRepository.findById(id)
+                .orElseThrow());
+    }
+
+    @Override
+    public List<ProfileDTO> findProfilesByType(TypeProfile typeProfile) {
+        return convertToDTOList(profileRepository.findByTypeProfile(typeProfile));
+    }
+
+
+    @Override
+    public void updateContactByProfile(Contact contact, Integer id) {
+        Profile profile=profileRepository.findById(id).orElseThrow();
+        profile.setContact(contact);
+        profileRepository.save(profile);
     }
 }
