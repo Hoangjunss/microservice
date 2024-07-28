@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Profile } from './profile';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { map, Observable } from 'rxjs';
 export class ProfileServiceService {
 
   constructor(private httpClient:HttpClient) { }
-  private baseURL = "http://localhost:8085/profile/getAll";
+  private baseURL = 'http://localhost:8085/profile/save';
 
   
   getProfilesList(): Observable<Profile[]> {
@@ -17,7 +17,18 @@ export class ProfileServiceService {
       map(profileDTOs => profileDTOs.map(this.mapToProfile))
     );
   }
+  createProfile(profile: Profile) {
+    console.log('Creating profile:', profile);
 
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+     this.httpClient.post<any>(this.baseURL, profile, { headers }).pipe(
+      map(this.mapToProfile),
+      catchError(error => {
+        console.error('Error creating profile:', error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
   private mapToProfile(profileDTO: any): Profile {
     return {
       id: profileDTO.id,
