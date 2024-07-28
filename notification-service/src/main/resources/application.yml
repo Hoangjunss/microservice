@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: notification-service
+server:
+  port: 8084
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8671/eureka
