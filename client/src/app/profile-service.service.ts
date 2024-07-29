@@ -13,7 +13,7 @@ export class ProfileServiceService {
 
   
   getProfilesList(): Observable<Profile[]> {
-    return this.httpClient.get<any[]>(this.baseURL).pipe(
+    return this.httpClient.get<any[]>('http://localhost:8085/profile/getAll').pipe(
       map(profileDTOs => profileDTOs.map(this.mapToProfile))
     );
   }
@@ -28,6 +28,10 @@ export class ProfileServiceService {
         return throwError(() => new Error(error));
       })
     );
+  }
+  getProfileByType(type:string):Observable<Profile[]>{
+    return this.httpClient.get<any[]>('http://localhost:8085/profile/findProfileByType?typeProfile='+type)
+    .pipe(map(profileDTO=>profileDTO.map(this.mapToProfile)));
   }
   private mapToProfile(profileDTO: any): Profile {
     return {
