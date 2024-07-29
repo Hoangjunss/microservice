@@ -1,12 +1,16 @@
 package com.baconbao.notification_service.services.serviceimpl;
 
 import com.baconbao.notification_service.dto.NotificationDTO;
+import com.baconbao.notification_service.exception.CustomException;
+import com.baconbao.notification_service.exception.Error;
 import com.baconbao.notification_service.model.Notification;
 import com.baconbao.notification_service.repository.NotificationRepository;
 import com.baconbao.notification_service.services.service.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -32,35 +36,59 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private Notification save(NotificationDTO notificationDTO){
-        Notification notification = Notification.builder()
-                .id(getGenerationId())
-                .message(notificationDTO.getMessage())
-                .createAt(notificationDTO.getCreateAt())
-                .isRead(notificationDTO.isRead())
-                .url(notificationDTO.getUrl())
-                .build();
-        return notificationRepository.save(notification);
+        try{
+            log.info("Saving Notification");
+            Notification notification = Notification.builder()
+                    .id(getGenerationId())
+                    .message(notificationDTO.getMessage())
+                    .createAt(notificationDTO.getCreateAt())
+                    .isRead(notificationDTO.isRead())
+                    .url(notificationDTO.getUrl())
+                    .build();
+            return notificationRepository.save(notification);
+        } catch (DataIntegrityViolationException e){
+            throw new CustomException(Error.NOTIFICATION_UNABLE_TO_SAVE);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
     public NotificationDTO create(NotificationDTO notificationDTO) {
+        log.info("Creating notification");
         return convertToDTO(save(notificationDTO));
     }
 
     @Override
     public NotificationDTO update(NotificationDTO notificationDTO) {
-        return convertToDTO(notificationRepository.save(convertToModel(notificationDTO)));
+        try {
+            log.info("Updating notification id: {}", notificationDTO.getId());
+            return convertToDTO(notificationRepository.save(convertToModel(notificationDTO)));
+        } catch (DataIntegrityViolationException e){
+            throw new CustomException(Error.NOTIFICATION_UNABLE_TO_UPDATE);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
     public NotificationDTO findById(Integer id) {
-        return convertToDTO(notificationRepository.findById(id).orElseThrow());
+        log.info("Find notification by id: {}", id);
+        return convertToDTO(notificationRepository.findById(id)
+                .orElseThrow(()-> new CustomException(Error.NOTIFICATION_NOT_FOUND)));
     }
 
     @Override
     public NotificationDTO seenNotification(Integer id) {
-        Notification notification =notificationRepository.findById(id).orElseThrow();
-        notification.setRead(true);
-        return convertToDTO(notificationRepository.save(notification));
+        try {
+            log.info("Update seen notification by id: {}", id);
+            Notification notification =notificationRepository.findById(id).orElseThrow();
+            notification.setRead(true);
+            return convertToDTO(notificationRepository.save(notification));
+        } catch (DataIntegrityViolationException e){
+            throw new CustomException(Error.NOTIFICATION_UNABLE_TO_UPDATE);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 }

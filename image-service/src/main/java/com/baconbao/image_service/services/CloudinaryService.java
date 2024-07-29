@@ -1,5 +1,7 @@
 package com.baconbao.image_service.services;
 
+import com.baconbao.image_service.exception.CloudinaryException;
+import com.baconbao.image_service.exception.Error;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
@@ -31,8 +33,9 @@ public class CloudinaryService {
     }
 
     // tai hinh anh len cloud
-    public Map upload(MultipartFile multipartFile) {
-        try {
+    public Map upload(MultipartFile multipartFile)  {
+        try{
+            log.info("Uploading photo to clound: {}", multipartFile.getOriginalFilename());
             File file = convert(multipartFile);
             Map result = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
             if (!Files.deleteIfExists(file.toPath())) {
@@ -40,25 +43,35 @@ public class CloudinaryService {
                 throw new IOException("Unable to upload temporary file: " + file.getAbsolutePath());
             }
             return result;
-        } catch (IOException e){
+        }catch (IOException e){
             log.error("Unable to upload file: {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw new CloudinaryException(Error.UPLOAD_FAILED);
         }
     }
 
     // xoa anh tren cloud
     public Map delete(String id) throws IOException {
-        log.info("Deleting photo from cloud: {}", id);
-        return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
+        try {
+            log.info("Deleting photo from cloud: {}", id);
+            return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
+        }catch (IOException e){
+            log.error("Unable to delete file: {}", e.getMessage());
+            throw new CloudinaryException(Error.DELETE_FAILED);
+        }
     }
 
     // chuyen anh thanh file
     private File convert(MultipartFile multipartFile) throws IOException {
-        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        FileOutputStream fo = new FileOutputStream(file);
-        fo.write(multipartFile.getBytes());
-        fo.close();
-        return file;
+        try {
+            File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            FileOutputStream fo = new FileOutputStream(file);
+            fo.write(multipartFile.getBytes());
+            fo.close();
+            return file;
+        }catch (IOException e){
+            log.error("Unable to convert file: {}", e.getMessage());
+            throw new CloudinaryException(Error.CONVERSION_FAILED);
+        }
     }
 
     public String getImageUrl(String publicId) {

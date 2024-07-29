@@ -1,12 +1,16 @@
 package com.baconbao.comment_service.services.serviceimpl;
 
 import com.baconbao.comment_service.dto.CommentsDTO;
+import com.baconbao.comment_service.exception.CustomException;
+import com.baconbao.comment_service.exception.Error;
 import com.baconbao.comment_service.model.Comments;
 import com.baconbao.comment_service.repository.CommentsRepository;
 import com.baconbao.comment_service.services.service.CommentsService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -31,26 +35,43 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     private Comments save(CommentsDTO commentsDTO){
-        Comments comments = Comments.builder()
-                .id(getGenerationId())
-                .content(commentsDTO.getContent())
-                .createAt(commentsDTO.getCreateAt())
-                .build();
-        return commentsRepository.save(comments);
+        try {
+            log.info("Saving comments");
+            Comments comments = Comments.builder()
+                    .id(getGenerationId())
+                    .content(commentsDTO.getContent())
+                    .createAt(commentsDTO.getCreateAt())
+                    .build();
+            return commentsRepository.save(comments);
+        } catch (DataIntegrityViolationException e){
+            throw new CustomException(Error.COMMENT_UNABLE_TO_SAVE);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
     public CommentsDTO findById(Integer id) {
-        return convertToDTO(commentsRepository.findById(id).orElseThrow());
+        log.info("Find comments by id: {}", id);
+        return convertToDTO(commentsRepository.findById(id)
+                .orElseThrow(()-> new CustomException(Error.COMMENT_NOT_FOUND)));
     }
 
     @Override
     public CommentsDTO create(CommentsDTO commentsDTO) {
+        log.info("Create comments");
         return convertToDTO(save(commentsDTO));
     }
 
     @Override
     public CommentsDTO update(CommentsDTO commentsDTO) {
-        return convertToDTO(commentsRepository.save(convertToModel(commentsDTO)));
+        try {
+            log.info("Update comments");
+            return convertToDTO(commentsRepository.save(convertToModel(commentsDTO)));
+        } catch (DataIntegrityViolationException e){
+            throw new CustomException(Error.COMMENT_UNABLE_TO_UPDATE);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 }
