@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ProfileListComponent } from './profile-list/profile-list.component';
+import { ProfileListComponent } from './components/profile-list/profile-list.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { CreateProfileComponent } from './create-profile/create-profile.component';
+import { CreateProfileComponent } from './components/create-profile/create-profile.component';
 import { FormsModule } from '@angular/forms';
-import { ContactComponent } from '../contact/contact.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 @Component({
   selector: 'app-root',
