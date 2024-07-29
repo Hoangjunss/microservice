@@ -1,5 +1,6 @@
 <h2> Employee List</h2>
-<table class = "table table-striped">
+
+<table *ngIf="profiles.length > 0; else noProfiles" class = "table table-striped">
     <thead>
         <tr>
             <th> First Name</th>
@@ -17,3 +18,6 @@
         </tr>
     </tbody>
 </table>
+<ng-template #noProfiles>
+    <h1>No profiles available</h1>
+  </ng-template>
