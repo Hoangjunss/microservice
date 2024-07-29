@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ProfileServiceService } from '../profile-service.service';
-import { Profile } from '../profile';
+import { ProfileServiceService } from '../service/profile-service.service';
+import { Profile } from '../model/profile';
 import { FormsModule } from '@angular/forms';
 
 @Component({

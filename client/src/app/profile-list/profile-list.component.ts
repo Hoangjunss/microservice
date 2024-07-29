@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Profile } from '../profile';
-import { ProfileServiceService } from '../profile-service.service';
+import { Profile } from '../model/profile';
+import { ProfileServiceService } from '../service/profile-service.service';
 
 @Component({
   selector: 'app-profile-list',
@@ -11,7 +11,8 @@ import { ProfileServiceService } from '../profile-service.service';
   styleUrl: './profile-list.component.css'
 })
 export class ProfileListComponent implements OnInit{
-  profiles:Profile[]=[]
+  profiles:Profile[]=[];
+  profile:Profile=new Profile;
   @Input() param?:string;
   constructor(private profileService:ProfileServiceService){}
   ngOnInit(): void {
@@ -29,6 +30,11 @@ export class ProfileListComponent implements OnInit{
   getByType(type:string){
     this.profileService.getProfileByType(type).subscribe(data=>{
       this.profiles=data;
+    })
+  }
+  getByUser(id:number){
+    this.profileService.getProfileByUser(id).subscribe(data=>{
+      this.profile=data;
     })
   }
 
