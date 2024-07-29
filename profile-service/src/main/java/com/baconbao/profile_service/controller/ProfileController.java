@@ -14,6 +14,7 @@ import java.util.List;
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/save")
     public ResponseEntity<ProfileDTO> save(@RequestBody ProfileDTO profileDTO){
         return ResponseEntity.ok(profileService.saveProfile(profileDTO));
