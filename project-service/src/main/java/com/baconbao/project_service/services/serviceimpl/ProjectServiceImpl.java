@@ -1,12 +1,16 @@
 package com.baconbao.project_service.services.serviceimpl;
 
 import com.baconbao.project_service.dto.ProjectDTO;
+import com.baconbao.project_service.exception.CustomException;
+import com.baconbao.project_service.exception.Error;
 import com.baconbao.project_service.model.Project;
 import com.baconbao.project_service.repository.ProjectRepository;
 import com.baconbao.project_service.services.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,15 +42,22 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     private Project save(ProjectDTO projectDTO) {
-        Project project=Project.builder()
-                .id(getGenerationId())
-                .title(projectDTO.getTitle())
-                .description(projectDTO.getDescription())
-                //.image()
-                //.profile
-                .url(projectDTO.getUrl())
-                .build();
-        return projectRepository.save(project);
+        try {
+            log.info("Saving project");
+            Project project=Project.builder()
+                    .id(getGenerationId())
+                    .title(projectDTO.getTitle())
+                    .description(projectDTO.getDescription())
+                    //.image()
+                    //.profile
+                    .url(projectDTO.getUrl())
+                    .build();
+            return projectRepository.save(project);
+        } catch (DataIntegrityViolationException e){
+            throw new CustomException(Error.PROJECT_UNABLE_TO_SAVE);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
     public Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
@@ -61,24 +72,34 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDTO updateProject(ProjectDTO projectDTO) {
-        log.info("Update project");
-        projectDTO.setCreateAt(findById(projectDTO.getId()).getCreateAt());
-        Project project=projectRepository.save(convertToModel(projectDTO));
-        return convertToDTO(project);
+        try {
+            log.info("Update project");
+            projectDTO.setCreateAt(findById(projectDTO.getId()).getCreateAt());
+            Project project=projectRepository.save(convertToModel(projectDTO));
+            return convertToDTO(project);
+        } catch (DataIntegrityViolationException e){
+            throw new CustomException(Error.PROJECT_UNABLE_TO_UPDATE);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
     public ProjectDTO findById(Integer id) {
         log.info("Find project by id: {}", id);
         return convertToDTO(projectRepository.findById(id)
-                .orElseThrow());
+                .orElseThrow(()-> new CustomException(Error.PROJECT_NOT_FOUND)));
     }
 
     @Override
     public List<ProjectDTO> getAllProjectDTOByProfile(Integer idProfile) {
-        log.info("Find all projects by idProfile: {}", idProfile);
-        //Profile profile=profileService.convertToModel(profileService.findById(idProfile));
-        List<Project> projects=projectRepository.getProjectByProfile(idProfile);
-        return convertToDTOList(projects);
+        try {
+            log.info("Find all projects by idProfile: {}", idProfile);
+            //Profile profile=profileService.convertToModel(profileService.findById(idProfile));
+            List<Project> projects=projectRepository.getProjectByProfile(idProfile);
+            return convertToDTOList(projects);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 }
