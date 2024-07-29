@@ -17,11 +17,11 @@ export class ProfileServiceService {
       map(profileDTOs => profileDTOs.map(this.mapToProfile))
     );
   }
-  createProfile(profile: Profile) {
+  createProfile(profile: Profile):Observable<Profile> {
     console.log('Creating profile:', profile);
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-     this.httpClient.post<any>(this.baseURL, profile, { headers }).pipe(
+    return this.httpClient.post<any>(this.baseURL, profile, { headers }).pipe(
       map(this.mapToProfile),
       catchError(error => {
         console.error('Error creating profile:', error);

@@ -20,7 +20,9 @@ export class CreateProfileComponent implements OnInit {
   }
   sendProfile(){
     console.log("send");
-    this.profileService.createProfile(this.profile);
+    this.profileService.createProfile(this.profile).subscribe(data=>{
+      console.log(data);
+    });
   }
 
 }
