@@ -28,6 +28,7 @@ public class Profile {
 
   @Enumerated(EnumType.STRING)
     private TypeProfile typeProfile;
+  private  Integer iduser;
 
 
 }

@@ -1,9 +1,11 @@
 package com.baconbao.project_service.services.serviceimpl;
 
+import com.baconbao.project_service.dto.ProfileDTO;
 import com.baconbao.project_service.dto.ProjectDTO;
 import com.baconbao.project_service.exception.CustomException;
 import com.baconbao.project_service.exception.Error;
 import com.baconbao.project_service.model.Project;
+import com.baconbao.project_service.openFeign.ProfileClient;
 import com.baconbao.project_service.repository.ProjectRepository;
 import com.baconbao.project_service.services.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private ProfileClient profileClient;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -101,5 +105,10 @@ public class ProjectServiceImpl implements ProjectService {
         } catch (DataAccessException e){
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
+    }
+
+    @Override
+    public List<ProfileDTO> getSlliProfile() {
+        return profileClient.getAll();
     }
 }

@@ -11,11 +11,8 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: employeeModule
-          uri: lb://FIRST-SERVICE
+        - id: profile-service
+          uri: lb://PROFILE-SERVICE
           predicates:
-            - Path=/employee/**
-        - id: consumerModule
-          uri: lb://SECOND-SERVICE
-          predicates:
-            - Path=/consumer/**
+            - Path=/profile/**
+

@@ -14,21 +14,30 @@ import java.util.List;
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/save")
-    public ResponseEntity<ProfileDTO> save(@RequestBody ProfileDTO profileDTO){
+    public ResponseEntity<ProfileDTO> save(@RequestBody ProfileDTO profileDTO) {
         return ResponseEntity.ok(profileService.saveProfile(profileDTO));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO profileDTO){
+    public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO profileDTO) {
         return ResponseEntity.ok(profileService.updateProfile(profileDTO));
     }
+
     @GetMapping("/findProfileByType")
-    public ResponseEntity<List<ProfileDTO>> findProfilesByType(@RequestParam String typeProfile){
+    public ResponseEntity<List<ProfileDTO>> findProfilesByType(@RequestParam String typeProfile) {
         return ResponseEntity.ok(profileService.findProfilesByType(TypeProfile.valueOf(typeProfile)));
     }
+
     @GetMapping("/getAll")
-    public ResponseEntity<List<ProfileDTO>> getAll(){
+    public ResponseEntity<List<ProfileDTO>> getAll() {
         return ResponseEntity.ok(profileService.getAllProfile());
+    }
+
+    @GetMapping("/helllo")
+    public String get() {
+        return "helllo";
     }
 }
