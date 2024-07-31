@@ -1,5 +1,4 @@
-package com.baconbao.image_service.dto;
-
+package com.baconbao.profile_service.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,4 +13,3 @@ public class ImageDTO {
     private String url;
 
 }
-

@@ -1,12 +1,14 @@
 package com.baconbao.profile_service.services.serviceImp;
 
 import com.baconbao.profile_service.dto.ContactDTO;
+import com.baconbao.profile_service.dto.ImageDTO;
 import com.baconbao.profile_service.dto.ProfileDTO;
 import com.baconbao.profile_service.exception.CustomException;
 import com.baconbao.profile_service.exception.Error;
 import com.baconbao.profile_service.model.Contact;
 import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
+import com.baconbao.profile_service.openFeign.ImageClient;
 import com.baconbao.profile_service.repository.ProfileRepository;
 import com.baconbao.profile_service.services.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ public class ProfileServiceImp implements ProfileService {
     private ProfileRepository profileRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private ImageClient imageClient;
 
     public Contact convertToContact(ContactDTO contactDTO) {
         return modelMapper.map(contactDTO, Contact.class);
@@ -51,13 +55,14 @@ public class ProfileServiceImp implements ProfileService {
     private Profile save(ProfileDTO profileDTO) {
         try{
             log.info("Saving profile");
+            ImageDTO imageDTO=imageClient.save(profileDTO.getImageFile());
             Profile profile = Profile.builder()
                     .objective(profileDTO.getObjective())
                     .education(profileDTO.getEducation())
                     .workExperience(profileDTO.getWorkExperience())
                     .typeProfile(TypeProfile.valueOf(profileDTO.getTypeProfile()))
                     .skills(profileDTO.getSkills())
-                    //.image()
+                    .idImage(imageDTO.getId())
                     .id(getGenerationId())
                     .build();
             return profileRepository.save(profile);

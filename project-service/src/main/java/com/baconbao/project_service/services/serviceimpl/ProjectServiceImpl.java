@@ -1,10 +1,12 @@
 package com.baconbao.project_service.services.serviceimpl;
 
+import com.baconbao.project_service.dto.ImageDTO;
 import com.baconbao.project_service.dto.ProfileDTO;
 import com.baconbao.project_service.dto.ProjectDTO;
 import com.baconbao.project_service.exception.CustomException;
 import com.baconbao.project_service.exception.Error;
 import com.baconbao.project_service.model.Project;
+import com.baconbao.project_service.openFeign.ImageClient;
 import com.baconbao.project_service.openFeign.ProfileClient;
 import com.baconbao.project_service.repository.ProjectRepository;
 import com.baconbao.project_service.services.service.ProjectService;
@@ -29,6 +31,8 @@ public class ProjectServiceImpl implements ProjectService {
     private ProfileClient profileClient;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private ImageClient imageClient;
 
     private ProjectDTO convertToDTO(Project project) {
         return modelMapper.map(project, ProjectDTO.class);
@@ -48,12 +52,12 @@ public class ProjectServiceImpl implements ProjectService {
     private Project save(ProjectDTO projectDTO) {
         try {
             log.info("Saving project");
+           ImageDTO imageDTO= imageClient.save(projectDTO.getImageFile());
             Project project=Project.builder()
                     .id(getGenerationId())
                     .title(projectDTO.getTitle())
                     .description(projectDTO.getDescription())
-                    //.image()
-                    //.profile
+                    .idImage(imageDTO.getId())
                     .url(projectDTO.getUrl())
                     .build();
             return projectRepository.save(project);
