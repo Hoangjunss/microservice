@@ -24,6 +24,6 @@ public class ProjectController {
     }
     @GetMapping("/getProfile")
     public ResponseEntity<List<ProfileDTO>> getProfile(){
-        return ResponseEntity.ok(projectService.getSlliProfile());
+        return ResponseEntity.ok(projectService.getAlliProfile());
     }
 }
