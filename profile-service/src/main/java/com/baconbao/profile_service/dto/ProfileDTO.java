@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import com.baconbao.profile_service.model.Contact;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,8 +18,10 @@ public class ProfileDTO {
     private String education;
     private String workExperience;
     private String skills;
+    private Contact contact;
     private String typeProfile;
     private Integer userId;
     private String url;
     private MultipartFile imageFile;
+
 }

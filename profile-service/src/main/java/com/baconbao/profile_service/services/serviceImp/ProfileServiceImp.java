@@ -1,11 +1,9 @@
 package com.baconbao.profile_service.services.serviceImp;
 
-import com.baconbao.profile_service.dto.ContactDTO;
 import com.baconbao.profile_service.dto.ImageDTO;
 import com.baconbao.profile_service.dto.ProfileDTO;
 import com.baconbao.profile_service.exception.CustomException;
 import com.baconbao.profile_service.exception.Error;
-import com.baconbao.profile_service.model.Contact;
 import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
 import com.baconbao.profile_service.openFeign.ImageClient;
@@ -17,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,10 +33,8 @@ public class ProfileServiceImp implements ProfileService {
     private ModelMapper modelMapper;
     @Autowired
     private ImageClient imageClient;
-
-    public Contact convertToContact(ContactDTO contactDTO) {
-        return modelMapper.map(contactDTO, Contact.class);
-    }
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public List<ProfileDTO> convertToDTOList(List<Profile> profiles) {
         return profiles.stream()
@@ -55,17 +53,22 @@ public class ProfileServiceImp implements ProfileService {
     private Profile save(ProfileDTO profileDTO) {
         try{
             log.info("Saving profile");
-            ImageDTO imageDTO=imageClient.save(profileDTO.getImageFile());
+            ImageDTO imageDTO = null;
+            if(profileDTO.getImageFile()!=null){
+                imageDTO=imageClient.save(profileDTO.getImageFile());
+            }
             Profile profile = Profile.builder()
+                    .id(getGenerationId())
                     .objective(profileDTO.getObjective())
                     .education(profileDTO.getEducation())
                     .workExperience(profileDTO.getWorkExperience())
                     .typeProfile(TypeProfile.valueOf(profileDTO.getTypeProfile()))
                     .skills(profileDTO.getSkills())
+                    .contact(profileDTO.getContact())
                     .idImage(imageDTO.getId())
-                    .id(getGenerationId())
+                
                     .build();
-            return profileRepository.save(profile);
+            return profileRepository.insert(profile);
         } catch (DataIntegrityViolationException e){
             throw new CustomException(Error.PROFILE_UNABLE_TO_SAVE);
         } catch (DataAccessException e){
@@ -79,6 +82,13 @@ public class ProfileServiceImp implements ProfileService {
     }
 
     @Override
+    public ProfileDTO saveProfile(ProfileDTO profileDTO) {
+        log.debug("Save profile");
+        Profile profile = save(profileDTO);
+        return convertToDTO(profile);
+    }
+
+    @Override
     public ProfileDTO updateProfile(ProfileDTO profileDTO) {
         try{
             log.info("Updating profile id: {}", profileDTO.getId());
@@ -89,17 +99,11 @@ public class ProfileServiceImp implements ProfileService {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
-
-    @Override
-    public ProfileDTO saveProfile(ProfileDTO profileDTO) {
-        log.debug("Save profile");
-        Profile profile = save(profileDTO);
-        //userService.updateProfileByUser(profile, profileDTO.getUserId());
-        return convertToDTO(profile);
-    }
+    
 
     @Override
     public ProfileDTO findById(Integer id) {
+        log.info("Get profile by id: {}", id);
         return convertToDTO(profileRepository.findById(id)
                 .orElseThrow(()-> new CustomException(Error.PROFILE_NOT_FOUND)));
     }
@@ -107,7 +111,11 @@ public class ProfileServiceImp implements ProfileService {
     @Override
     public List<ProfileDTO> findProfilesByType(TypeProfile typeProfile) {
         try{
-            return convertToDTOList(profileRepository.findByTypeProfile(typeProfile));
+            log.info("Get profile by type: {}", typeProfile.name());
+            Query query = new Query();
+            query.addCriteria(Criteria.where("typeProfile").in(typeProfile.name()));
+            List<Profile> profiles = mongoTemplate.find(query, Profile.class);
+            return convertToDTOList(profiles);
         } catch (InvalidDataAccessResourceUsageException e){
             log.error("Get profile by type failed: {}", e.getMessage());
         } catch (DataAccessException e){
@@ -116,26 +124,13 @@ public class ProfileServiceImp implements ProfileService {
         return null;
     }
 
-
-    @Override
-    public void updateContactByProfile(Contact contact, Integer id) {
-        try{
-            log.info("Update contact by profile id: {}", id);
-            Profile profile=convertToModel(findById(id));
-            profile.setContact(contact);
-            profileRepository.save(profile);
-        } catch (DataIntegrityViolationException e){
-            throw new CustomException(Error.PROFILE_UNABLE_TO_UPDATE);
-        } catch (DataAccessException e){
-            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
-        }
-    }
-
     @Override
     public List<ProfileDTO> getAllProfile() {
         try{
             log.info("Get all profiles");
-            return convertToDTOList(profileRepository.findAll());
+            Query query = new Query();
+            query.limit(20);
+            return convertToDTOList(mongoTemplate.find(query, Profile.class));
         } catch (DataAccessException e){
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }

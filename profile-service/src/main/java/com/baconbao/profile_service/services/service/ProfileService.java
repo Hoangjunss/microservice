@@ -1,7 +1,6 @@
 package com.baconbao.profile_service.services.service;
 
 import com.baconbao.profile_service.dto.ProfileDTO;
-import com.baconbao.profile_service.model.Contact;
 import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
 
@@ -14,6 +13,5 @@ public interface ProfileService {
     List<ProfileDTO> findProfilesByType(TypeProfile typeProfile);
     ProfileDTO convertToDTO(Profile profile);
     Profile convertToModel(ProfileDTO profileDTO);
-    void updateContactByProfile(Contact contact, Integer id);
     List<ProfileDTO> getAllProfile();
 }

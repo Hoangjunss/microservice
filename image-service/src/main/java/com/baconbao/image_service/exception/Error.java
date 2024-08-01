@@ -25,6 +25,11 @@ public enum Error {
     IMAGE_UNABLE_TO_SAVE(7003, "Unable to save image", HttpStatus.INTERNAL_SERVER_ERROR),
     IMAGE_UNABLE_TO_UPDATE(7004, "Unable to update image", HttpStatus.INTERNAL_SERVER_ERROR),
     IMAGE_UNABLE_TO_DELETE(7005, "Unable to delete image", HttpStatus.INTERNAL_SERVER_ERROR),
+    // Cloudinary-related errors
+    UPLOAD_FAILED(10001, "Failed to upload file", HttpStatus.INTERNAL_SERVER_ERROR),
+    DELETE_FAILED(10002, "Failed to delete file", HttpStatus.INTERNAL_SERVER_ERROR),
+    CONVERSION_FAILED(10003, "Failed to convert file", HttpStatus.INTERNAL_SERVER_ERROR),
+    FILE_DELETION_FAILED(10004, "Failed to delete temporary file", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     private final int code;
