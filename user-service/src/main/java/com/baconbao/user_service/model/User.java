@@ -1,9 +1,6 @@
 package com.baconbao.user_service.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +16,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
+    @Id
     private Integer id;
     private String name;
     private String email;

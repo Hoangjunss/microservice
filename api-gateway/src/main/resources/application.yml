@@ -19,18 +19,7 @@ spring:
           uri: lb://PROJECT-SERVICE
           predicates:
             - Path=/project/**
-        - id: image-service
-          uri: lb://IMAGE-SERVICE
-          predicates:
-            - Path=/image/**
-        - id: comment-service
-          uri: lb://COMMENT-SERVICE
-          predicates:
-            - Path=/comment/**
-        - id: notification-service
-          uri: lb://NOTIFICATION-SERVICE
-          predicates:
-            - Path=/notification/**
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:

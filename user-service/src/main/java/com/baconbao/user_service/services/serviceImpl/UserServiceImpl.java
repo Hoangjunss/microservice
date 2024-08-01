@@ -11,17 +11,13 @@ import com.baconbao.user_service.services.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private ModelMapper modelMapper;
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    public UserDTO findById(Integer id) {
-        return convertToDTO(userRepository.findById(id).orElse(null));
-    }
-
-    private UserDTO convertToDTO(User user) {
-        return modelMapper.map(user, UserDTO.class);
+    public User findById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 }
+
