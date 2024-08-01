@@ -13,7 +13,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -91,4 +93,20 @@ public class NotificationServiceImpl implements NotificationService {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
+    @Override
+    public List<NotificationDTO> getNotificationsByIdUser(Integer userId) {
+        try {
+            log.info("Get notifications by user id: {}", userId);
+            return convertToDTOList(notificationRepository.getNotificationsByIdUser(userId));
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
+
+    private List<NotificationDTO> convertToDTOList(List<Notification> notifications){
+        return notifications.stream()
+                .map(notification -> modelMapper.map(notification, NotificationDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }
