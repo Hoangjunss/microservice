@@ -9,10 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,6 +24,7 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     private ModelMapper modelMapper;
 private  Image save(MultipartFile imageFile){
+    log.info("Uploading image");
     Map<String, Object> resultMap = cloudinaryService.upload(imageFile);
     String imageUrl = (String) resultMap.get("url");
     Image image= Image.builder()

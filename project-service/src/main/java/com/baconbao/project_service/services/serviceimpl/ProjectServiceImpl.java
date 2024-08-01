@@ -17,7 +17,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -52,7 +51,10 @@ public class ProjectServiceImpl implements ProjectService {
     private Project save(ProjectDTO projectDTO) {
         try {
             log.info("Saving project");
-           ImageDTO imageDTO= imageClient.save(projectDTO.getImageFile());
+            ImageDTO imageDTO=null;
+            if(projectDTO.getImageFile()!=null){
+                imageDTO= imageClient.save(projectDTO.getImageFile());
+            }
             Project project=Project.builder()
                     .id(getGenerationId())
                     .title(projectDTO.getTitle())
@@ -103,7 +105,6 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectDTO> getAllProjectDTOByProfile(Integer idProfile) {
         try {
             log.info("Find all projects by idProfile: {}", idProfile);
-            //Profile profile=profileService.convertToModel(profileService.findById(idProfile));
             List<Project> projects=projectRepository.getProjectByProfile(idProfile);
             return convertToDTOList(projects);
         } catch (DataAccessException e){

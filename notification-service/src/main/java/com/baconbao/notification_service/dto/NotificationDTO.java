@@ -1,6 +1,5 @@
 package com.baconbao.notification_service.dto;
 
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

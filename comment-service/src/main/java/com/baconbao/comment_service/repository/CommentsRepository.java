@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface CommentsRepository extends JpaRepository<Comments, Integer> {
     Optional<Comments> findById(Integer integer);
-    @Query(value = "SELECT * FROM comments WHERE profile_id = :idProfile", nativeQuery = true)
+    @Query("SELECT c FROM Comments c WHERE c.idProfile = :idProfile")
     List<Comments> getCommentsByIdProfile(Integer idProfile);
 }

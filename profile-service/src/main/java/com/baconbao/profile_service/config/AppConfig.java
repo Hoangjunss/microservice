@@ -1,7 +1,6 @@
 package com.baconbao.profile_service.config;
 
 import com.baconbao.profile_service.dto.ProfileDTO;
-import com.baconbao.profile_service.model.Contact;
 import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
 import org.modelmapper.Converter;
