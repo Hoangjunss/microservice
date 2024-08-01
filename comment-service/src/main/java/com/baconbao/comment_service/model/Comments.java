@@ -20,6 +20,5 @@ public class Comments {
     private String content;
     private LocalDateTime createAt;
     private  Integer idProfile;
-
 }
 

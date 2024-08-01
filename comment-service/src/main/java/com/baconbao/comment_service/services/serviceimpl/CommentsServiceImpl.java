@@ -6,6 +6,7 @@ import com.baconbao.comment_service.exception.Error;
 import com.baconbao.comment_service.model.Comments;
 import com.baconbao.comment_service.repository.CommentsRepository;
 import com.baconbao.comment_service.services.service.CommentsService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -74,4 +77,22 @@ public class CommentsServiceImpl implements CommentsService {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
+    @Override
+    public List<CommentsDTO> getCommentsByIdProfile(Integer idProfile) {
+        try {
+            log.info("Find all comments by idProfile: {}", idProfile);
+            List<Comments> comments = commentsRepository.getCommentsByIdProfile(idProfile);
+            return convertToDTOList(comments);
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+
+    }
+
+    private List<CommentsDTO> convertToDTOList(List<Comments> comments){
+        return comments.stream()
+                .map(comment -> modelMapper.map(comment, CommentsDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }
