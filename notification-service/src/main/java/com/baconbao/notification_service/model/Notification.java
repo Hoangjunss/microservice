@@ -19,11 +19,7 @@ public class Notification {
     private Integer id;
     private String message;
     private LocalDateTime createAt;
-    @PrePersist
-    protected void onCreate() {
-        createAt = LocalDateTime.now();
-
-    }
+    private  Integer idUser;
     private String url;
     private boolean isRead;
 }
