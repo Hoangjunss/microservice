@@ -1,1 +1,65 @@
-<router-outlet></router-outlet>
+<nav class="navbar ta-top">
+    <div class="container-fluid px-30">
+        <!-- Navbar Header -->
+        <div class="navbar-header">
+            <h1 class="navbar-brand">
+                <a routerLink="">
+                    <img src="" alt="LOGO"
+                        title="LOGO">
+                </a>
+            </h1>
+        </div>
+
+        <!-- Navbar Left -->
+        <ul class="nav navbar-nav navbar-left">
+            <!-- Home -->
+            <li class="navbar-left__item group">
+                <a routerLink="" title="Home" class="nav-link">Home</a>
+            </li>
+
+            <!-- Profile -->
+            <li class="navbar-left__item group">
+                <a routerLink="" title="Proflie" class="nav-link">Proflie</a>
+
+            </li>
+
+            <!-- Project -->
+            <li class="navbar-left__item group">
+                <a routerLink="" title="Project" class="nav-link">Project</a>
+            </li>
+
+            <!-- Contact -->
+            <li class="navbar-left__item group">
+                <a routerLink="" title="Contact" class="nav-link">Contact</a>
+            </li>
+
+            <!-- About -->
+            <li class="navbar-left__item group">
+                <a routerLink="" title="About" class="nav-link">About</a>
+            </li>
+
+            <!-- Notification -->
+            <li class="navbar-left__item group">
+                <a routerLink="" title="Notification" class="nav-link"><i class="fa-solid fa-bell"> </i></a>
+            </li>
+
+
+
+        </ul>
+
+        <!-- Navbar Right -->
+        <ul class="nav navbar-nav navbar-right">
+            <li class="navbar-right__item">
+                <a class="btn btn-outline-primary" routerLink="">Đăng nhập</a>
+            </li>
+            <li class="navbar-right__item">
+                <a class="btn btn-primary" routerLink="">Đăng ký</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

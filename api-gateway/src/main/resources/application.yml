@@ -15,4 +15,21 @@ spring:
           uri: lb://PROFILE-SERVICE
           predicates:
             - Path=/profile/**
+        - id: project-service
+          uri: lb://PROJECT-SERVICE
+          predicates:
+            - Path=/project/**
+        - id: image-service
+          uri: lb://IMAGE-SERVICE
+          predicates:
+            - Path=/image/**
+        - id: comment-service
+          uri: lb://COMMENT-SERVICE
+          predicates:
+            - Path=/comment/**
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/notification/**
+
 

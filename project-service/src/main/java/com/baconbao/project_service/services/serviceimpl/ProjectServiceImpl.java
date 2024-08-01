@@ -112,7 +112,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProfileDTO> getSlliProfile() {
+    public List<ProfileDTO> getAlliProfile() {
         return profileClient.getAll();
     }
 }

@@ -19,5 +19,6 @@ public class Comments {
     private Integer id;
     private String content;
     private LocalDateTime createAt;
+    private  Integer idProfile;
 }
 

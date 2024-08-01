@@ -17,5 +17,4 @@ public class CommentsDTO {
     private String content;
     private LocalDateTime createAt;
     private Integer idProfile;
-    private Integer idUser;
 }
