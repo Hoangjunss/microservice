@@ -35,9 +35,9 @@ public class ProfileController {
     public ResponseEntity<List<ProfileDTO>> getAll() {
         return ResponseEntity.ok(profileService.getAllProfile());
     }
-
-    @GetMapping("/helllo")
-    public String get() {
-        return "helllo";
+    @GetMapping("/findById")
+    public ResponseEntity<ProfileDTO> getProfileById(Integer id) {
+        return ResponseEntity.ok(profileService.findById(id));
     }
+
 }
