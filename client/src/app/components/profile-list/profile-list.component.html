@@ -21,4 +21,31 @@
 <ng-template #noProfiles>
     <h1>No profiles available</h1>
   </ng-template>
-  
+  <section class="section">
+    <div class="container" >
+        <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
+            <div class="col-lg-8">
+                <h3 class="h1 m-15px-b">List Profiles</h3>
+            </div>
+        </div>
+        <div class="row" [ngStyle]="{'text-align': 'center'}">
+            <div class="col-sm-6 col-lg-4 m-15px-tb" *ngFor="let profile of profiles">
+                <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
+                    <a class="overlay-link" href="#"></a>
+                    <div class="icon-50 theme-bg white-color border-radius-50 d-inline-block">
+                        <i class="number">{{ profile.id}}</i>
+                    </div>
+                    <div class="p-20px-l media-body">
+                        <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">Full time</span>
+                        <h6 class="m-5px-tb">{{ profile.objective }}</h6>
+                        <p class="m-0px font-small">{{ profile.education }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 p-25px-t text-center">
+                <a class="m-btn m-btn-radius m-btn-theme" href="#">Load More</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -65,7 +65,7 @@ public class ProfileServiceImp implements ProfileService {
                     .typeProfile(TypeProfile.valueOf(profileDTO.getTypeProfile()))
                     .skills(profileDTO.getSkills())
                     .contact(profileDTO.getContact())
-                    .idImage(imageDTO.getId())
+                    // .idImage(imageDTO.getId())
                 
                     .build();
             return profileRepository.insert(profile);
