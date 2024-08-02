@@ -8,7 +8,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project,Integer> {
-    @Query("SELECT p FROM project p WHERE p.idProfile = :idProfile")
-    List<Project> getProjectByProfile(@Param("idProfile") Integer idProfile);
 
 }

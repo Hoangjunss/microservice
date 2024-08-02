@@ -101,16 +101,6 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(()-> new CustomException(Error.PROJECT_NOT_FOUND)));
     }
 
-    @Override
-    public List<ProjectDTO> getAllProjectDTOByProfile(Integer idProfile) {
-        try {
-            log.info("Find all projects by idProfile: {}", idProfile);
-            List<Project> projects=projectRepository.getProjectByProfile(idProfile);
-            return convertToDTOList(projects);
-        } catch (DataAccessException e){
-            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
-        }
-    }
 
     @Override
     public List<ProfileDTO> getAlliProfile() {

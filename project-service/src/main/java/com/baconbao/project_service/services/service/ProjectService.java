@@ -9,6 +9,6 @@ public interface ProjectService {
     ProjectDTO saveProject(ProjectDTO projectDTO);
     ProjectDTO updateProject(ProjectDTO projectDTO);
     ProjectDTO findById(Integer id);
-    List<ProjectDTO> getAllProjectDTOByProfile(Integer idProfile);
+
     List<ProfileDTO>getAlliProfile();
 }
