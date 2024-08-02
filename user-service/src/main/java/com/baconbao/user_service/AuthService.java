@@ -6,11 +6,13 @@ import com.baconbao.user_service.dto.AuthenticationResponse;
 import com.baconbao.user_service.model.Role;
 import com.baconbao.user_service.model.User;
 import com.baconbao.user_service.repository.UserRepository;
+import com.baconbao.user_service.security.OurUserDetailsService;
 import com.baconbao.user_service.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,8 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private OurUserDetailsService ourUserDetailsService;
 
     public AuthenticationResponse signUp(AuthenticationRequest registrationRequest){
 
@@ -84,6 +88,16 @@ public class AuthService {
 
             return response.build();
 
+    }
+    public  AuthenticationResponse isValid(String token){
+       String userEmail = jwtTokenUtil.extractUsername(token);
+       if(userEmail!=null){
+           UserDetails userDetails = ourUserDetailsService.loadUserByUsername(userEmail);
+           if(jwtTokenUtil.isTokenValid(token,userDetails)){
+              return AuthenticationResponse.builder().isVaild(true).build();
+           }
+
+       }
     }
 
     public Integer getGenerationId() {

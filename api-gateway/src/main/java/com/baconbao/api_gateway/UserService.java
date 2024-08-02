@@ -15,8 +15,7 @@ public class UserService
 {
     UserClient userClient;
 
-    public AuthenticationResponse introspect(String token){
-        return userClient.introspect(AuthenticationRequest.builder().build());
-
+    public Mono<AuthenticationResponse> introspect(String token) {
+        return Mono.fromCallable(() -> userClient.isValid(token));
     }
 }

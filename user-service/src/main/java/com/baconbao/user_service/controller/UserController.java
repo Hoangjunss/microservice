@@ -33,4 +33,8 @@ public class UserController {
     public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody AuthenticationRequest refreshTokenRequest){
         return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
     }
+    @PostMapping("/isValid")
+    public ResponseEntity<AuthenticationResponse> isValid(@RequestBody String token){
+        return ResponseEntity.ok(authService.isValid(token));
+    }
 }

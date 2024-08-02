@@ -8,6 +8,6 @@ import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Mono;
 
 public interface UserClient {
-    @PostExchange(url = "/auth/introspect", contentType = MediaType.APPLICATION_JSON_VALUE)
-    AuthenticationResponse introspect(@RequestBody AuthenticationRequest request);
+    @PostExchange(url = "/auth/isValid", contentType = MediaType.APPLICATION_JSON_VALUE)
+    AuthenticationResponse isValid(@RequestBody String token);
 }
