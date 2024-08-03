@@ -22,4 +22,5 @@ public class Profile {
     private Contact contact; // Refers to Contact ID, if used
     private TypeProfile typeProfile; // Enum stored as String
     private Integer idImage; // Refers to Image ID, if used
+    private String title;
 }

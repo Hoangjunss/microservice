@@ -7,4 +7,5 @@ export class Profile {
     typeProfile?:string;
     userId?:number;
     url?:string;
+    title?:string;
 }

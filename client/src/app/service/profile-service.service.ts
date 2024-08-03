@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Profile } from '../model/profile';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { title } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,8 @@ export class ProfileServiceService {
       id: profileDTO.id,
       objective: profileDTO.objective,
       education: profileDTO.education,
-      workExperience: profileDTO.workExperience
+      workExperience: profileDTO.workExperience,
+      title: profileDTO.title
     };
   }
 }

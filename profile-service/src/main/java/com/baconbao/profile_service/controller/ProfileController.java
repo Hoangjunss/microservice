@@ -38,5 +38,9 @@ public class ProfileController {
     public ResponseEntity<ProfileDTO> getProfileById(Integer id) {
         return ResponseEntity.ok(profileService.findById(id));
     }
+    @GetMapping("/findByTitle")
+    public ResponseEntity<List<ProfileDTO>> findByTitle(@RequestParam String title) {
+        return ResponseEntity.ok(profileService.findByTitle(title));
+    }
 
 }

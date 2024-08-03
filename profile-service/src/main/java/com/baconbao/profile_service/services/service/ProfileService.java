@@ -14,4 +14,5 @@ public interface ProfileService {
     ProfileDTO convertToDTO(Profile profile);
     Profile convertToModel(ProfileDTO profileDTO);
     List<ProfileDTO> getAllProfile();
+    List<ProfileDTO> findByTitle(String title);
 }

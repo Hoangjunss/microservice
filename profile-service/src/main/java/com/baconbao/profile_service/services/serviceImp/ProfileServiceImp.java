@@ -64,6 +64,7 @@ public class ProfileServiceImp implements ProfileService {
                     .workExperience(profileDTO.getWorkExperience())
                     .typeProfile(TypeProfile.valueOf(profileDTO.getTypeProfile()))
                     .skills(profileDTO.getSkills())
+                    .title(profileDTO.getTitle())
                     .contact(profileDTO.getContact())
                     // .idImage(imageDTO.getId())
                 
@@ -129,6 +130,20 @@ public class ProfileServiceImp implements ProfileService {
         try{
             log.info("Get all profiles");
             Query query = new Query();
+            query.limit(20);
+            return convertToDTOList(mongoTemplate.find(query, Profile.class));
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
+
+    @Override
+    public List<ProfileDTO> findByTitle(String title) {
+        try
+        {
+            log.info("Get profile by title: {}", title);
+            Query query = new Query();
+            query.addCriteria(Criteria.where("title").regex(title));
             query.limit(20);
             return convertToDTOList(mongoTemplate.find(query, Profile.class));
         } catch (DataAccessException e){
