@@ -316,7 +316,6 @@ body {
 }
 
 .about-us {
-    padding: 50px;
     background-color: #FFF; }
     @media screen and (max-width: 940px) {
       .about-us {
