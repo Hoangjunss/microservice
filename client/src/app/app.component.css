@@ -7,7 +7,6 @@ body {
 }
 
 
-
 .container-fluid {
     max-width: 1200px;
     margin: 0 auto;
@@ -275,7 +274,6 @@ body {
         padding: 0 10px;
     }
 }
-
 /* Large devices (desktops, 992px and down) */
 /* @media (max-width: 992px) {
     .navbar-nav {

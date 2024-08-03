@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit{
   id?:number;
   profile: Profile = new Profile;
   projects: Project[] = [];
+  
   ngOnInit(): void {
     if (this.param) {
       this.getByUser(this.param);
@@ -49,11 +50,20 @@ export class ProfileComponent implements OnInit{
     })
   }
 
-  scrollToSection(sectionId: string) {
+  scrollToSection(sectionId: string): void {
     const section = document.getElementById(sectionId);
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+        const navbarHeight = 50;
+        const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset;
+        
+        window.scrollTo({
+            top: sectionPosition - navbarHeight,
+            behavior: 'smooth'
+        });
     }
-  }
+}
+
+
+  
 
 }

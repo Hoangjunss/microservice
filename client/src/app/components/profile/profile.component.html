@@ -28,12 +28,13 @@
                 <li></li>
             </ul>
         </div>
+        
     </div>
 </div>
 
 <!--########################## About Us Starts Here ############################# -->
 
-<div id="about_us" class="about-us container-fluid px-4 py-5">
+<div id="about_us" class="about-us container-fluid px-4 py-5 section-padding" >
     <div class="container">
         <div class="session-title row">
             <h2>About Me</h2>
@@ -75,12 +76,12 @@
 
         </div>
     </div>
-
+    
 </div>
 
 <!--########################## Services Starts Here ############################# -->
 
-<div *ngIf="projects.length>0; else noProjects" id="service" class="service px-4 py-5">
+<div *ngIf="projects.length>0; else noProjects" id="service" class="service px-4 py-5 section-padding">
     <div class="titie-row row mb-3">
         <h2 class="fw-bolder">Project</h2>
         <p>My project.</p>
@@ -107,7 +108,7 @@
 
 <!--########################## Portfolio Starts Here ############################# -->
 
-<div id="testimonial" class="service px-4 py-5">
+<div id="testimonial" class="service px-4 py-5 section-padding">
     <div class="titie-row row mb-3">
         <h2 class="fw-bolder">Skills</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ipsum sit nibh amet egestas tellus.</p>
@@ -175,7 +176,7 @@
 
 <!--########################## Contact Us Starts Here ############################# -->
 
-<div class="service px-4 py-5" id="contact_us">
+<div class="service px-4 py-5 section-padding" id="contact_us">
     <div class="titie-row row mb-3">
         <h2 class="fw-bolder">Contact Us</h2>
         <p>You can contact me.</p>
@@ -252,5 +253,15 @@
 </div>
 
 </div>
-
+<script>
+function scrollToSection(id) {
+    const element = document.getElementById(id);
+    const offset = 70; // Chiều cao của navbar
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth'
+    });
+}
+</script>
 <router-outlet></router-outlet>
