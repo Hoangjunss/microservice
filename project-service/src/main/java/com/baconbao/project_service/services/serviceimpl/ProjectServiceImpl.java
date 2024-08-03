@@ -59,8 +59,9 @@ public class ProjectServiceImpl implements ProjectService {
                     .id(getGenerationId())
                     .title(projectDTO.getTitle())
                     .description(projectDTO.getDescription())
-                    .idImage(imageDTO.getId())
+                    //.idImage(imageDTO.getId())
                     .url(projectDTO.getUrl())
+                    .idProfile(projectDTO.getIdProfile())
                     .build();
             return projectRepository.save(project);
         } catch (DataIntegrityViolationException e){
@@ -105,5 +106,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProfileDTO> getAlliProfile() {
         return profileClient.getAll();
+    }
+
+    @Override
+    public List<ProjectDTO> getProjectByIdProfile(Integer id) {
+        try {
+            return convertToDTOList(projectRepository.findByIdProfile(id));
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 }

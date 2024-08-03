@@ -11,4 +11,5 @@ public interface ProjectService {
     ProjectDTO findById(Integer id);
 
     List<ProfileDTO>getAlliProfile();
+    List<ProjectDTO>getProjectByIdProfile(Integer id);
 }

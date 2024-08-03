@@ -8,4 +8,10 @@ export class Profile {
     userId?:number;
     url?:string;
     title?:string;
+    contact?:Contact;
+}
+class Contact{
+    address?: string;
+  phone?: string;
+  email?: string;
 }

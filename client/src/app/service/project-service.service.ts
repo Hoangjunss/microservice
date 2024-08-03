@@ -28,4 +28,20 @@ export class ProjectServiceService {
   updateProjectByUser(project:Project):Observable<Project>{
     return this.http.put<any>('http://localhost:8086/project/update',project).pipe(map(this.conventToProject));
   }
+
+  getProjectByIdProfile(id?:number):Observable<Project[]>{
+    return this.http.get<any[]>('http://localhost:8086/getProject?id='+id)
+    .pipe(map(projectDTO=>projectDTO.map(this.mapToProject)));
+  }
+
+  private mapToProject(projectDTO: any): Project{
+    return {
+      id: projectDTO.id,
+      title: projectDTO.title,
+      description: projectDTO.description,
+      createAt: projectDTO.createAt,
+      url: projectDTO.url,
+      idProfile: projectDTO.idProfile
+    }
+  }
 }
