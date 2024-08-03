@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit{
       this.getByUser(this.param);
     }
     else{
-      this.id =1;
+      this.id = 1925006690;
       this.getProfileById(this.id);
     }
   }
