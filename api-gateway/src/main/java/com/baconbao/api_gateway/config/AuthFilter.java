@@ -33,6 +33,13 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         log.info("Enter authentication filter....");
+        String path = exchange.getRequest().getURI().getPath();
+
+        // Skip authentication for /auth/** endpoints
+        if (path.startsWith("/auth")||path.startsWith("/project")) {
+            return chain.filter(exchange);
+        }
+
 
         // Get token from authorization header
         List<String> authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
