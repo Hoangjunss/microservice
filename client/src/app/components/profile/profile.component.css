@@ -23,20 +23,29 @@ Description: This Template is created for Youtubers
   padding: 0px;
   list-style: none;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 img {
   max-width: 100%;
 }
 
-a {
+#navbarNav a {
+  cursor: pointer;
   text-decoration: none;
-  outline: none;
-  color: #444;
+  color: #333;
+  transition: color 0.3s, transform 0.2s;
 }
 
-a:hover {
-  color: #444;
+#navbarNav a:hover {
+  color: #007bff; /* Màu khi di chuột qua */
 }
+
+#navbarNav a:active {
+  color: #0056b3; /* Màu khi nhấn giữ */
+  transform: scale(0.95); /* Hiệu ứng co lại nhẹ khi nhấn giữ */
+}
+
 
 ul {
   margin-bottom: 0;
@@ -389,6 +398,7 @@ body {
 
 .container {
   max-width: 1170px;
+  margin: 0;
 }
 @media screen and (max-width: 575px) {
   .container {
@@ -536,6 +546,7 @@ body {
   width: 260px;
   height: 100vh;
   box-shadow: 0 2px 6px 0 rgba(218, 218, 253, 0.65), 0 2px 6px 0 rgba(206, 206, 238, 0.54);
+  margin-top: 85px;
 }
 @media screen and (max-width: 991px) {
   .head {

@@ -1,4 +1,5 @@
-<h2> Employee List</h2>
+<div [ngStyle]="{'margin-top':'85px'}">
+    <h2> Employee List</h2>
 
 <table *ngIf="profiles.length > 0; else noProfiles" class = "table table-striped">
     <thead>
@@ -48,4 +49,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

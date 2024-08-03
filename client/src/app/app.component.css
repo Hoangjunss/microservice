@@ -6,6 +6,8 @@ body {
     line-height: 1.6;
 }
 
+
+
 .container-fluid {
     max-width: 1200px;
     margin: 0 auto;
@@ -13,8 +15,13 @@ body {
 }
 
 .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
     background-color: #f8f9fa;
     border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-header {
@@ -195,3 +202,148 @@ body {
 .btn-dark:hover {
     background-color: #23272b;
 }
+/* Responsive Styles */
+
+/* Small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+    .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-left,
+    .navbar-right {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-left__item,
+    .navbar-right__item {
+        margin-right: 0;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .navbar-left__item .nav-link,
+    .navbar-right__item .btn {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    .navbar-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .container-fluid {
+        padding: 0 10px;
+    }
+}
+
+/* Medium devices (tablets, 768px and down) */
+@media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-left,
+    .navbar-right {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-left__item,
+    .navbar-right__item {
+        margin-right: 0;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .navbar-left__item .nav-link,
+    .navbar-right__item .btn {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    .navbar-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .container-fluid {
+        padding: 0 10px;
+    }
+}
+
+/* Large devices (desktops, 992px and down) */
+/* @media (max-width: 992px) {
+    .navbar-nav {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .navbar-left,
+    .navbar-right {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .navbar-left__item,
+    .navbar-right__item {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .navbar-left__item .nav-link,
+    .navbar-right__item .btn {
+        padding: 10px 15px;
+    }
+
+    .navbar-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .container-fluid {
+        padding: 0 15px;
+    }
+} */
+
+/* Extra large devices (large desktops, 1200px and up) */
+/* @media (min-width: 1200px) {
+    .navbar-nav {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .navbar-left,
+    .navbar-right {
+        width: 100%;
+    }
+
+    .navbar-left__item,
+    .navbar-right__item {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
+    .navbar-left__item .nav-link,
+    .navbar-right__item .btn {
+        padding: 12px 15px;
+    }
+
+    .navbar-header {
+        display: flex;
+        align-items: center;
+    }
+
+    .container-fluid {
+        padding: 0 30px;
+    }
+} */
