@@ -36,14 +36,14 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String path = exchange.getRequest().getURI().getPath();
 
         // Skip authentication for /auth/** endpoints
-        if (path.startsWith("/auth")||path.startsWith("/project")) {
+        if (path.startsWith("/auth")) {
             return chain.filter(exchange);
         }
 
 
         // Get token from authorization header
         List<String> authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
-
+       log.info(String.valueOf(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)));
         if (authHeader == null ) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
@@ -53,11 +53,19 @@ public class AuthFilter implements GlobalFilter, Ordered {
         log.info("Token: {}", token);
 
 
-return userService.introspect(token).flatMap(authenticationResponse -> {
+return userService.introspect(token).doOnNext(authenticationResponse -> {
+    // Log thông tin phản hồi từ introspect
+    log.info("Introspection response: " + authenticationResponse);
+}).flatMap(authenticationResponse -> {
     if (authenticationResponse.isValid()){
+        log.info("isvaliad");
         return chain.filter(exchange);
-    }else    return unauthenticated(exchange.getResponse());
-}).onErrorResume(throwable -> unauthenticated(exchange.getResponse()));
+    }else  { log.info("!isvalid");
+        return unauthenticated(exchange.getResponse());}
+}).onErrorResume(throwable ->  {
+    log.error("Error during introspection: ", throwable);
+    return unauthenticated(exchange.getResponse());
+});
 
     }
 

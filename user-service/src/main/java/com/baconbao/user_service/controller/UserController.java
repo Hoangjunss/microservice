@@ -6,9 +6,12 @@ import com.baconbao.user_service.dto.AuthenticationResponse;
 import com.baconbao.user_service.dto.UserDTO;
 import com.baconbao.user_service.security.OurUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
 @RequestMapping("/auth")
 @RestController
 public class UserController {
@@ -34,7 +37,9 @@ public class UserController {
         return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
     }
     @PostMapping("/isValid")
-    public ResponseEntity<AuthenticationResponse> isValid(@RequestBody String token){
-        return ResponseEntity.ok(authService.isValid(token));
+    public Mono<ResponseEntity<AuthenticationResponse>> isValid(@RequestBody String token) {
+        return authService.isValid(token)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 }

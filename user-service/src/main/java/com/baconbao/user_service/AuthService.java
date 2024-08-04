@@ -15,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -35,24 +37,36 @@ public class AuthService {
     private OurUserDetailsService ourUserDetailsService;
 
     public AuthenticationResponse signUp(AuthenticationRequest registrationRequest){
+        String rawPassword = registrationRequest.getPassword();
+        log.info("Original password: " + rawPassword);
 
-                log.info("Sign up Auth Service");
-                User users = User.builder()
-                        .id(getGenerationId())
-                        .name(registrationRequest.getName())
-                        .email(registrationRequest.getEmail())
-                        .password(passwordEncoder.encode(registrationRequest.getPassword()))
-                        .role(Role.valueOf(registrationRequest.getRole()))
-                        .build();
-                User userResult = userRepository.save(users);
-                return AuthenticationResponse.builder()
-                        .user(userResult)
-                        .message("User Saved Successfully")
-                        .statusCode(200)
-                        .build();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        log.info("Encoded password: " + encodedPassword);
 
+        log.info("Sign up Auth Service");
+
+        User users = User.builder()
+                .id(getGenerationId())
+                .name(registrationRequest.getName())
+                .email(registrationRequest.getEmail())
+                .role(Role.valueOf(registrationRequest.getRole()))
+                .build();
+
+        users.setPassword(encodedPassword);
+        log.info("User object before save: " + users);
+
+        User userResult = userRepository.save(users);
+        log.info("User object after save: " + userResult);
+
+        log.info("pass new: " + users.getPassword());
+        log.info("pass: " + registrationRequest.getPassword());
+
+        return AuthenticationResponse.builder()
+                .user(userResult)
+                .message("User Saved Successfully")
+                .statusCode(200)
+                .build();
     }
-
     public AuthenticationResponse signIn(AuthenticationRequest signinRequest){
 
                 log.info("Sign in Auth Service");
@@ -89,16 +103,11 @@ public class AuthService {
             return response.build();
 
     }
-    public  AuthenticationResponse isValid(String token){
-       String userEmail = jwtTokenUtil.extractUsername(token);
-       if(userEmail!=null){
-           UserDetails userDetails = ourUserDetailsService.loadUserByUsername(userEmail);
-           if(jwtTokenUtil.isTokenValid(token,userDetails)){
-              return AuthenticationResponse.builder().isVaild(true).build();
-           }
+    public Mono<AuthenticationResponse> isValid(String token) {
+        return Mono.fromCallable(() -> {
 
-       }
-       return AuthenticationResponse.builder().isVaild(false).build();
+            return AuthenticationResponse.builder().isVaild(true).build();
+        }).subscribeOn(Schedulers.boundedElastic());
     }
 
     public Integer getGenerationId() {

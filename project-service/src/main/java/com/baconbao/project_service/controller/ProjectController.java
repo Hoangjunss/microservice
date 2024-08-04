@@ -33,5 +33,9 @@ public class ProjectController {
     public ResponseEntity<List<ProjectDTO>> getMethodName(@RequestParam Integer id) {
         return ResponseEntity.ok(projectService.getProjectByIdProfile(id));
     }
-    
+    @GetMapping("/get")
+    public ResponseEntity<String> get(){
+        return ResponseEntity.ok("ok");
+    }
+
 }
