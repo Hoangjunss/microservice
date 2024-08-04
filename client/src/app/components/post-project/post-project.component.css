@@ -1,0 +1,178 @@
+
+body .profiledetails{
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    z-index: 1000;
+    overflow: auto;
+}
+
+textarea{
+    width: 100%;
+}
+
+.edit_profile_container {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    width: 30rem;
+    max-height: 75vh;
+    overflow-y: auto;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 16px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+
+
+.edit_profile_container .close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.edit_profile_container h2{
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+.edit_profile_container .form_edit_profile{
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+}
+
+
+.edit_profile_container .form_edit_profile .image_box{
+    width: 100%;
+}
+.edit_profile_container .form_edit_profile .image_box .item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+}
+.edit_profile_container .form_edit_profile .image_box label{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.edit_profile_container .form_edit_profile .image_box .item input{
+    border: 1px solid   rgb(161 161 170);
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+
+.edit_profile_container .form_edit_profile .image_box .preview_box{
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit_profile_container .form_edit_profile .image_box .preview_box .imageBox .preview{
+    
+    width: 200px;
+    height: 200px;
+    object-fit: contain ;
+}
+
+.edit_profile_container .form_edit_profile .image_box .preview_box .imageBox{
+    position: relative;
+}
+
+.edit_profile_container .form_edit_profile .image_box .preview_box .imageBox span{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+.edit_profile_container .form_edit_profile .image_box .preview_box .imageBox span:hover{
+    background-color: rgb(243, 85, 85);
+}
+.edit_profile_container .form_edit_profile .name_box{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+}
+
+.edit_profile_container .form_edit_profile .name_box input{
+    border: 1px solid   rgb(161 161 170);
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+.edit_profile_container .form_edit_profile .name_box label{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.edit_profile_container .form_edit_profile button{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 30px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    transition: all .3 ease;
+    font-size: 16;
+    font-weight: 500;
+    color: white;
+}
+
+.edit_profile_container .form_edit_profile button:hover{
+   background-color: #007bff;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+  backdrop-filter: blur(5px); /* Hiệu ứng làm mờ */
+  z-index: 9999;
+  display: block; /* Mặc định ẩn */
+}
+

@@ -59,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
                     .id(getGenerationId())
                     .title(projectDTO.getTitle())
                     .description(projectDTO.getDescription())
-
+                    .idProfile(projectDTO.getIdProfile())
                     .build();
             return projectRepository.save(project);
         } catch (DataIntegrityViolationException e){

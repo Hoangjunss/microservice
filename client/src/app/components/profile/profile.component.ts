@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ContactComponent,CreateProfileComponent,RouterOutlet, CommonModule],
+  imports: [ContactComponent,CreateProfileComponent, CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit{
       this.getByUser(this.param);
     }
     else{
-      this.id = 1925006690;
+      this.id = 1;
       this.getProfileById(this.id);
     }
   }
@@ -62,8 +62,5 @@ export class ProfileComponent implements OnInit{
         });
     }
 }
-
-
-  
 
 }

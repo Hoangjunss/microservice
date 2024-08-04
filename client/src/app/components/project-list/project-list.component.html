@@ -1,1 +1,36 @@
-<p>project-list works!</p>
+<div id="service" class="service px-4 py-5" >
+  <button class="btn btn-primary" (click)="showEditForm(null)">Add project</button>
+   <div *ngIf="projects.length>0; else noProject"  class="row mt-5">
+    <div *ngFor="let project of projects" class="col-lg-4 col-md-6 mb-4">
+        <div class="serv-cove shadow-md rounded bg-white text-center p-4 d-flex flex-column align-items-center">
+          <i class="bi fs-1 bi-boxes mb-3"></i>
+          <h5 class="mt-3 fs-6 fw-bold">{{project.title}}</h5>
+          <p>{{project.description}}</p>
+            <span class="text-muted"><strong>Created:</strong> {{getFormattedDate(project.createAt)}}</span>
+          <div class="mt-3 w-100 serv-cove">
+            <a href="{{project.url}}" target="_blank" class="btn btn-primary">View Project</a>
+            <button (click)="showEditForm(project)" class="btn btn-primary">Edit</button>
+          </div>  
+        </div>
+      </div>      
+   </div>
+
+   <ng-template #noProject>
+    <div class="text-center p-5">
+        <div class="mb-3">
+            <i class="bi bi-box-seam fs-1 text-muted"></i>
+        </div>
+        <h1 class="display-4">No Projects Available</h1>
+        <p class="lead">It looks like you haven't added any projects yet. Start by clicking the button below!</p>
+        <button class="btn btn-primary btn-lg mt-4">Add Your First Project</button>
+    </div>
+</ng-template>
+
+  <app-post-project *ngIf="isFormVisible" 
+  [projectEdit]="selectedProject"
+  (closeForm)="hideEditForm()">>
+  </app-post-project>
+
+
+
+</div>

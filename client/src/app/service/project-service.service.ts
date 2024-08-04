@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Project } from '../model/project';
@@ -23,10 +23,11 @@ export class ProjectServiceService {
       }
   }
   createProjectByUser(project:Project):Observable<Project>{
-    return this.http.post<any>('http://localhost:8086/project/save',project).pipe(map(this.conventToProject));
+    return this.http.post<any>('http://localhost:8086/save',project).pipe(map(this.conventToProject));
   }
   updateProjectByUser(project:Project):Observable<Project>{
-    return this.http.put<any>('http://localhost:8086/project/update',project).pipe(map(this.conventToProject));
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>('http://localhost:8086/update',project, {headers}).pipe(map(this.conventToProject));
   }
 
   getProjectByIdProfile(id?:number):Observable<Project[]>{

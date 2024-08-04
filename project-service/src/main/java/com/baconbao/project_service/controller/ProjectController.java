@@ -8,24 +8,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-@RequestMapping("/project")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
-    @PostMapping ("/save")
-    public ResponseEntity<ProjectDTO> save(@RequestBody ProjectDTO projectDTO){
+
+    @PostMapping("/save")
+    public ResponseEntity<ProjectDTO> save(@RequestBody ProjectDTO projectDTO) {
         return ResponseEntity.ok(projectService.saveProject(projectDTO));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<ProjectDTO> update(@RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<ProjectDTO> update(@RequestBody ProjectDTO projectDTO) {
         return ResponseEntity.ok(projectService.updateProject(projectDTO));
     }
+
     @GetMapping("/getProfile")
-    public ResponseEntity<List<ProfileDTO>> getProfile(){
+    public ResponseEntity<List<ProfileDTO>> getProfile() {
         return ResponseEntity.ok(projectService.getAlliProfile());
     }
 
@@ -33,8 +34,9 @@ public class ProjectController {
     public ResponseEntity<List<ProjectDTO>> getMethodName(@RequestParam Integer id) {
         return ResponseEntity.ok(projectService.getProjectByIdProfile(id));
     }
+
     @GetMapping("/get")
-    public ResponseEntity<String> get(){
+    public ResponseEntity<String> get() {
         return ResponseEntity.ok("ok");
     }
 

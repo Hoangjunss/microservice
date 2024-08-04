@@ -4,7 +4,8 @@ export class Project {
     description?:string;
     createAt?:string;
     url?:string;
+    imageId?:number;
     imageFile?:File;
-    idProfile?:string;
+    idProfile?:number;
 }
 

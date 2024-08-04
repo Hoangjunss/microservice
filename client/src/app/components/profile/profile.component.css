@@ -321,10 +321,34 @@ body {
     font-weight: bolder;
 }
 
+.btn-control{
+  width: 100px !important;
+}
+
 .btn-view:hover {
     background-color: #3ba769 !important;
     font-weight: bolder;
 }
+
+.project-container {
+  display: flex;
+  overflow: hidden;
+}
+
+.project-container .row {
+  display: flex;
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+
+.navigation-buttons {
+  margin-top: 10px;
+}
+
+.navigation-buttons .btn {
+  flex: 1;
+}
+
 
 .about-us {
     background-color: #FFF; }

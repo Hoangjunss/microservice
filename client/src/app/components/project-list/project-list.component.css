@@ -1,0 +1,18 @@
+.shadow-md {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .serv-cove .btn {
+    margin: 0 5px; /* Tạo khoảng cách ngang giữa các nút */
+  }
+
+  @media screen and (min-width: 992px){
+    .service{
+      margin-top: 50px;
+    }
+  }
+  @media screen and (max-width: 991px){
+    .service{
+      margin-top: 90px;
+    }
+  }
