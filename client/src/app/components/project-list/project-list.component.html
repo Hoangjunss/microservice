@@ -1,6 +1,6 @@
 <div id="service" class="service px-4 py-5" >
-  <button class="btn btn-primary" (click)="showEditForm(null)">Add project</button>
    <div *ngIf="projects.length>0; else noProject"  class="row mt-5">
+    <button class="btn btn-primary" (click)="showEditForm(null)">Add project</button>
     <div *ngFor="let project of projects" class="col-lg-4 col-md-6 mb-4">
         <div class="serv-cove shadow-md rounded bg-white text-center p-4 d-flex flex-column align-items-center">
           <i class="bi fs-1 bi-boxes mb-3"></i>
@@ -22,12 +22,13 @@
         </div>
         <h1 class="display-4">No Projects Available</h1>
         <p class="lead">It looks like you haven't added any projects yet. Start by clicking the button below!</p>
-        <button class="btn btn-primary btn-lg mt-4">Add Your First Project</button>
+        <button (click)="showEditForm(null)" class="btn btn-primary btn-lg mt-4">Add Your First Project</button>
     </div>
 </ng-template>
 
   <app-post-project *ngIf="isFormVisible" 
-  [projectEdit]="selectedProject"
+  [projectEdit]="selectedProject" 
+  [idProfile]= "idProfile"
   (closeForm)="hideEditForm()">>
   </app-post-project>
 

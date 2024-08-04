@@ -92,14 +92,14 @@
                 <i class="bi fs-1 bi-boxes"></i>
                 <h5 class="mt-3 fs-6 fw-bold">{{project.title}}</h5>
                 <p>{{project.description}}</p>
-                <p>Time: {{project.createAt}}</p>
+                <p><strong>Created:</strong> {{getFormattedDate(project.createAt)}}</p>
             </div>
         </div>
         <div class="navigation-buttons mt-3">
             <button  class="btn btn-secondary btn-control">Previous</button>
             <button  class="btn btn-secondary btn-control">Next</button>
         </div>
-        <button routerLink="list-project" class="btn mt-2 btn-view">View Project</button>
+        <button routerLink="/list-project" class="btn mt-2 btn-view">View Project</button>
     </div>
 </div>
 
@@ -267,3 +267,4 @@ function scrollToSection(id) {
     });
 }
 </script>
+<router-outlet></router-outlet> 

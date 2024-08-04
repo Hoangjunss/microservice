@@ -18,6 +18,7 @@ export class PostProjectComponent implements OnInit {
   projectForm: FormGroup;
   @Input() idUser?:number;
   @Input() projectEdit: Project | null = null;
+  @Input() idProfile?: number;
   @Output() closeForm = new EventEmitter<void>();
   constructor(private projectService:ProjectServiceService, private fb:FormBuilder, private router: Router){
     this.projectForm = this.fb.group({
@@ -52,7 +53,10 @@ export class PostProjectComponent implements OnInit {
     event.preventDefault();
     if (this.projectForm.valid) {
       const updatedProject = this.projectForm.value;
-      this.projectService.updateProjectByUser(updatedProject).subscribe({
+      updatedProject.idProfile=this.idProfile;
+      console.log(updatedProject?.idProfile+" ID project");
+      if(updatedProject?.id != ''){
+        this.projectService.updateProjectByUser(updatedProject).subscribe({
         next: (response) => {
           alert('Project updated successfully');
           this.router.navigate(['/list-project']).then(() => {
@@ -64,6 +68,21 @@ export class PostProjectComponent implements OnInit {
           alert('An error occurred while updating the project.');
         }
       });
+      }else{
+        this.projectService.createProjectByUser(updatedProject).subscribe({
+          next: (response) => {
+            alert('Project created successfully');
+            this.router.navigate(['/list-project']).then(() => {
+              window.location.reload();
+            });
+          },
+          error: (error) => {
+            console.error('An error occurred:', error);
+            alert('An error occurred while creating the project.');
+          }
+        });
+      }
+      
     } else {
       console.error('Form is invalid');
     }

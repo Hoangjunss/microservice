@@ -17,6 +17,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -60,6 +61,8 @@ public class ProjectServiceImpl implements ProjectService {
                     .title(projectDTO.getTitle())
                     .description(projectDTO.getDescription())
                     .idProfile(projectDTO.getIdProfile())
+                    .url(projectDTO.getUrl())
+                    .createAt(LocalDateTime.now())
                     .build();
             return projectRepository.save(project);
         } catch (DataIntegrityViolationException e){
