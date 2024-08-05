@@ -17,15 +17,11 @@ import reactor.core.scheduler.Schedulers;
 @Slf4j
 public class UserService
 {
-   private final WebClient webClient;
+   private final UserClient userClient;
 
 
     public AuthenticationResponse introspect(String token) {
-        return webClient.post()
-                .uri("/isValid")
-                .bodyValue(token)
-                .retrieve()
-                .bodyToMono(AuthenticationResponse.class)
-                .block(); // Chuyển đổi sang đồng bộ
+        log.info("value" + userClient.isValid(token));
+        return userClient.isValid(token);
     }
 }

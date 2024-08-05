@@ -104,9 +104,15 @@ public class AuthService {
 
     }
     public AuthenticationResponse isValid(String token) {
-
-
-        return AuthenticationResponse.builder().isVaild(true).build();
+       String email =jwtTokenUtil.extractUsername(token);
+       if(email!=null){
+           UserDetails userDetails=ourUserDetailsService.loadUserByUsername(email);
+           if (jwtTokenUtil.isTokenValid(token,userDetails)){
+               return AuthenticationResponse.builder().isVaild(true).build();
+           }
+       }
+       return AuthenticationResponse.builder().isVaild(false).build()
+;
 
     }
 
