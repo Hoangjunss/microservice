@@ -19,22 +19,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PACKAGE, makeFinal = true)
+
 public class AuthFilter implements GlobalFilter, Ordered {
-    UserService userService;
-    ObjectMapper objectMapper;
+    private final UserService userService;
+    private final     ObjectMapper objectMapper;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         log.info("Enter authentication filter....");
         String path = exchange.getRequest().getURI().getPath();
-
+        log.info("path"+path);
         // Skip authentication for /auth/** endpoints
         if (path.startsWith("/auth")) {
             return chain.filter(exchange);
@@ -43,7 +44,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
         // Get token from authorization header
         List<String> authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
-       log.info(String.valueOf(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)));
+       log.info("auth" + String.valueOf(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)+""));
         if (authHeader == null ) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
@@ -52,20 +53,22 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String token = authHeader.getFirst().replace("Bearer ", "");
         log.info("Token: {}", token);
 
-
-return userService.introspect(token).doOnNext(authenticationResponse -> {
-    // Log thông tin phản hồi từ introspect
-    log.info("Introspection response: " + authenticationResponse);
-}).flatMap(authenticationResponse -> {
-    if (authenticationResponse.isValid()){
-        log.info("isvaliad");
-        return chain.filter(exchange);
-    }else  { log.info("!isvalid");
-        return unauthenticated(exchange.getResponse());}
-}).onErrorResume(throwable ->  {
-    log.error("Error during introspection: ", throwable);
-    return unauthenticated(exchange.getResponse());
-});
+        return Mono.fromCallable(() -> userService.introspect(token))
+                .subscribeOn(Schedulers.boundedElastic())
+                .doOnNext(authenticationResponse -> log.info("authResponse: {}", authenticationResponse))
+                .flatMap(authenticationResponse -> {
+                    if (authenticationResponse.isValid()) {
+                        log.info("isvalid");
+                        return chain.filter(exchange);
+                    } else {
+                        log.info("!isvalid");
+                        return unauthenticated(exchange.getResponse());
+                    }
+                })
+                .onErrorResume(e -> {
+                    log.error("Error during introspection: ", e);
+                    return unauthenticated(exchange.getResponse());
+                });
 
     }
 
