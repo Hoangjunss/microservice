@@ -63,6 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
                     .idProfile(projectDTO.getIdProfile())
                     .url(projectDTO.getUrl())
                     .createAt(LocalDateTime.now())
+                    .isDisplay(projectDTO.isDisplay())
                     .build();
             return projectRepository.save(project);
         } catch (DataIntegrityViolationException e){

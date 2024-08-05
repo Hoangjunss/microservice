@@ -28,6 +28,7 @@ export class PostProjectComponent implements OnInit {
       url: [''],
       createAt: [''],
       imageId: [''],
+      display: [''],
       imageFile: [null],
       idProfile: [null]
     })
@@ -54,7 +55,7 @@ export class PostProjectComponent implements OnInit {
     if (this.projectForm.valid) {
       const updatedProject = this.projectForm.value;
       updatedProject.idProfile=this.idProfile;
-      console.log(updatedProject?.idProfile+" ID project");
+      console.log(updatedProject + " ID project");
       if(updatedProject?.id != ''){
         this.projectService.updateProjectByUser(updatedProject).subscribe({
         next: (response) => {

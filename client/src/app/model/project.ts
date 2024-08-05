@@ -6,6 +6,7 @@ export class Project {
     url?:string;
     imageId?:number;
     imageFile?:File;
+    display?:boolean;
     idProfile?:number;
 }
 

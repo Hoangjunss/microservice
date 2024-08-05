@@ -27,6 +27,12 @@
                     <label for="url">URL Project:</label>
                     <input type="text" id="url" formControlName="url" placeholder="Enter project URL" [value]="projectEdit?.url">
                 </div>
+                <div class="form-check form-switch d-flex flex-row-reverse">
+                    <label class="" for="flexSwitchCheckChecked"><strong>Display in profile</strong>
+                        <input class="form-check-input" type="checkbox" role="switch" id="isDisplay" formControlName="display" id="flexSwitchCheckChecked" [checked]="projectEdit?.display">
+                    </label>
+                </div>
+
                 <div class="form_buttons d-flex justify-content-between">
                     <button type="submit" id="submitBtn" class="btn btn-primary">Save</button>
                     <button type="button" (click)="onClose()" class="btn btn-secondary">Cancel</button>

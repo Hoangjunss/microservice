@@ -43,6 +43,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   showEditForm(project:Project | null): void {
+    console.log(project?.title);
     this.selectedProject = project;
     this.isFormVisible = true;
   }

@@ -1,0 +1,271 @@
+<header class="head">
+    <div class="logo border-bottom">
+        <h1>Ba con báo</h1>
+    </div>
+    <div id="navbarNav" class="navcol d-none d-lg-block">
+        <ul>
+            <li><a (click)="scrollToSection('home')"><i class="bi bi-house-door fs-5 me-2"></i> Home</a></li>
+            <li><a (click)="scrollToSection('about_us')"><i class="bi fs-5 bi-info-square me-2"></i> About</a></li>
+            <li><a (click)="scrollToSection('service')"><i class="bi fs-5 bi-gear me-2"></i> Service</a></li>
+            <li><a (click)="scrollToSection('testimonial')"><i class="bi fs-5 bi-columns-gap me-2"></i> Skill</a></li>
+            <li><a (click)="scrollToSection('contact_us')"><i class="bi fs-5 bi-envelope me-2"></i> Contact</a></li>
+            <li><a class="btn btn-primary btn-edit-profile"><i class="bi fs-5 me-2">Edit profile</i></a></li>
+        </ul>
+    </div>
+</header>
+
+<div  class="main-content">
+    <!--########################## Profile Starts Here ############################# -->
+
+<div class="profile-head" id="home">
+    <div class="row vh-100">
+        <div class="col-xl-6 text-center mx-auto align-self-center ">
+            <div class="imgcover mb-4">
+                <img src="assets/images/square.jpg" class="rounded-pill bg-white p-2 shadow" alt="">
+            </div>
+            <b class="fs-6">Hello world!. [username]</b>
+            <h1 class="fw-bold mb-4 fs-1">{{profile.title}}</h1>
+            <ul>
+                <li></li>
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+<!--########################## About Us Starts Here ############################# -->
+
+<div id="about_us" class="about-us container-fluid px-4 py-5 section-padding" >
+    <div class="container">
+        <div class="session-title row">
+            <h2>About Me</h2>
+            <p>There are many variations of passages of Lorem Ipsum available Lorem Ipsum available but the majority</p>
+            <div class="heading-line"></div>
+        </div>
+        <div class="about-row row">
+            <div class="image-col col-md-4">
+                <img src="assets/images/about.png" alt="Avatar">
+                <button class="btn btn-primary"><i class="fas fa-download"></i>View CV</button>
+            </div>
+            <div class="detail-col col-md-8">
+                <h2>[Name]</h2>
+                <h6>{{profile.url}}...[url]</h6>
+                <p>[Decription Profile]</p>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="info-list">
+                            <ul>
+                                <li><span>Objective:</span>{{profile.objective}}</li>
+                                <li><span>Education:</span>{{profile.education}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="info-list">
+                            <ul>
+                                <li><span>Work Experience:</span>{{profile.workExperience}}</li>
+                                <li><span>Profile:</span>{{profile.typeProfile}}..[type]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    
+</div>
+
+<!--########################## Services Starts Here ############################# -->
+
+<div *ngIf="projects.length>0; else noProjects" id="service" class="service px-4 py-5 section-padding">
+    <div class="titie-row row mb-3">
+        <h2 class="fw-bolder">Project</h2>
+        <p>My project.</p>
+    </div>
+    <div class="row mt-5">
+            <div *ngFor="let project of projects" class="col-lg-4 col-md-6 mb-4">
+                <div class="serv-cove shadow-md rounded bg-white text-center p-4">
+                    <i class="bi fs-1 bi-boxes"></i>
+                    <h5 class="mt-3 fs-6 fw-bold">{{project.title}}</h5>
+                    <p>{{project.description}}</p>
+                    <p><strong>Created:</strong> {{getFormattedDate(project.createAt)}}</p>
+                </div>
+            </div>
+        <div class="navigation-buttons mt-3">
+            <button  class="btn btn-secondary btn-control">Previous</button>
+            <button  class="btn btn-secondary btn-control">Next</button>
+        </div>
+        <button routerLink="/list-project" class="btn mt-2 btn-view">View Project</button>
+    </div>
+</div>
+
+<ng-template #noProjects>
+    <div class="service px-4 py-5">
+        <h1 >No projects available</h1>
+    </div>
+</ng-template>
+
+<!--########################## Portfolio Starts Here ############################# -->
+
+<div id="testimonial" class="service px-4 py-5 section-padding">
+    <div class="titie-row row mb-3">
+        <h2 class="fw-bolder">Skills</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ipsum sit nibh amet egestas tellus.</p>
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="serv-cove shadow-md rounded bg-white p-3">
+                <div class="prf row mb-3">
+                    <div class="col-md-3">
+                        <img class="rounded-pill" src="assets/images/testimonial/member-01.jpg" alt="">
+                    </div>
+                    <div class="col-md-9 align-self-center">
+                        <h6 class="mb-0 fw-bolder">Vinoth Parkash</h6>
+                        <span>CEO Fabric Nation</span>
+                    </div>
+                </div>
+                <div class="det text-center">
+                    <p class="fs-7 fst-italic">Sed lectus ante, pharetra in lacus sed, efficitur luctus elit.
+                        Suspendisse commodo felis dictum, tempor tortor a, dapibus tellus. Nam ornare felis ut arcu
+                        tristique luctus. Curabitur </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="serv-cove shadow-md rounded bg-white p-3">
+                <div class="prf row mb-3">
+                    <div class="col-md-3">
+                        <img class="rounded-pill" src="assets/images/testimonial/member-03.jpg" alt="">
+                    </div>
+                    <div class="col-md-9 align-self-center">
+                        <h6 class="mb-0 fw-bolder">Jackson Daniel</h6>
+                        <span>CEO Notitech</span>
+                    </div>
+                </div>
+                <div class="det text-center">
+                    <p class="fs-7 fst-italic">Sed lectus ante, pharetra in lacus sed, efficitur luctus elit.
+                        Suspendisse commodo felis dictum, tempor tortor a, dapibus tellus. Nam ornare felis ut arcu
+                        tristique luctus. Curabitur </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="serv-cove shadow-md rounded bg-white p-3">
+                <div class="prf row mb-3">
+                    <div class="col-md-3">
+                        <img class="rounded-pill" src="assets/images/testimonial/member-02.jpg" alt="">
+                    </div>
+                    <div class="col-md-9 align-self-center">
+                        <h6 class="mb-0 fw-bolder">Praveen Thaney</h6>
+                        <span>Admin Vintech</span>
+                    </div>
+                </div>
+                <div class="det text-center">
+                    <p class="fs-7 fst-italic">Sed lectus ante, pharetra in lacus sed, efficitur luctus elit.
+                        Suspendisse commodo felis dictum, tempor tortor a, dapibus tellus. Nam ornare felis ut arcu
+                        tristique luctus. Curabitur </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--########################## Contact Us Starts Here ############################# -->
+
+<div class="service px-4 py-5 section-padding" id="contact_us">
+    <div class="titie-row row mb-3">
+        <h2 class="fw-bolder">Contact Us</h2>
+        <p>You can contact me.</p>
+    </div>
+    <div class="contact-row m-0 mt-5 row">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="shadow-md row p-4 m-0 rounded bg-white">
+                <div class="col-md-3 text-center align-self-center">
+                    <i class="bi fs-1 bi-headphones"></i>
+                </div>
+                <div class="col-md-9">
+                    <h6 class="fs-7 fw-bolder">Phone</h6>
+                    <ul>
+                        <li>{{profile.contact?.phone}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="shadow-md row p-4 m-0 rounded bg-white">
+                <div class="col-md-3 text-center align-self-center">
+                    <i class="bi fs-1 bi-headphones"></i>
+                </div>
+                <div class="col-md-9">
+                    <h6 class="fs-7 fw-bolder">Email</h6>
+                    <ul>
+                        <li>{{profile.contact?.email}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="shadow-md row p-4 m-0  rounded bg-white">
+                <div class="col-md-3 text-center align-self-center">
+                    <i class="bi fs-1 bi-headphones"></i>
+                </div>
+                <div class="col-md-9">
+                    <h6 class="fs-7 fw-bolder">Address</h6>
+                    <ul>
+                        <li>{{profile.contact?.address}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="contact" class="contact-row m-0 row">
+        <div class="col-md-6">
+            <div class="shadow-md p-4 rounded bg-white">
+                <h4 class="fs-6 fw-bolder mb-3">Contact Form</h4>
+                <form action="">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bolder fs-8">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                            placeholder="Enter Email Address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bolder fs-8">Enter Subject</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                            placeholder="Enter Subject">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label fw-bolder fs-8">Example
+                            textarea</label>
+                        <textarea class="form-control" placeholder="Enter Message" id="exampleFormControlTextarea1"
+                            rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script>
+function scrollToSection(id) {
+    const element = document.getElementById(id);
+    const offset = 70; // Chiều cao của navbar
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth'
+    });
+}
+</script>
+<router-outlet></router-outlet> 

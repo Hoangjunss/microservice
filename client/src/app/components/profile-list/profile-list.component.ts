@@ -3,11 +3,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Profile } from '../../model/profile';
 import { ProfileServiceService } from '../../service/profile-service.service';
 import { RouterOutlet } from '@angular/router';
+import { ProfileComponent } from "../profile/profile.component";
+import { CreateProfileComponent } from "../create-profile/create-profile.component";
 
 @Component({
   selector: 'app-profile-list',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, ProfileComponent, CreateProfileComponent],
   templateUrl: './profile-list.component.html',
   styleUrl: './profile-list.component.css'
 })

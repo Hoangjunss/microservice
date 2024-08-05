@@ -304,6 +304,12 @@ body {
   box-shadow: none !important;
 }
 
+.btn-edit-profile{
+  background-color: #00b14f !important;
+  border: 1px solid #00b14f !important;
+  color: white;
+}
+
 .btn {
     display: inline-block;
     padding: 8px 12px;

@@ -21,6 +21,7 @@ public class Project {
     private String description;
     private LocalDateTime createAt;
     private Integer idImage;
+    private boolean isDisplay;
     @PrePersist
     protected void onCreate() {
         createAt = LocalDateTime.now();

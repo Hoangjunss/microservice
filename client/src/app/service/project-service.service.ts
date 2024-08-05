@@ -19,6 +19,7 @@ export class ProjectServiceService {
         description:project.description,
         createAt:project.createAt,
         url:project.url,
+        display:project.display,
         idProfile:project.idProfile
       }
   }
@@ -42,6 +43,7 @@ export class ProjectServiceService {
       description: projectDTO.description,
       createAt: projectDTO.createAt,
       url: projectDTO.url,
+      display: projectDTO.display,
       idProfile: projectDTO.idProfile
     }
   }
