@@ -103,11 +103,11 @@ public class AuthService {
             return response.build();
 
     }
-    public Mono<AuthenticationResponse> isValid(String token) {
-        return Mono.fromCallable(() -> {
+    public AuthenticationResponse isValid(String token) {
 
-            return AuthenticationResponse.builder().isVaild(true).build();
-        }).subscribeOn(Schedulers.boundedElastic());
+
+        return AuthenticationResponse.builder().isVaild(true).build();
+
     }
 
     public Integer getGenerationId() {

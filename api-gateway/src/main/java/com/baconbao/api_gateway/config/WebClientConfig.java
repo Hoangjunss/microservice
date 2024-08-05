@@ -12,15 +12,9 @@ public class WebClientConfig {
     @Bean
     WebClient webClient(){
         return WebClient.builder()
-                .baseUrl("http://localhost:8088")
+                .baseUrl("http://localhost:8088/auth")
                 .build();
     }
 
-    @Bean
-    UserClient userClient(WebClient webClient){
-        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory
-                .builderFor(WebClientAdapter.create(webClient)).build();
 
-        return httpServiceProxyFactory.createClient(UserClient.class);
-    }
 }

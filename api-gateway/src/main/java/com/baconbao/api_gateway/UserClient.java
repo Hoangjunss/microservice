@@ -9,5 +9,5 @@ import reactor.core.publisher.Mono;
 
 public interface UserClient {
     @PostExchange(url = "/auth/isValid", contentType = MediaType.APPLICATION_JSON_VALUE)
-    AuthenticationResponse isValid(@RequestBody String token);
+  AuthenticationResponse isValid(@RequestBody String token);
 }

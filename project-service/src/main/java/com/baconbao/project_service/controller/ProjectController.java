@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/project")
 public class ProjectController {
     @Autowired
     private ProjectService projectService;

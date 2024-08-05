@@ -19,6 +19,11 @@ public class UserController {
     private AuthService authService;
     @Autowired
     private OurUserDetailsService ourUserDetailsService;
+    @PostMapping("/isValid")
+    public AuthenticationResponse isValid(@RequestBody String token) {
+        return authService.isValid(token);
+
+    }
     @GetMapping("/ourUserDetailsService")
     public ResponseEntity<UserDetails> getUserDetails(@PathVariable String username) {
         UserDetails userDetails= ourUserDetailsService.loadUserByUsername(username);
@@ -36,10 +41,6 @@ public class UserController {
     public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody AuthenticationRequest refreshTokenRequest){
         return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
     }
-    @PostMapping("/isValid")
-    public Mono<ResponseEntity<AuthenticationResponse>> isValid(@RequestBody String token) {
-        return authService.isValid(token)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-    }
+
+
 }

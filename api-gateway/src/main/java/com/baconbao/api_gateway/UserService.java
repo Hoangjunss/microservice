@@ -5,25 +5,27 @@ import com.baconbao.api_gateway.dto.AuthenticationResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class UserService
 {
-    UserClient userClient;
-    WebClient webClient;
+   private final WebClient webClient;
 
-    public Mono<AuthenticationResponse> introspect(String token) {
+
+    public AuthenticationResponse introspect(String token) {
         return webClient.post()
-                .uri("/auth/isValid")
-                .contentType(MediaType.APPLICATION_JSON)
+                .uri("/isValid")
                 .bodyValue(token)
                 .retrieve()
-                .bodyToMono(AuthenticationResponse.class);
+                .bodyToMono(AuthenticationResponse.class)
+                .block(); // Chuyển đổi sang đồng bộ
     }
 }
