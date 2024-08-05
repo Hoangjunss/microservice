@@ -9,11 +9,11 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 export class ProfileServiceService {
 
   constructor(private httpClient:HttpClient) { }
-  private baseURL = 'http://localhost:8085/profile/save';
+  private baseURL = 'http://localhost:8080/profile/save';
 
   
   getProfilesList(): Observable<Profile[]> {
-    return this.httpClient.get<any[]>('http://localhost:8085/getAll').pipe(
+    return this.httpClient.get<any[]>('http://localhost:8080/profile/getAll').pipe(
       map(profileDTOs => profileDTOs.map(this.mapToProfile))
     );
   }
@@ -30,15 +30,15 @@ export class ProfileServiceService {
     );
   }
   getProfileByType(type:string):Observable<Profile[]>{
-    return this.httpClient.get<any[]>('http://localhost:8085/profile/findProfileByType?typeProfile='+type)
+    return this.httpClient.get<any[]>('http://localhost:8080/profile/findProfileByType?typeProfile='+type)
     .pipe(map(profileDTO=>profileDTO.map(this.mapToProfile)));
   }
   getProfileByUser(id:number):Observable<Profile>{
-    return this.httpClient.get<any[]>('http://localhost:8085/profile/findProfileByType?idUser='+id)
+    return this.httpClient.get<any[]>('http://localhost:8080/profile/findProfileByType?idUser='+id)
     .pipe(map(this.mapToProfile));
   }
   getProfileById(id:number):Observable<Profile>{
-    return this.httpClient.get<any>(`http://localhost:8085/findById?id=`+id)
+    return this.httpClient.get<any>(`http://localhost:8080/profie/findById?id=`+id)
    .pipe(map(this.mapToProfile));
   }
   private mapToProfile(profileDTO: any): Profile {
