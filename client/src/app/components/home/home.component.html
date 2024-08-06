@@ -1,29 +1,29 @@
 <section class="section">
-    <div class="container" >
-<div [ngStyle]="{'margin-top':'85px'}">
-<ng-template #noProfiles>
-    <h1>No profiles available</h1>
-  </ng-template>
-  <div class="section">
-    <div class="container container-1" >
-        <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
-            <div class="col-lg-8">
-                <h3 class="h1 m-15px-b">List Profiles</h3>
+    <div class="container">
+        <div [ngStyle]="{'margin-top':'85px'}">
+            <div class="section">
+                <div class="container container-1">
+                    <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
+                        <div class="col-lg-8">
+                            <h3 class="h1 m-15px-b">List Profiles</h3>
+                        </div>
+                    </div>
+                    <app-profile-list></app-profile-list>
+                    <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
+                        <div class="col-lg-8">
+                            <h3 class="h1 m-15px-b">List Profiles Java</h3>
+                        </div>
+                    </div>
+                    <app-profile-list [param]="'java'">
+                    </app-profile-list>
+                    <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
+                        <div class="col-lg-8">
+                            <h3 class="h1 m-15px-b">List Profiles Php</h3>
+                        </div>
+                    </div>
+                    <app-profile-list [param]="'php'"></app-profile-list>
+                </div>
             </div>
         </div>
-    <app-profile-list></app-profile-list>
-    <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
-        <div class="col-lg-8">
-            <h3 class="h1 m-15px-b">List Profiles Java</h3>
-        </div>
     </div>
-    <app-profile-list [param]="'java'" >
-    </app-profile-list>
-    <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
-        <div class="col-lg-8">
-            <h3 class="h1 m-15px-b">List Profiles Php</h3>
-        </div>
-    </div>
-    <app-profile-list [param]="'php'" ></app-profile-list>
-    </div>
-<app-profile></app-profile>
+</section>

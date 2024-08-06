@@ -14,6 +14,6 @@ export class UserServiceService {
     return this.http.post<any>(this.baseURL+"/signup",user);
    }
    signInUser(user:User):Observable<User>{
-    return this.http.get<any>(this.baseURL+"/signin");
+    return this.http.post<any>(this.baseURL+"/signin",user);
    }
 }

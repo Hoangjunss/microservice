@@ -18,7 +18,7 @@ export class RegisterComponent {
   constructor(private fb: FormBuilder,private userService : UserServiceService) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      userName: ['', [Validators.required]],
+      name: ['', [Validators.required]],
       password: ['', [Validators.required, this.passwordValidator()]], 
       confirmPassword: ['', [Validators.required]]
     }, {
@@ -66,7 +66,7 @@ export class RegisterComponent {
     const errors = [];
 
     if (control?.hasError('required')) {
-      errors.push('Password is required');
+      errors.push(' is required');
     }
     if (control?.hasError('invalidLength')) {
       errors.push('must be at least 8 characters long');
@@ -101,7 +101,6 @@ export class RegisterComponent {
   signUpUser(){
     this.userService.signUpUser(this.userForm.value).subscribe(data=>{
       console.log("Người dùng đăng ký thành công",data);
-      debugger;
       // Phát tín hiệu thành công sau khi đăng ký
       this.registerSuccess.emit();
     },

@@ -7,11 +7,11 @@
         <div class="user_details">
             <!-- User Name -->
             <div class="input_box">
-                <label for="username">Username</label>
-                <input type="text" name="userName" formControlName="userName" id="username" placeholder="Enter your username">
-                <div class="alert" *ngIf="(userForm.controls['userName']?.invalid && (userForm.controls['userName']?.touched || userForm.controls['userName']?.dirty))">
-                    <div class="text-danger" *ngIf="userForm.controls['userName'].errors?.['required']">
-                        Username is required
+                <label for="username">Email</label>
+                <input type="text" name="email" formControlName="email" id="email" placeholder="Enter your email">
+                <div class="alert" *ngIf="(userForm.controls['email']?.invalid && (userForm.controls['email']?.touched || userForm.controls['email']?.dirty))">
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['required']">
+                        Email is required
                     </div>
                 </div>
             </div>

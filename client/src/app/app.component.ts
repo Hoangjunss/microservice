@@ -18,7 +18,7 @@ export class AppComponent {
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       // Lắng nghe sự kiện router để kiểm tra đường dẫn hiện tại
-      if (this.router.url === '/user') {
+      if (this.router.url === '/user' || this.router.url === '/login' || this.router.url === '/register') {
         this.showNavbar = false;
       } else {
         this.showNavbar = true;

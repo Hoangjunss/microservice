@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { ProfileListComponent } from '../profile-list/profile-list.component';
 import { Profile } from '../../model/profile';
 import { ProfileServiceService } from '../../service/profile-service.service';
@@ -9,7 +9,7 @@ import { ProfileComponent } from '../profile/profile.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet,ProfileListComponent,CommonModule,ProfileComponent],
+  imports: [RouterOutlet,ProfileListComponent,CommonModule,ProfileComponent,RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
