@@ -1,6 +1,5 @@
 package com.baconbao.user_service;
 
-
 import com.baconbao.user_service.dto.AuthenticationRequest;
 import com.baconbao.user_service.dto.AuthenticationResponse;
 import com.baconbao.user_service.model.Role;
@@ -36,7 +35,11 @@ public class AuthService {
     @Autowired
     private OurUserDetailsService ourUserDetailsService;
 
-    public AuthenticationResponse signUp(AuthenticationRequest registrationRequest){
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
+    public AuthenticationResponse signUp(AuthenticationRequest registrationRequest) {
         String rawPassword = registrationRequest.getPassword();
         log.info("Original password: " + rawPassword);
 
@@ -45,10 +48,10 @@ public class AuthService {
 
         log.info("Sign up Auth Service");
 
-        log.info("Existing user: " + registrationRequest.getEmail());
-        
+        String email = registrationRequest.getEmail().trim().toLowerCase();
+
         // Kiểm tra xem email đã tồn tại chưa
-        if(userRepository.findByEmail(registrationRequest.getEmail()).isPresent()){
+        if (emailExists(email)) {
             return AuthenticationResponse.builder()
                     .message("Email already exists")
                     .statusCode(409)
@@ -79,52 +82,73 @@ public class AuthService {
                 .isVaild(true)
                 .build();
     }
-    public AuthenticationResponse signIn(AuthenticationRequest signinRequest){
 
-                log.info("Sign in Auth Service");
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getEmail(), signinRequest.getPassword()));
-                var user = userRepository.findByEmail(signinRequest.getEmail()).orElseThrow();
-                System.out.println("USER IS: " + user);
-                var jwt = jwtTokenUtil.generateToken(user);
-                var refreshToken = jwtTokenUtil.generateRefreshToken(new HashMap<>(), user);
-                return AuthenticationResponse.builder()
-                        .statusCode(200)
-                        .token(jwt)
-                        .refreshToken(refreshToken)
-                        .expirationTime("24Hr")
-                        .message("Successfully Signed In")
-                        .build();
+    public AuthenticationResponse signIn(AuthenticationRequest signinRequest) {
+        String email = signinRequest.getEmail().trim().toLowerCase();
+
+        // Kiểm tra xem email đã tồn tại chưa
+        if (!emailExists(email)) {
+            return AuthenticationResponse.builder()
+                    .message("Email not found")
+                    .statusCode(404)
+                    .isVaild(false)
+                    .build();
+        }
+
+
+        log.info("Sign in Auth Service");
+        // Nếu email tồn tại thì kiểm tra mật khẩu
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, signinRequest.getPassword()));
+        } catch (Exception e) {
+            return AuthenticationResponse.builder()
+                    .message("Invalid credentials")
+                    .statusCode(401) 
+                    .isVaild(false)
+                    .build();
+        }
+        var user = userRepository.findByEmail(email).orElseThrow();
+        System.out.println("USER IS: " + user);
+        var jwt = jwtTokenUtil.generateToken(user);
+        var refreshToken = jwtTokenUtil.generateRefreshToken(new HashMap<>(), user);
+        return AuthenticationResponse.builder()
+                .statusCode(200)
+                .token(jwt)
+                .refreshToken(refreshToken)
+                .expirationTime("24Hr")
+                .message("Successfully Signed In")
+                .build();
 
     }
 
-    public AuthenticationResponse refreshToken(AuthenticationRequest refreshTokenRequest){
+    public AuthenticationResponse refreshToken(AuthenticationRequest refreshTokenRequest) {
 
-            log.info("Refresh Token Auth Service");
-            AuthenticationResponse.AuthenticationResponseBuilder response = AuthenticationResponse.builder();
-            String ourEmail = jwtTokenUtil.extractUsername(refreshTokenRequest.getToken());
-            User users = userRepository.findByEmail(ourEmail).orElseThrow();
+        log.info("Refresh Token Auth Service");
+        AuthenticationResponse.AuthenticationResponseBuilder response = AuthenticationResponse.builder();
+        String ourEmail = jwtTokenUtil.extractUsername(refreshTokenRequest.getToken());
+        User users = userRepository.findByEmail(ourEmail).orElseThrow();
 
-                var jwt = jwtTokenUtil.generateToken(users);
-                response.statusCode(200)
-                        .token(jwt)
-                        .refreshToken(refreshTokenRequest.getToken())
-                        .expirationTime("24Hr")
-                        .message("Successfully Refreshed Token");
+        var jwt = jwtTokenUtil.generateToken(users);
+        response.statusCode(200)
+                .token(jwt)
+                .refreshToken(refreshTokenRequest.getToken())
+                .expirationTime("24Hr")
+                .message("Successfully Refreshed Token");
 
-
-            return response.build();
+        return response.build();
 
     }
+
     public AuthenticationResponse isValid(String token) {
-       String email =jwtTokenUtil.extractUsername(token);
-       if(email!=null){
-           UserDetails userDetails=ourUserDetailsService.loadUserByUsername(email);
-           if (jwtTokenUtil.isTokenValid(token,userDetails)){
-               return AuthenticationResponse.builder().isVaild(true).build();
-           }
-       }
-       return AuthenticationResponse.builder().isVaild(false).build()
-;
+        String email = jwtTokenUtil.extractUsername(token);
+        if (email != null) {
+            UserDetails userDetails = ourUserDetailsService.loadUserByUsername(email);
+            if (jwtTokenUtil.isTokenValid(token, userDetails)) {
+                return AuthenticationResponse.builder().isVaild(true).build();
+            }
+        }
+        return AuthenticationResponse.builder().isVaild(false).build();
 
     }
 

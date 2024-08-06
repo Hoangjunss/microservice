@@ -18,7 +18,6 @@
       <module name="Notification-service" target="21" />
       <module name="Portfolio-service" target="21" />
       <module name="socket-service" target="21" />
-      <module name="user-service" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

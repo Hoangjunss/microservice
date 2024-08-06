@@ -13,6 +13,12 @@
                     <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['required']">
                         Email is required
                     </div>
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['invalidCredentials']">
+                        Invalid email or password
+                    </div>
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['emailNotFound']">
+                        Email not found
+                    </div>
                 </div>
             </div>
 

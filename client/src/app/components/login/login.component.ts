@@ -49,7 +49,21 @@ export class LoginComponent {
       },
       (error) => {
         console.error('Error logging in:', error);
+        // Xóa lỗi trước khi thêm lỗi mới
+        this.userForm.get('email')?.setErrors(null);
+        this.userForm.get('password')?.setErrors(null);
+        
+        if (error.status === 401) {
+          // Thêm lỗi nếu email không tồn tại
+          this.userForm.get('email')?.setErrors({ emailNotFound: true });
+          console.error('Email not found');
+        } else if (error.status === 401) {
+          // Thêm lỗi nếu mật khẩu không đúng
+          this.userForm.get('password')?.setErrors({ invalidCredentials: true });
+          console.error('Invalid email or password');
+        }
       }
     );
+  
   }
 }

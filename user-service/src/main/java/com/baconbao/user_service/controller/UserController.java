@@ -42,7 +42,11 @@ public class UserController {
     }
     @PostMapping("/signin")
     public ResponseEntity<AuthenticationResponse> signIn(@RequestBody AuthenticationRequest signInRequest){
-        return ResponseEntity.ok(authService.signIn(signInRequest));
+        AuthenticationResponse response = authService.signIn(signInRequest);
+        if (!response.isVaild()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        return ResponseEntity.ok(response);
     }
     @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody AuthenticationRequest refreshTokenRequest){
