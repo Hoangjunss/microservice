@@ -1,0 +1,7 @@
+<div *ngIf="isRegisterMode">
+    <app-register (registerSuccess)="onRegisterSuccess()"></app-register>
+</div>
+<div *ngIf="!isRegisterMode">
+    <app-login></app-login>
+</div>
+<router-outlet></router-outlet> 

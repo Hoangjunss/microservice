@@ -5,7 +5,9 @@ import { CreateProfileComponent } from './components/create-profile/create-profi
 import { ProfileListComponent } from './components/profile-list/profile-list.component';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
-
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { UserComponent } from './components/user/user.component';
 export const routes: Routes = [
     {
         path: '',
@@ -36,8 +38,13 @@ export const routes: Routes = [
     },
     {
         path: 'list-project',
-        component: ProjectListComponent,
-    }
-    
+        component: ProjectListComponent
+    },
+    {
+        path: 'user',
+        component: UserComponent
+    },
+
+
 
 ];
