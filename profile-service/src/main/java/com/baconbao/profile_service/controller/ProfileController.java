@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/save")
     public ResponseEntity<ProfileDTO> save(@RequestBody ProfileDTO profileDTO) {
         return ResponseEntity.ok(profileService.saveProfile(profileDTO));

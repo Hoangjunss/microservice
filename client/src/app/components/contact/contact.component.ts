@@ -12,11 +12,10 @@ import { Contact } from '../../model/contact';
   styleUrl: './contact.component.css'
 })
 export class ContactComponent implements OnInit {
-  @Input()id?:number; 
-  contact:Contact=new Contact
+  @Input() contact?: Contact;
   constructor(private contactService:ContactServiceService){};
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    
   }
   getContact(id:number){
     this.contactService.getContactByUser(id).subscribe(data=>{

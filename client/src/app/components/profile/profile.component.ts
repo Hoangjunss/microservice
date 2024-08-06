@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContactComponent } from '../contact/contact.component';
 import { CreateProfileComponent } from '../create-profile/create-profile.component';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { Profile } from '../../model/profile';
 import { ProfileServiceService } from '../../service/profile-service.service';
 import { ProjectServiceService } from '../../service/project-service.service';
@@ -20,19 +20,22 @@ import { ProfileListComponent } from "../profile-list/profile-list.component";
 })
 export class ProfileComponent implements OnInit{
   @Input() param?: number;
-  constructor(private profileService: ProfileServiceService, private projectService: ProjectServiceService, private datePipe: DatePipe) { }
+  constructor(private route: ActivatedRoute , private profileService: ProfileServiceService, private projectService: ProjectServiceService, private datePipe: DatePipe) { }
   id?:number;
   profile: Profile = new Profile;
   projects: Project[] = [];
   
   ngOnInit(): void {
-    if (this.param) {
-      this.getByUser(this.param);
-    }
-    else{
-      this.id = 1;
-      this.getProfileById(this.id);
-    }
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.param = +params['id'];
+        alert(this.param+" is already")
+        //this.getProfileById(this.param);
+      } else {
+        this.id = 1; // default value or logic
+        this.getProfileById(this.id);
+      }
+    });
   }
 
   getByUser(id: number) {

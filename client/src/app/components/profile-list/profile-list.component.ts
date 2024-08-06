@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Profile } from '../../model/profile';
 import { ProfileServiceService } from '../../service/profile-service.service';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ProfileComponent } from "../profile/profile.component";
 import { CreateProfileComponent } from "../create-profile/create-profile.component";
 
@@ -17,7 +17,7 @@ export class ProfileListComponent implements OnInit {
   profiles: Profile[] = [];
   profile: Profile = new Profile;
   @Input() param?: string;
-  constructor(private profileService: ProfileServiceService) { }
+  constructor(private profileService: ProfileServiceService, private router: Router) { }
   
   ngOnInit(): void {
     if (this.param) {
@@ -26,6 +26,13 @@ export class ProfileListComponent implements OnInit {
       this.getAll();
     }
   }
+
+  viewProfile(id?: number): void {
+    if (id) {
+      this.router.navigate(['/profile-user', id]);
+    }
+  }
+
   getAll() {
     this.profileService.getProfilesList().subscribe(data => {
       this.profiles = data;
@@ -41,5 +48,7 @@ export class ProfileListComponent implements OnInit {
       this.profile = data;
     })
   }
+
+
 
 }

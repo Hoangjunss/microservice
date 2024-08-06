@@ -18,12 +18,13 @@ export class ProjectListComponent implements OnInit {
   project:Project=new Project;
   selectedProject: Project | null = null;
   isFormVisible: boolean = false;
-  idProfile: number = 1;
-  @Input() idUser?:number;
+  @Input() idProfile?:number;
   constructor(private projectService:ProjectServiceService, private datePipe: DatePipe){}
   ngOnInit(): void {
     console.log("Project start");
-    this.getProjectByIdProfile(this.idProfile);
+    if(this.idProfile){
+      this.getProjectByIdProfile(this.idProfile);
+    }
   }
 
   getFormattedDate(createAt?:string) {

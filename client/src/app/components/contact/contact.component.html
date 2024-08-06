@@ -1,1 +1,75 @@
-<p>contact works!</p>
+<div class="service px-4 py-5 section-padding" id="contact_us">
+    <div class="titie-row row mb-3">
+        <h2 class="fw-bolder">Contact Us</h2>
+        <p>You can contact me.</p>
+    </div>
+    <div class="contact-row m-0 mt-5 row">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="shadow-md row p-4 m-0 rounded bg-white">
+                <div class="col-md-3 text-center align-self-center">
+                    <i class="bi fs-1 bi-headphones"></i>
+                </div>
+                <div class="col-md-9">
+                    <h6 class="fs-7 fw-bolder">Phone</h6>
+                    <ul>
+                        <li>{{contact?.phone}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="shadow-md row p-4 m-0 rounded bg-white">
+                <div class="col-md-3 text-center align-self-center">
+                    <i class="bi fs-1 bi-headphones"></i>
+                </div>
+                <div class="col-md-9">
+                    <h6 class="fs-7 fw-bolder">Email</h6>
+                    <ul>
+                        <li>{{contact?.email}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="shadow-md row p-4 m-0  rounded bg-white">
+                <div class="col-md-3 text-center align-self-center">
+                    <i class="bi fs-1 bi-headphones"></i>
+                </div>
+                <div class="col-md-9">
+                    <h6 class="fs-7 fw-bolder">Address</h6>
+                    <ul>
+                        <li>{{contact?.address}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="contact" class="contact-row m-0 row">
+        <div class="col-md-6">
+            <div class="shadow-md p-4 rounded bg-white">
+                <h4 class="fs-6 fw-bolder mb-3">Contact Form</h4>
+                <form action="">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bolder fs-8">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                            placeholder="Enter Email Address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bolder fs-8">Enter Subject</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                            placeholder="Enter Subject">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label fw-bolder fs-8">Example
+                            textarea</label>
+                        <textarea class="form-control" placeholder="Enter Message" id="exampleFormControlTextarea1"
+                            rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

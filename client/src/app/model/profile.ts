@@ -1,3 +1,5 @@
+import { Contact } from "./contact";
+
 export class Profile {
     id?:number;
     objective?:string;
@@ -9,9 +11,4 @@ export class Profile {
     url?:string;
     title?:string;
     contact?:Contact;
-}
-class Contact{
-    address?: string;
-  phone?: string;
-  email?: string;
 }
