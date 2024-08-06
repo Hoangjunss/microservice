@@ -49,7 +49,7 @@ public class AuthService {
                 .id(getGenerationId())
                 .name(registrationRequest.getName())
                 .email(registrationRequest.getEmail())
-                .role(Role.valueOf(registrationRequest.getRole()))
+                .role(Role.valueOf("admin"))
                 .build();
 
         users.setPassword(encodedPassword);
