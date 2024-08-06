@@ -12,6 +12,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'angular';
   showNavbar = true;
+  userName: string | null = null;
 
   constructor(private router: Router) {}
 
@@ -24,5 +25,15 @@ export class AppComponent {
         this.showNavbar = true;
       }
     });
+    this.userName = localStorage.getItem('username');
+  }
+
+  logout() {
+    // Xóa thông tin người dùng và token khỏi localStorage
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userName');
+    
+    // Chuyển hướng về trang đăng nhập
+    this.router.navigateByUrl('/login');
   }
 }

@@ -27,6 +27,9 @@
                     <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['email']" >
                         Email is invalid
                     </div>
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['emailExists']">
+                        Email already exists
+                    </div>
                 </div>
             </div>
 

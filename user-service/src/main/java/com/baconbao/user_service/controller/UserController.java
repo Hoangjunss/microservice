@@ -34,7 +34,11 @@ public class UserController {
     }
     @PostMapping("/signup")
     public ResponseEntity<AuthenticationResponse> signUp(@RequestBody AuthenticationRequest signUpRequest){
-        return ResponseEntity.ok(authService.signUp(signUpRequest));
+        AuthenticationResponse response = authService.signUp(signUpRequest);
+        if (!response.isVaild()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+        return ResponseEntity.ok(response);
     }
     @PostMapping("/signin")
     public ResponseEntity<AuthenticationResponse> signIn(@RequestBody AuthenticationRequest signInRequest){

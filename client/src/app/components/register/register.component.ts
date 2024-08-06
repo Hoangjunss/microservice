@@ -7,20 +7,20 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule,JsonPipe],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, JsonPipe],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
 
-  userForm : FormGroup;
+  userForm: FormGroup;
   @Output() registerSuccess = new EventEmitter<void>();
 
-  constructor(private fb: FormBuilder,private userService : UserServiceService, private router: Router) {
+  constructor(private fb: FormBuilder, private userService: UserServiceService, private router: Router) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required]],
-      password: ['', [Validators.required, this.passwordValidator()]], 
+      password: ['', [Validators.required, this.passwordValidator()]],
       confirmPassword: ['', [Validators.required]]
     }, {
       validators: this.passwordsMatchValidator.bind(this)
@@ -60,7 +60,7 @@ export class RegisterComponent {
     const confirmPassword = formGroup.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordsMismatch: true };
   }
-  
+
   // Lấy thông báo lỗi của email
   getPasswordErrorMessage(): string {
     const control = this.userForm.get('password');
@@ -88,29 +88,35 @@ export class RegisterComponent {
 
   submitForm() {
     if (this.userForm.valid) {
-      console.log(this.userForm.value+" submitForm");
+      console.log(this.userForm.value + " submitForm");
       // // Phát tín hiệu thành công sau khi đăng ký
       // this.registerSuccess.emit();  
       this.signUpUser();
     }
-    else
-    {
+    else {
       console.log("Form is invalid");
     }
   }
 
-  signUpUser(){
-    this.userService.signUpUser(this.userForm.value).subscribe(data=>{
-      console.log("Người dùng đăng ký thành công",data);
-      // Phát tín hiệu thành công sau khi đăng ký
-      this.registerSuccess.emit();
-      this.router.navigateByUrl('/login');
-    },
-    (error) => {
-      console.error('Error registering user:', error);
-      // Xử lý lỗi nếu cần
-    })
+  signUpUser() {
+    this.userService.signUpUser(this.userForm.value).subscribe(
+      (data: any) => {
+        console.log("Người dùng đăng ký thành công", data);
+        const username = data.user.name;
+        localStorage.setItem('username', username);
+
+        // Phát tín hiệu thành công sau khi đăng ký
+        this.registerSuccess.emit();
+        this.router.navigateByUrl('/login');
+      },
+      (error) => {
+        console.error('Lỗi khi đăng ký người dùng:', error);
+        if (error.status === 409 || error.error.message === 'Email đã tồn tại') { // Xử lý lỗi email đã tồn tại
+          this.userForm.get('email')?.setErrors({ emailExists: true });
+        } else {
+          // Xử lý lỗi khác nếu cần
+        }
+      }
+    );
   }
-
-
 }

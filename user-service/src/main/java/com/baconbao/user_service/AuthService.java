@@ -45,6 +45,17 @@ public class AuthService {
 
         log.info("Sign up Auth Service");
 
+        log.info("Existing user: " + registrationRequest.getEmail());
+        
+        // Kiểm tra xem email đã tồn tại chưa
+        if(userRepository.findByEmail(registrationRequest.getEmail()).isPresent()){
+            return AuthenticationResponse.builder()
+                    .message("Email already exists")
+                    .statusCode(409)
+                    .isVaild(false)
+                    .build();
+        }
+
         User users = User.builder()
                 .id(getGenerationId())
                 .name(registrationRequest.getName())
@@ -65,6 +76,7 @@ public class AuthService {
                 .user(userResult)
                 .message("User Saved Successfully")
                 .statusCode(200)
+                .isVaild(true)
                 .build();
     }
     public AuthenticationResponse signIn(AuthenticationRequest signinRequest){
