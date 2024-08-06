@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="title">
+        <p>REGISTER</p>
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+        <div class="user_details">
+            <!-- User Name -->
+            <div class="input_box">
+                <label for="username">Username</label>
+                <input type="text" name="userName" formControlName="userName" id="username" placeholder="Enter your username">
+                <div class="alert" *ngIf="(userForm.controls['userName']?.invalid && (userForm.controls['userName']?.touched || userForm.controls['userName']?.dirty))">
+                    <div class="text-danger" *ngIf="userForm.controls['userName'].errors?.['required']">
+                        Username is required
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="input_box">
+                <label for="email">Email</label>
+                <input type="email" name="email" formControlName="email" id="email" placeholder="Enter your email">
+                <div class="alert" *ngIf="(userForm.controls['email']?.invalid && (userForm.controls['email']?.touched || userForm.controls['email']?.dirty))">
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['required']">
+                        Email is required
+                    </div>
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['email']" >
+                        Email is invalid
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="input_box">
+                <label for="pass">Password</label>
+                <input type="password" name="password" formControlName="password" id="pass" placeholder="Enter your password">
+                <div class="alert" *ngIf="userForm.controls['password']?.invalid && (userForm.controls['password']?.touched || userForm.controls['password']?.dirty)">
+                  <div class="text-danger">
+                    <!-- <div *ngFor="let error of getPasswordErrors()"> -->
+                        {{ getPasswordErrorMessage() }}
+                    <!-- </div> -->
+                  </div>
+                </div>
+              </div>
+
+
+            <!-- Xác nhận lại mật khẩu -->
+            <div class="input_box">
+                <label for="confirmPass">Confirm Password</label>
+                <input type="password" name="confirmPassword" formControlName="confirmPassword" id="confirmPass" placeholder="Confirm your password">
+                <div class="alert" *ngIf="(userForm.controls['confirmPassword']?.invalid && (userForm.controls['confirmPassword']?.touched || userForm.controls['confirmPassword']?.dirty))">
+                    <div class="text-danger" *ngIf="userForm.controls['confirmPassword'].errors?.['required']">
+                        Confirm Password is required
+                    </div>
+                </div>
+                <div class="alert" *ngIf="userForm.errors?.['passwordsMismatch'] && (userForm.controls['password'].touched || userForm.controls['confirmPassword'].touched) && !userForm.controls['confirmPassword'].errors?.['required']">
+                    <div class="text-danger">
+                      Passwords do not match
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="reg_btn">
+            <button type="submit" [disabled]="userForm.invalid">Register</button>
+        </div>
+    </form>
+</div>

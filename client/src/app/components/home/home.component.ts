@@ -4,11 +4,12 @@ import { ProfileListComponent } from '../profile-list/profile-list.component';
 import { Profile } from '../../model/profile';
 import { ProfileServiceService } from '../../service/profile-service.service';
 import { CommonModule } from '@angular/common';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet,ProfileListComponent,CommonModule],
+  imports: [RouterOutlet,ProfileListComponent,CommonModule,ProfileComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
