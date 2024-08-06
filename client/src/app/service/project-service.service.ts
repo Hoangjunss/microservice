@@ -24,15 +24,15 @@ export class ProjectServiceService {
       }
   }
   createProjectByUser(project:Project):Observable<Project>{
-    return this.http.post<any>('http://localhost:8086/save',project).pipe(map(this.conventToProject));
+    return this.http.post<any>('http://localhost:8080/project/save',project).pipe(map(this.conventToProject));
   }
   updateProjectByUser(project:Project):Observable<Project>{
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>('http://localhost:8086/update',project, {headers}).pipe(map(this.conventToProject));
+    return this.http.post<any>('http://localhost:8080/project/update',project, {headers}).pipe(map(this.conventToProject));
   }
 
   getProjectByIdProfile(id?:number):Observable<Project[]>{
-    return this.http.get<any[]>('http://localhost:8086/getProject?id='+id)
+    return this.http.get<any[]>('http://localhost:8080/project/getProject?id='+id)
     .pipe(map(projectDTO=>projectDTO.map(this.mapToProject)));
   }
 

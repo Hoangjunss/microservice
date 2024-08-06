@@ -22,6 +22,7 @@ export class ProjectListComponent implements OnInit {
   constructor(private projectService:ProjectServiceService, private datePipe: DatePipe){}
   ngOnInit(): void {
     console.log("Project start");
+    this.getProjectByIdProfile(1);
     if(this.idProfile){
       this.getProjectByIdProfile(this.idProfile);
     }

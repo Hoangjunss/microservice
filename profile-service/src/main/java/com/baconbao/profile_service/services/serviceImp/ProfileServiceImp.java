@@ -119,6 +119,7 @@ public class ProfileServiceImp implements ProfileService {
             log.info("Get profile by type: {}", typeProfile.name());
             Query query = new Query();
             query.addCriteria(Criteria.where("typeProfile").in(typeProfile.name()));
+            query.limit(20);
             List<Profile> profiles = mongoTemplate.find(query, Profile.class);
             return convertToDTOList(profiles);
         } catch (InvalidDataAccessResourceUsageException e){

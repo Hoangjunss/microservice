@@ -22,9 +22,9 @@ export class ProfileUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Get the idProfile from the route parameters
     this.route.paramMap.subscribe(params => {
       const idProfileParam = params.get('id');
+      alert(idProfileParam);
       if (idProfileParam !== null) {
         this.idProfile = +idProfileParam; // Convert to number using +
         this.getProfileById(this.idProfile);

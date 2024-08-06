@@ -2,6 +2,7 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserServiceService } from '../../service/user-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ export class RegisterComponent {
   userForm : FormGroup;
   @Output() registerSuccess = new EventEmitter<void>();
 
-  constructor(private fb: FormBuilder,private userService : UserServiceService) {
+  constructor(private fb: FormBuilder,private userService : UserServiceService, private router: Router) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required]],
@@ -87,7 +88,7 @@ export class RegisterComponent {
 
   submitForm() {
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
+      console.log(this.userForm.value+" submitForm");
       // // Phát tín hiệu thành công sau khi đăng ký
       // this.registerSuccess.emit();  
       this.signUpUser();
@@ -103,6 +104,7 @@ export class RegisterComponent {
       console.log("Người dùng đăng ký thành công",data);
       // Phát tín hiệu thành công sau khi đăng ký
       this.registerSuccess.emit();
+      this.router.navigateByUrl('/login');
     },
     (error) => {
       console.error('Error registering user:', error);

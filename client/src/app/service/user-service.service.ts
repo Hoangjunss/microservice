@@ -11,6 +11,7 @@ export class UserServiceService {
   constructor(private http:HttpClient) { }
   private baseURL="http://localhost:8080/auth"
    signUpUser(user:User):Observable<User>{
+    console.log(user+" user-service")
     return this.http.post<any>(this.baseURL+"/signup",user);
    }
    signInUser(user:User):Observable<User>{

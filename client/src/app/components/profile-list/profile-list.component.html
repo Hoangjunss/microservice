@@ -2,7 +2,6 @@
         <div *ngIf="profiles.length>0; else noProfiles" class="row" [ngStyle]="{'text-align': 'center'}">
             <div class="col-sm-6 col-lg-4 m-15px-tb" *ngFor="let profile of profiles">
                 <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
-                    <a class="overlay-link" href="#"></a>
                     <div class="icon-50 theme-bg white-color border-radius-50 d-inline-block">
                         <i class="number">{{ profile.id}}</i>
                     </div>
@@ -11,16 +10,18 @@
                         <h6 class="m-5px-tb">{{ profile.objective }}</h6>
                         <p class="m-0px font-small">{{ profile.education }}</p>
                     </div>
-                    <button class="btn btn-primary" (click)="viewProfile(profile.id)">View profile</button>
+                    <button type="button" class="btn btn-primary" (click)="viewProfile(profile.id)">View profile</button>
                 </div>
             </div>
 
             <div class="col-12 p-25px-t text-center">
-                <a class="m-btn m-btn-radius m-btn-theme" href="#">Load More</a>
+                <a class="m-btn m-btn-radius m-btn-theme">Load More</a>
             </div>
         </div>
 
         <ng-template #noProfiles>
             <h1>No profiles available</h1>
           </ng-template>
+
+<router-outlet></router-outlet>
           
