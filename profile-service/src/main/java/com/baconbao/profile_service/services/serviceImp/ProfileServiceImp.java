@@ -7,6 +7,7 @@ import com.baconbao.profile_service.exception.Error;
 import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
 import com.baconbao.profile_service.openFeign.ImageClient;
+import com.baconbao.profile_service.openFeign.UserClient;
 import com.baconbao.profile_service.repository.ProfileRepository;
 import com.baconbao.profile_service.services.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,8 @@ public class ProfileServiceImp implements ProfileService {
     private ImageClient imageClient;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private UserClient userClient;
 
     public List<ProfileDTO> convertToDTOList(List<Profile> profiles) {
         return profiles.stream()
@@ -57,6 +60,7 @@ public class ProfileServiceImp implements ProfileService {
             if(profileDTO.getImageFile()!=null){
                 imageDTO=imageClient.save(profileDTO.getImageFile());
             }
+            if(checkUserId(profileDTO.getUserId())){}
             Profile profile = Profile.builder()
                     .id(getGenerationId())
                     .objective(profileDTO.getObjective())
@@ -149,5 +153,8 @@ public class ProfileServiceImp implements ProfileService {
         } catch (DataAccessException e){
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
+    }
+    private boolean checkUserId(Integer id){
+        return userClient.checkId(id);
     }
 }

@@ -19,5 +19,10 @@ public class UserServiceImpl implements UserService {
     public User findById(Integer id) {
         return userRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public boolean checkUser(Integer id) {
+        return false;
+    }
 }
 

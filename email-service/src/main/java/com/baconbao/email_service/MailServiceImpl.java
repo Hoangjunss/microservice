@@ -1,5 +1,6 @@
 package com.baconbao.email_service;
 
+import com.baconbao.email_service.dto.MailDTO;
 import com.baconbao.email_service.model.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -43,5 +44,9 @@ public class MailServiceImpl implements MailService {
                 .mailSubject(subject)
                 .mailContent(content)
                 .build();
+    }
+    public  void listen(MailDTO mailDTO){
+        log.info("send mail"  );
+        sendMail(getMail(mailDTO.getMailTo(),mailDTO.getMailContent(),mailDTO.getMailSubject()));
     }
 }

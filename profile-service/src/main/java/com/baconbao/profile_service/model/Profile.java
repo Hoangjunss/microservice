@@ -23,4 +23,5 @@ public class Profile {
     private TypeProfile typeProfile; // Enum stored as String
     private Integer idImage; // Refers to Image ID, if used
     private String title;
+    private Integer idUser;
 }

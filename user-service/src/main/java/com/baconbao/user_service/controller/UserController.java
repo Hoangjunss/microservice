@@ -5,6 +5,7 @@ import com.baconbao.user_service.dto.AuthenticationRequest;
 import com.baconbao.user_service.dto.AuthenticationResponse;
 import com.baconbao.user_service.dto.UserDTO;
 import com.baconbao.user_service.security.OurUserDetailsService;
+import com.baconbao.user_service.services.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ public class UserController {
     private AuthService authService;
     @Autowired
     private OurUserDetailsService ourUserDetailsService;
+    @Autowired
+    private UserService userService;
     @PostMapping("/isValid")
     public AuthenticationResponse isValid(@RequestBody String token) {
         return authService.isValid(token);
@@ -41,6 +44,9 @@ public class UserController {
     public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody AuthenticationRequest refreshTokenRequest){
         return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
     }
-
+    @GetMapping("/checkId")
+    public ResponseEntity<Boolean> checkId(@RequestParam Integer id){
+        return ResponseEntity.ok(userService.checkUser(id));
+    }
 
 }
