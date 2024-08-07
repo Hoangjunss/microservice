@@ -15,5 +15,7 @@ public interface CompanyService {
     List<CompanyDTO> getCompanyDTOs();
     List<CompanyDTO> getCompanyByType(String type);
     List<JobDTO> getJobByCompany(Integer id);
+    JobDTO setIdProfilePendingToJob(JobDTO jobDTO,Integer idProfile);
     JobDTO setIdProfileToJob(JobDTO jobDTO,Integer idProfile);
+
 }

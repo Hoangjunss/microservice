@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "job")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +20,7 @@ public class Job {
     private  String  description;
     private  TypeJob typeJob;
     private  Integer size;
-    private Integer idProfie;
+    private List<Integer> idProfiePending;
+    private List<Integer> idProfile;
     private Integer idCompany;
 }

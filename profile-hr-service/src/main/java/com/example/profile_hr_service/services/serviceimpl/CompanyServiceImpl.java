@@ -151,10 +151,19 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public JobDTO setIdProfileToJob(JobDTO jobDTO, Integer idProfile) {
+    public JobDTO setIdProfilePendingToJob(JobDTO jobDTO, Integer idProfile) {
       if(profileClient.checkIdProfile(idProfile)){
           
       }
+        return null;
+    }
+
+    @Override
+    public JobDTO setIdProfileToJob(JobDTO jobDTO, Integer idProfile) {
+        if(profileClient.checkIdProfile(idProfile)){
+               //xóa idProfiePending vaf thêm vào idProfile
+            //giam size
+        }
         return null;
     }
 }
