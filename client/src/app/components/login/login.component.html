@@ -17,7 +17,7 @@
                         Invalid email or password
                     </div>
                     <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['emailNotFound']">
-                        Email not found
+                        Account not found
                     </div>
                 </div>
             </div>
@@ -31,7 +31,11 @@
                         Password is required
                     </div>
                 </div>
-              </div>
+            </div>
+
+            <div class="text-danger" *ngIf="userForm.controls['password'].errors?.['invalidCredentials']">
+                Invalid email or password
+            </div>
             
         </div>
 

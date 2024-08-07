@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,CommonModule],
+  imports: [RouterOutlet,RouterLink,CommonModule,NotificationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -13,6 +14,7 @@ export class AppComponent {
   title = 'angular';
   showNavbar = true;
   userName: string | null = null;
+  showNotifications = false;
 
   constructor(private router: Router) {}
 
@@ -35,5 +37,9 @@ export class AppComponent {
     
     // Chuyển hướng về trang đăng nhập
     this.router.navigateByUrl('/login');
+  }
+
+  toggleNotifications() {
+    this.showNotifications = !this.showNotifications;
   }
 }

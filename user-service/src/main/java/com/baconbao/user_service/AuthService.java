@@ -98,16 +98,16 @@ public class AuthService {
 
         log.info("Sign in Auth Service");
         // Nếu email tồn tại thì kiểm tra mật khẩu
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, signinRequest.getPassword()));
-        } catch (Exception e) {
-            return AuthenticationResponse.builder()
-                    .message("Invalid credentials")
-                    .statusCode(401) 
-                    .isVaild(false)
-                    .build();
-        }
+            try {
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(email, signinRequest.getPassword()));
+            } catch (Exception e) {
+                return AuthenticationResponse.builder()
+                        .message("Invalid credentials")
+                        .statusCode(401) 
+                        .isVaild(false)
+                        .build();
+            }
         var user = userRepository.findByEmail(email).orElseThrow();
         System.out.println("USER IS: " + user);
         var jwt = jwtTokenUtil.generateToken(user);
@@ -118,6 +118,7 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .expirationTime("24Hr")
                 .message("Successfully Signed In")
+                .isVaild(true)
                 .build();
 
     }

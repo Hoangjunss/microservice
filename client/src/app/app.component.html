@@ -37,8 +37,12 @@
             </li>
 
             <!-- Notification -->
-            <li class="navbar-left__item group">
-                <a routerLink="" title="Notification" class="nav-link"><i class="bi bi-bell"></i></a>
+            <li class="navbar-left__item group position-relative">
+                <a (click)="toggleNotifications()" title="Notification" class="nav-link">
+                    <i class="bi bi-bell"></i>
+                </a>
+
+                <app-notification *ngIf="showNotifications"></app-notification>
             </li>
 
 
