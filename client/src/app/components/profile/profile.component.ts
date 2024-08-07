@@ -8,13 +8,14 @@ import { ProjectServiceService } from '../../service/project-service.service';
 import { Project } from '../../model/project';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ProjectListComponent } from '../project-list/project-list.component';
-import { ProfileListComponent } from "../profile-list/profile-list.component";
+import { ProfileListComponent } from '../profile-list/profile-list.component';
+
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ContactComponent, CreateProfileComponent, CommonModule, ProjectListComponent, RouterLink, RouterOutlet, ProfileListComponent],
-  providers: [DatePipe],
+  imports: [ContactComponent, CreateProfileComponent, CommonModule, ProjectListComponent, RouterLink, RouterOutlet,ProfileListComponent],
+ 
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })

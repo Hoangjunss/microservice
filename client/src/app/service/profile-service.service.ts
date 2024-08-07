@@ -38,7 +38,7 @@ export class ProfileServiceService {
     .pipe(map(this.mapToProfile));
   }
   getProfileById(id:number):Observable<Profile>{
-    return this.httpClient.get<any>(`http://localhost:8080/profie/findById?id=`+id)
+    return this.httpClient.get<any>(`http://localhost:8080/profile/findById?id=`+id)
    .pipe(map(this.mapToProfile));
   }
   private mapToProfile(profileDTO: any): Profile {

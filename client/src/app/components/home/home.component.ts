@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { ProfileListComponent } from '../profile-list/profile-list.component';
+
 import { Profile } from '../../model/profile';
 import { ProfileServiceService } from '../../service/profile-service.service';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from '../profile/profile.component';
+import { ProfileListComponent } from '../profile-list/profile-list.component';
 
 @Component({
   selector: 'app-home',
