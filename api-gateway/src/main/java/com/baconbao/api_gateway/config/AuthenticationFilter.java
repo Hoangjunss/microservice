@@ -1,6 +1,7 @@
 package com.baconbao.api_gateway.config;
 
 import com.baconbao.api_gateway.UserService;
+import com.baconbao.api_gateway.dto.AuthenticationRequest;
 import com.baconbao.api_gateway.dto.AuthenticationResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,19 +75,21 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             }
 
             String token = authHeader.get(0).substring(7);
-
-            return userService.introspect(token)
-                              .flatMap(authenticationResponse -> {
-                                  if (authenticationResponse.isValid()) {
-                                      return chain.filter(exchange);
-                                  } else {
-                                      return unauthenticated(exchange.getResponse());
-                                  }
-                              })
-                              .onErrorResume(e -> {
-                                  log.error("Failed to introspect token: {}", e.getMessage());
-                                  return unauthenticated(exchange.getResponse());
-                              });
+            return userService.isValid(token)
+                    .flatMap(authenticationResponse -> {
+                        AuthenticationResponse authenticationResponse1=authenticationResponse.getData();
+                        log.info("api"+authenticationResponse1);
+                        if (authenticationResponse.getData().isVaild()) {
+                            return chain.filter(exchange);
+                        } else {
+                            log.info("immm");
+                            return unauthenticated(exchange.getResponse());
+                        }
+                    })
+                    .onErrorResume(e -> {
+                        log.info("lopi");
+                        return unauthenticated(exchange.getResponse());
+                    });
         };
     }
 

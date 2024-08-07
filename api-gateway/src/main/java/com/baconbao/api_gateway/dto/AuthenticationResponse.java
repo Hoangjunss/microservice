@@ -8,8 +8,6 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthenticationResponse {
     private int statusCode;
     private String error;
@@ -17,5 +15,5 @@ public class AuthenticationResponse {
     private String token;
     private String refreshToken;
     private String expirationTime;
-    private boolean isValid;
+    private boolean isVaild;
 }

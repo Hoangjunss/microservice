@@ -6,6 +6,7 @@ import com.baconbao.user_service.dto.AuthenticationRequest;
 import com.baconbao.user_service.dto.AuthenticationResponse;
 import com.baconbao.user_service.security.OurUserDetailsService;
 import com.baconbao.user_service.services.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/auth")
 @RestController
+@Slf4j
 public class UserController {
     @Autowired
     private AuthService authService;
@@ -24,6 +26,7 @@ public class UserController {
     @PostMapping("/isValid")
     public ApiResponse<AuthenticationResponse> isValid(@RequestBody String token) {
         ApiResponse<AuthenticationResponse> response = new ApiResponse<>(true, "", authService.isValid(token));
+        log.info("log"+response.getData());
         return response;
     }
     @GetMapping("/ourUserDetailsService")

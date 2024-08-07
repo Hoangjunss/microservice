@@ -12,5 +12,5 @@ import reactor.core.publisher.Mono;
 @FeignClient("user-service")
 public interface UserClient {
     @PostMapping("/auth/isValid")
-    Mono<ApiResponse<AuthenticationResponse>> isValid(@RequestBody String token);
+   ApiResponse<AuthenticationResponse> isValid(@RequestBody String token);
 }
