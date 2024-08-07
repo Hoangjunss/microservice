@@ -1,6 +1,5 @@
 package com.example.profile_hr_service.dto;
 
-import com.example.profile_hr_service.model.TypeJob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

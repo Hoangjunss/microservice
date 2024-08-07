@@ -19,4 +19,5 @@ public class Job {
     private  TypeJob typeJob;
     private  Integer size;
     private Integer idProfie;
+    private Integer idCompany;
 }

@@ -35,13 +35,16 @@ export class ProjectServiceService {
       }
   }
   createProjectByUser(project:Project):Observable<Project>{
-    const headers = this.createAuthorizationHeader();
-    return this.http.post<Apiresponse<Project>>('http://localhost:8080/project/save',project, {headers}).pipe(
-      map(response=>{
-        if(response.success){
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const authHeaders = this.createAuthorizationHeader();
+    if (authHeaders.has('Authorization')) {
+        headers = headers.set('Authorization', authHeaders.get('Authorization')!);
+    }
+    return this.http.post<Apiresponse<Project>>('http://localhost:8080/project/save', project, { headers }).pipe(
+      map(response => {
+        if (response.success) {
           return response.data;
-        }
-        else{
+        } else {
           throw new Error(response.message);
         }
       })

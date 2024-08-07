@@ -32,10 +32,11 @@ export class ProfileServiceService {
   }
   createProfile(profile: Profile):Observable<Profile> {
     console.log('Creating profile:', profile);
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
-      'Authorization',
-      `Bearer ${localStorage.getItem('token')}`
-    );
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const authHeaders = this.createAuthorizationHeader();
+    if (authHeaders.has('Authorization')) {
+        headers = headers.set('Authorization', authHeaders.get('Authorization')!);
+    }
     return this.httpClient.post<any>(this.baseURL, profile, { headers }).pipe(
       map(this.mapToProfile),
       catchError(error => {

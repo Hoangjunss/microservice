@@ -19,10 +19,13 @@ public class UserService {
     private final UserClient userClient;
 
     public Mono<AuthenticationResponse> introspect(String token) {
-        return Mono.defer(() -> {
-            log.info("Validating token with UserClient");
-            return Mono.fromCallable(() -> userClient.isValid(token))
-                       .map(response -> response.getData());
-        });
+        return userClient.isValid(token)
+                         .flatMap(response -> {
+                             if (response.isSuccess()) {
+                                 return Mono.just(response.getData());
+                             } else {
+                                 return Mono.error(new RuntimeException(response.getMessage()));
+                             }
+                         });
     }
 }

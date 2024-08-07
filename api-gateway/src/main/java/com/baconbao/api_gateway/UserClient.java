@@ -11,6 +11,6 @@ import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Mono;
 @FeignClient("user-service")
 public interface UserClient {
- @PostMapping("/auth/isValid")
-  ApiResponse<AuthenticationResponse> isValid(String token);
+    @PostMapping("/auth/isValid")
+    Mono<ApiResponse<AuthenticationResponse>> isValid(@RequestBody String token);
 }

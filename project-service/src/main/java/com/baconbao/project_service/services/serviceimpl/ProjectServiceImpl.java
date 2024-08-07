@@ -107,12 +107,18 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProfileDTO> getAlliProfile() {
-        return profileClient.getAll();
+        try {
+            log.info("Get all profile");
+            return profileClient.getAll();
+        } catch (DataAccessException e){
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
     public List<ProjectDTO> getProjectByIdProfile(Integer id) {
         try {
+            log.info("Get project by id profile: {}", id);
             return convertToDTOList(projectRepository.findByIdProfile(id));
         } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);

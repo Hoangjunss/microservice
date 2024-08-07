@@ -31,20 +31,17 @@ import java.util.List;
 @Component
 @Slf4j
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
-    private  UserService userService;
-    private  ObjectMapper objectMapper;
-
+    private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     public AuthenticationFilter(@Lazy UserService userService, ObjectMapper objectMapper) {
         super(Config.class);
         this.userService = userService;
-        this.objectMapper=objectMapper;
+        this.objectMapper = objectMapper;
     }
 
-
-    Mono<Void> unauthenticated(ServerHttpResponse response){
-       AuthenticationResponse authenticationResponse=AuthenticationResponse.builder().error("Unauthenticated").statusCode(1041)
-                .build();
+    Mono<Void> unauthenticated(ServerHttpResponse response) {
+        AuthenticationResponse authenticationResponse = AuthenticationResponse.builder().error("Unauthenticated").statusCode(1041).build();
 
         String body = null;
         try {
@@ -56,8 +53,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
-        return response.writeWith(
-                Mono.just(response.bufferFactory().wrap(body.getBytes())));
+        return response.writeWith(Mono.just(response.bufferFactory().wrap(body.getBytes())));
     }
 
     @Override
@@ -80,24 +76,20 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             String token = authHeader.get(0).substring(7);
 
             return userService.introspect(token)
-                    .flatMap(authenticationResponse -> {
-                        if (authenticationResponse.isValid()) {
-                            return chain.filter(exchange);
-                        } else {
-                            return unauthenticated(exchange.getResponse());
-                        }
-                    })
-                    .onErrorResume(e -> {
-                        log.error("Failed to introspect token: {}", e.getMessage());
-                        return unauthenticated(exchange.getResponse());
-                    });
+                              .flatMap(authenticationResponse -> {
+                                  if (authenticationResponse.isValid()) {
+                                      return chain.filter(exchange);
+                                  } else {
+                                      return unauthenticated(exchange.getResponse());
+                                  }
+                              })
+                              .onErrorResume(e -> {
+                                  log.error("Failed to introspect token: {}", e.getMessage());
+                                  return unauthenticated(exchange.getResponse());
+                              });
         };
     }
 
-
-
     public static class Config {
-
     }
-
 }
