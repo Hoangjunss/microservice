@@ -144,7 +144,8 @@ public class AuthService {
         if (email != null) {
             UserDetails userDetails = ourUserDetailsService.loadUserByUsername(email);
             if (jwtTokenUtil.isTokenValid(token, userDetails)) {
-                return AuthenticationResponse.builder().isVaild(true).build();
+                User user=userRepository.findByEmail(userDetails.getUsername()).get();
+                return AuthenticationResponse.builder().isVaild(true).role(user.getRole().toString()).build();
             }
         }
         return AuthenticationResponse.builder().isVaild(true).build();

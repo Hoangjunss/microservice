@@ -18,4 +18,5 @@ public class AuthenticationResponse {
     private String expirationTime;
     private User user;
     private boolean isVaild;
+    private  String role;
 }

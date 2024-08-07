@@ -16,4 +16,5 @@ public class AuthenticationResponse {
     private String refreshToken;
     private String expirationTime;
     private boolean isVaild;
+    private  String role;
 }
