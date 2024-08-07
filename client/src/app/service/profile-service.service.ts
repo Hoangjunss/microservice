@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Profile } from '../model/profile';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { Apiresponse } from '../apiresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,14 @@ export class ProfileServiceService {
 
   
   getProfilesList(): Observable<Profile[]> {
-    return this.httpClient.get<any[]>('http://localhost:8080/profile/getAll').pipe(
-      map(profileDTOs => profileDTOs.map(this.mapToProfile))
+    return this.httpClient.get<Apiresponse<Profile[]>>('http://localhost:8080/profile/getAll').pipe(
+      map(response => {
+        if (response.success) {
+          return response.data.map(this.mapToProfile);
+        } else {
+          return []; //handle theo lỗi
+        }
+      })
     );
   }
   createProfile(profile: Profile):Observable<Profile> {
