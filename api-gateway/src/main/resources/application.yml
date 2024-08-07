@@ -25,5 +25,12 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/auth/**
-
+        - id: profile-hr-service
+          uri: lb://PROFILE-HR-SERVICE
+          predicates:
+            - Path=/profile-hr/**
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/notification/**
 

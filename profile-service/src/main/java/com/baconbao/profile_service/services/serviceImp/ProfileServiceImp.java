@@ -155,6 +155,12 @@ public class ProfileServiceImp implements ProfileService {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
+
+    @Override
+    public Boolean checkIdProfile(Integer id) {
+        return profileRepository.findById(id).isPresent();
+    }
+
     private boolean checkUserId(Integer id){
         return userClient.checkId(id);
     }

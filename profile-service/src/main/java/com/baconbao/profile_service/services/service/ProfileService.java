@@ -15,4 +15,5 @@ public interface ProfileService {
     Profile convertToModel(ProfileDTO profileDTO);
     List<ProfileDTO> getAllProfile();
     List<ProfileDTO> findByTitle(String title);
+    Boolean checkIdProfile(Integer id);
 }

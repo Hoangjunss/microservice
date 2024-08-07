@@ -1,9 +1,12 @@
 package com.example.profile_hr_service.services.serviceimpl;
 
 import com.example.profile_hr_service.dto.CompanyDTO;
+import com.example.profile_hr_service.dto.JobDTO;
+import com.example.profile_hr_service.dto.ProfileDTO;
 import com.example.profile_hr_service.exception.CustomException;
 import com.example.profile_hr_service.exception.Error;
 import com.example.profile_hr_service.model.Company;
+import com.example.profile_hr_service.openFeign.ProfileClient;
 import com.example.profile_hr_service.repository.CompanyRepository;
 import com.example.profile_hr_service.services.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,8 @@ public class CompanyServiceImpl implements CompanyService {
     private ModelMapper modelMapper;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private ProfileClient profileClient;
 
     private Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
@@ -122,5 +127,20 @@ public class CompanyServiceImpl implements CompanyService {
             // Return an empty list in case of an error
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public List<JobDTO> getJobByCompany(Integer id) {
+        //vieets cau truy van
+        return null;
+    }
+
+    @Override
+    public JobDTO setIdProfileToJob(JobDTO jobDTO, Integer idProfile) {
+      if(profileClient.checkIdProfile(idProfile)){
+          
+      }
+
+        return null;
     }
 }

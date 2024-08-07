@@ -43,5 +43,9 @@ public class ProfileController {
     public ResponseEntity<List<ProfileDTO>> findByTitle(@RequestParam String title) {
         return ResponseEntity.ok(profileService.findByTitle(title));
     }
+    @GetMapping("/checkIdProfile")
+    public ResponseEntity<Boolean> checkIdProfie(@RequestParam Integer id) {
+        return ResponseEntity.ok(profileService.checkIdProfile(id));
+    }
 
 }
