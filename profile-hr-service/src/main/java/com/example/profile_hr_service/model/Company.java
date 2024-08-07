@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "company")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,4 +26,5 @@ public class Company {
     private String city;
     private String country;
     private Integer idImage;
+    private List<Integer> idHr;
 }
