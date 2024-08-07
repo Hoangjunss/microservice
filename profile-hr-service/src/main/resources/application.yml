@@ -2,7 +2,7 @@ spring:
   application:
     name: profile-hr-service
 server:
-  port: 8089
+  port: 8090
 eureka:
   client:
     serviceUrl:
