@@ -274,6 +274,10 @@ body {
         padding: 0 10px;
     }
 }
+
+.position-relative {
+    position: relative;
+}
 /* Large devices (desktops, 992px and down) */
 /* @media (max-width: 992px) {
     .navbar-nav {

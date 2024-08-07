@@ -1,0 +1,51 @@
+.notification-dropdown {
+    background-color: white;
+    padding: 10px;
+    position: absolute;
+    top: 65px;
+    right: 0;
+    width: 360px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 300px; 
+    overflow-y: auto;
+}
+
+.notification-dropdown h5 {
+    margin: 0 0 10px;
+}
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    border: none;
+}
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}
+.notification-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+  
+  .unread {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .no-unread {
+    margin-top: 10px;
+    font-style: italic;
+    color: #777;
+  }
+  
+  .btn-link {
+    margin-left: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    margin-left: 10px;
+  }

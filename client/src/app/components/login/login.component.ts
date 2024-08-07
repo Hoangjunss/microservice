@@ -53,11 +53,12 @@ export class LoginComponent {
         this.userForm.get('email')?.setErrors(null);
         this.userForm.get('password')?.setErrors(null);
         
-        if (error.status === 401) {
+        if (error.error.statusCode === 404) {
           // Thêm lỗi nếu email không tồn tại
           this.userForm.get('email')?.setErrors({ emailNotFound: true });
-          console.error('Email not found');
-        } else if (error.status === 401) {
+          console.error('Account not found');
+        } 
+        else if (error.status === 401) {
           // Thêm lỗi nếu mật khẩu không đúng
           this.userForm.get('password')?.setErrors({ invalidCredentials: true });
           console.error('Invalid email or password');

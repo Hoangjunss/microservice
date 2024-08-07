@@ -9,10 +9,12 @@ import com.baconbao.notification_service.services.service.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,9 +45,10 @@ public class NotificationServiceImpl implements NotificationService {
             Notification notification = Notification.builder()
                     .id(getGenerationId())
                     .message(notificationDTO.getMessage())
-                    .createAt(notificationDTO.getCreateAt())
+                    .createAt(LocalDateTime.now())
                     .isRead(notificationDTO.isRead())
                     .url(notificationDTO.getUrl())
+                    .idUser(notificationDTO.getIdUser())
                     .build();
             return notificationRepository.save(notification);
         } catch (DataIntegrityViolationException e){
