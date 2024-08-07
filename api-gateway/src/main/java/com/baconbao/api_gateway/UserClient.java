@@ -1,5 +1,6 @@
 package com.baconbao.api_gateway;
 
+import com.baconbao.api_gateway.dto.ApiResponse;
 import com.baconbao.api_gateway.dto.AuthenticationRequest;
 import com.baconbao.api_gateway.dto.AuthenticationResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -11,5 +12,5 @@ import reactor.core.publisher.Mono;
 @FeignClient("user-service")
 public interface UserClient {
  @PostMapping("/auth/isValid")
-  AuthenticationResponse isValid(@RequestBody String token);
+  ApiResponse<AuthenticationResponse> isValid(String token);
 }

@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Project } from '../model/project';
+import { Apiresponse } from '../apiresponse';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,16 @@ export class ProjectServiceService {
 
   constructor(private http:HttpClient) { }
   getProjectByUser(id:number):Observable<Project[]>{
-    return this.http.get<any>('http://localhost:8086/project/getByUser').pipe(map(project=>project.map(this.conventToProject)));
+    const headers = this.createAuthorizationHeader();
+    return this.http.get<Apiresponse<Project[]>>('http://localhost:8086/project/getByUser', {headers})
+    .pipe(map(response=>{
+      if(response.success){
+        return response.data;
+      }
+      else{
+        throw new Error(response.message);
+      }
+    }));
   }
   conventToProject(project :any):Project{
       return {
@@ -24,16 +35,56 @@ export class ProjectServiceService {
       }
   }
   createProjectByUser(project:Project):Observable<Project>{
-    return this.http.post<any>('http://localhost:8080/project/save',project).pipe(map(this.conventToProject));
+    const headers = this.createAuthorizationHeader();
+    return this.http.post<Apiresponse<Project>>('http://localhost:8080/project/save',project, {headers}).pipe(
+      map(response=>{
+        if(response.success){
+          return response.data;
+        }
+        else{
+          throw new Error(response.message);
+        }
+      })
+    );
   }
+
   updateProjectByUser(project:Project):Observable<Project>{
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>('http://localhost:8080/project/update',project, {headers}).pipe(map(this.conventToProject));
+    const headers = this.createAuthorizationHeader();
+    return this.http.post<Apiresponse<Project>>('http://localhost:8080/project/update',project, {headers}).pipe(
+      map(response=>{
+        if(response.success){
+          return this.mapToProject(response.data);
+        }
+        else{
+          throw new Error(response.message);
+        }
+      }));
   }
 
   getProjectByIdProfile(id?:number):Observable<Project[]>{
-    return this.http.get<any[]>('http://localhost:8080/project/getProject?id='+id)
-    .pipe(map(projectDTO=>projectDTO.map(this.mapToProject)));
+    const headers = this.createAuthorizationHeader();
+    return this.http.get<Apiresponse<Project[]>>('http://localhost:8080/project/getProject?id='+id, {headers}).pipe(
+      map(response=>{
+        if(response.success){
+          return response.data.map(this.mapToProject);
+        }
+        else{
+          throw new Error(response.message);
+        }
+      }));
+  }
+
+  private createAuthorizationHeader(): HttpHeaders {
+    const token = localStorage.getItem('authToken');
+    if(token){
+      console.log('Token found in local store:', token);
+      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    }
+    else
+    {
+      console.log('Token not found in local store');
+    }
+    return new HttpHeaders();
   }
 
   private mapToProject(projectDTO: any): Project{

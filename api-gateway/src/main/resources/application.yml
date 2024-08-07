@@ -15,11 +15,13 @@ spring:
           uri: lb://PROFILE-SERVICE
           predicates:
             - Path=/profile/**
+          filters:
+            - AuthenticationFilter
         - id: project-service
           uri: lb://PROJECT-SERVICE
           predicates:
             - Path=/project/**
-          filter:
+          filters:
             - AuthenticationFilter
         - id: user-service
           uri: lb://USER-SERVICE

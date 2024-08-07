@@ -15,13 +15,14 @@ import reactor.core.scheduler.Schedulers;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService
-{
-   private final UserClient userClient;
+public class UserService {
+    private final UserClient userClient;
 
-
-    public AuthenticationResponse introspect(String token) {
-        log.info("value" + userClient.isValid(token));
-        return userClient.isValid(token);
+    public Mono<AuthenticationResponse> introspect(String token) {
+        return Mono.defer(() -> {
+            log.info("Validating token with UserClient");
+            return Mono.fromCallable(() -> userClient.isValid(token))
+                       .map(response -> response.getData());
+        });
     }
 }

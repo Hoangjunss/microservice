@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -28,14 +30,12 @@ import java.util.List;
 
 @Component
 @Slf4j
-
-
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
-    private final UserService userService;
-    private final     ObjectMapper objectMapper;
+    private  UserService userService;
+    private  ObjectMapper objectMapper;
 
 
-    public AuthenticationFilter(@Lazy  UserService userService, ObjectMapper objectMapper) {
+    public AuthenticationFilter(@Lazy UserService userService, ObjectMapper objectMapper) {
         super(Config.class);
         this.userService = userService;
         this.objectMapper=objectMapper;
@@ -79,19 +79,18 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
             String token = authHeader.get(0).substring(7);
 
-            // Call userService.introspect(token) directly
-            AuthenticationResponse authenticationResponse;
-            try {
-                authenticationResponse = userService.introspect(token);
-            } catch (Exception e) {
-                return unauthenticated(exchange.getResponse());
-            }
-
-            if (authenticationResponse.isValid()) {
-                return chain.filter(exchange);
-            } else {
-                return unauthenticated(exchange.getResponse());
-            }
+            return userService.introspect(token)
+                    .flatMap(authenticationResponse -> {
+                        if (authenticationResponse.isValid()) {
+                            return chain.filter(exchange);
+                        } else {
+                            return unauthenticated(exchange.getResponse());
+                        }
+                    })
+                    .onErrorResume(e -> {
+                        log.error("Failed to introspect token: {}", e.getMessage());
+                        return unauthenticated(exchange.getResponse());
+                    });
         };
     }
 

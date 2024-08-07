@@ -13,7 +13,6 @@ export class NotificationServiceService {
 
   createNotification(notification: Notification):Observable<Notification> {
     console.log('Creating notification:', notification);
-
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.httpClient.post<any>(this.baseURL, notification, { headers }).pipe(
       map(this.mapToNotification),
@@ -44,6 +43,18 @@ export class NotificationServiceService {
     );
   }
 
+  private createAuthorizationHeader(): HttpHeaders {
+    const token = localStorage.getItem('authToken');
+    if(token){
+      console.log('Token found in local store:', token);
+      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    }
+    else
+    {
+      console.log('Token not found in local store');
+    }
+    return new HttpHeaders();
+  }
 
   private mapToNotification(notificationDTO: any): Notification {
     return {
