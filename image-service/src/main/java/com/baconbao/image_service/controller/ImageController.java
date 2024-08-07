@@ -1,5 +1,6 @@
 package com.baconbao.image_service.controller;
 
+import com.baconbao.image_service.dto.ApiResponse;
 import com.baconbao.image_service.dto.ImageDTO;
 import com.baconbao.image_service.services.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
     @PostMapping("/save")
-    public ResponseEntity<ImageDTO> save(MultipartFile imageFile) {
-        return ResponseEntity.ok(imageService.saveImage(imageFile));
+    public ResponseEntity<ApiResponse<ImageDTO>> save(MultipartFile imageFile) {
+        ImageDTO imageDTO = imageService.saveImage(imageFile);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Save is success", imageDTO));
     }
 }

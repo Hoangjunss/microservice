@@ -1,5 +1,6 @@
 package com.example.profile_hr_service.exception;
 
+import com.example.profile_hr_service.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,18 +15,33 @@ import java.time.LocalDateTime;
 @RestController
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
-    public final ResponseEntity<ExceptionResponse> handleBadRequestException(BadRequestException ex, WebRequest request){
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), ex.getMessage(), request.getDescription(false), false), HttpStatus.BAD_REQUEST);
+    public final ResponseEntity<ApiResponse<String>> handleBadRequestException(BadRequestException ex, WebRequest request) {
+        ApiResponse<String> response = new ApiResponse<>(
+                false,
+                ex.getMessage(),
+                ""
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CustomException.class)
-    public final ResponseEntity<ExceptionResponse> handleCustomException(CustomException cx, WebRequest request){
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), cx.getMessage(), request.getDescription(false), false), cx.getError().getStatusCode());
+    public final ResponseEntity<ApiResponse<String>> handleCustomException(CustomException cx, WebRequest request) {
+        ApiResponse<String> response = new ApiResponse<>(
+                false,
+                cx.getMessage(),
+                ""
+        );
+        return new ResponseEntity<>(response, cx.getError().getStatusCode());
     }
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponse> handleAllException(Exception e, WebRequest request){
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), e.getMessage(), request.getDescription(false), false), HttpStatus.INTERNAL_SERVER_ERROR);
+    public final ResponseEntity<ApiResponse<String>> handleAllException(Exception e, WebRequest request) {
+        ApiResponse<String> response = new ApiResponse<>(
+                false,
+                e.getMessage(),
+                ""
+        );
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

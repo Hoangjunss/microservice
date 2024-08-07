@@ -1,5 +1,6 @@
 package com.baconbao.notification_service.controller;
 
+import com.baconbao.notification_service.dto.ApiResponse;
 import com.baconbao.notification_service.dto.NotificationDTO;
 import com.baconbao.notification_service.services.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,19 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @PostMapping("/create")
-    public ResponseEntity<NotificationDTO> create(@RequestBody NotificationDTO notificationDTO){
-        return ResponseEntity.ok(notificationService.create(notificationDTO));
+    public ResponseEntity<ApiResponse<NotificationDTO>> create(@RequestBody NotificationDTO notificationDTO){
+        NotificationDTO notificationDTO2 = notificationService.create(notificationDTO);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Create is success", notificationDTO2));
     }
     @PostMapping("/update")
-    public ResponseEntity<NotificationDTO> update(@RequestBody NotificationDTO notificationDTO){
-        return ResponseEntity.ok(notificationService.update(notificationDTO));
+    public ResponseEntity<ApiResponse<NotificationDTO>> update(@RequestBody NotificationDTO notificationDTO){
+        NotificationDTO notificationDTO1 = notificationService.update(notificationDTO);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Update is success", notificationDTO1));
     }
     @GetMapping("/findByUser")
-    public ResponseEntity<List<NotificationDTO>> findByUser(@RequestParam Integer userId){
-        return ResponseEntity.ok(notificationService.getNotificationsByIdUser(userId));
+    public ResponseEntity<ApiResponse<List<NotificationDTO>>> findByUser(@RequestParam Integer userId){
+        List<NotificationDTO> notificationDTOS = notificationService.getNotificationsByIdUser(userId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Find is success", notificationDTOS));
     }
 }
 
