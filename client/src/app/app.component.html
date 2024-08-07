@@ -51,17 +51,11 @@
 
         <!-- Navbar Right -->
         <ul class="nav navbar-nav navbar-right">
-            <li class="navbar-right__item" *ngIf="userName">
-              <span class="navbar-text">Hello, {{ userName }}</span>
-            </li>
-            <li class="navbar-right__item" *ngIf="!userName">
+            <li class="navbar-right__item" >
               <a class="btn btn-outline-primary" routerLink="login">Đăng nhập</a>
             </li>
-            <li class="navbar-right__item" *ngIf="!userName">
+            <li class="navbar-right__item" >
               <a class="btn btn-primary" routerLink="register">Đăng ký</a>
-            </li>
-            <li class="navbar-right__item" *ngIf="userName">
-              <a class="btn btn-danger" (click)="logout()">Đăng xuất</a>
             </li>
         </ul>
     </div>

@@ -13,7 +13,7 @@ import { NotificationComponent } from './components/notification/notification.co
 export class AppComponent {
   title = 'angular';
   showNavbar = true;
-  userName: string | null = null;
+
   showNotifications = false;
 
   constructor(private router: Router) {}
@@ -27,17 +27,15 @@ export class AppComponent {
         this.showNavbar = true;
       }
     });
-    this.userName = localStorage.getItem('username');
   }
 
-  logout() {
-    // Xóa thông tin người dùng và token khỏi localStorage
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userName');
+  // logout() {
+  //   // Xóa thông tin token khỏi localStorage
+  //   localStorage.removeItem('authToken');
     
-    // Chuyển hướng về trang đăng nhập
-    this.router.navigateByUrl('/login');
-  }
+  //   // Chuyển hướng về trang đăng nhập
+  //   this.router.navigateByUrl('/login');
+  // }
 
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;

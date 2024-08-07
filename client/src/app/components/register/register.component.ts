@@ -102,8 +102,6 @@ export class RegisterComponent {
     this.userService.signUpUser(this.userForm.value).subscribe(
       (data: any) => {
         console.log("Người dùng đăng ký thành công", data);
-        const username = data.user.name;
-        localStorage.setItem('username', username);
 
         // Phát tín hiệu thành công sau khi đăng ký
         this.registerSuccess.emit();
