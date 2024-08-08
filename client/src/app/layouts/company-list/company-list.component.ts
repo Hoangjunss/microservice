@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { CompanyServiceService } from '../../service/company-service.service';
+import { Company } from '../../model/company';
 
 @Component({
   selector: 'app-company-list',
@@ -9,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './company-list.component.css'
 })
 export class CompanyListComponent implements OnInit{
+  listCompany: Company[]=[];
   companies: any[] = [
     {
       id: 'AO1',
@@ -42,10 +45,18 @@ export class CompanyListComponent implements OnInit{
     }
   ];
 
-  constructor() {}
+  constructor(private companyService: CompanyServiceService) {}
     
   ngOnInit(): void {
     console.log("Company start");
+    this.getAllCompany();
+  }
+
+  getAllCompany(){
+    this.companyService.getAllCompanies().subscribe(data=>{
+      console.log(data);
+      this.listCompany=data;
+    });
   }
 
   

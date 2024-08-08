@@ -1,0 +1,27 @@
+<div class="container">
+    <header>
+        <h2>Manager</h2>
+    </header>
+    <!-- Menu -->
+    <div class="container-right">
+        <div class="sidebar">
+            <div class="nav-title">MENU</div>
+            <a routerLink="manager" [ngClass]="{'nav-link': true, 'active': isActive('/manager')}"><i class="fa fa-home"></i>Home</a>
+            <a routerLink="manager/job"  [ngClass]="{'nav-link': true, 'active': isActive('/manager/job')}"><i class="fa fa-th-large"></i>Job</a>
+            <a routerLink="manager/apply" [ngClass]="{'nav-link': true, 'active': isActive('/manager/apply')}"><i class="fa fa-file-text-o"></i>Apply</a>
+            <a routerLink="manager/emloyee"[ngClass]="{'nav-link': true, 'active': isActive('/manager/emloyee')}"><i class="fa fa-address-book-o"></i>User List</a>
+            <hr>
+            <div>
+                <a class="nav-link">
+                    <i class="fa fa-arrow-left"></i>Đăng xuất (về Trang chủ)
+                </a>
+            </div>
+        </div>
+        <div class="main">
+            <app-job-layout *ngIf="currentUrl === '/manager/job'"></app-job-layout>
+            <app-apply-layout *ngIf="currentUrl === '/manager/apply'"></app-apply-layout>
+            <app-hr-layout *ngIf="currentUrl === '/manager/emloyee'"></app-hr-layout>
+            <app-company *ngIf="currentUrl === '/manager'"></app-company>
+        </div>
+    </div>
+</div>

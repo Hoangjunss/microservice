@@ -10,13 +10,13 @@ import com.baconbao.manager_service.services.service.JobService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +54,7 @@ public class JobServiceImpl implements JobService {
             log.info("Inserting job");
             Job job = Job.builder()
                     .id(getGenerationId())
+                    .title(jobDTO.getTitle())
                     .description(jobDTO.getDescription())
                     .typeJob(TypeJob.valueOf(jobDTO.getTypeJob()))
                     .size(jobDTO.getSize())
@@ -103,11 +104,31 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public JobDTO applyJob(JobDTO jobDTO, Integer idProfile) {
-        return null;
+        if (jobDTO.getIdProfiePending() == null) {
+            jobDTO.setIdProfiePending(new ArrayList<>());
+        }
+        jobDTO.getIdProfiePending().add(idProfile);
+        return update(jobDTO);  
     }
 
     @Override
-    public JobDTO setIdProfileToJob(JobDTO jobDTO, Integer idProfile) {
-        return null;
+    public JobDTO acceptProfile(JobDTO jobDTO, Integer idProfile) {
+        if (jobDTO.getIdProfiePending() != null) {
+            jobDTO.getIdProfiePending().remove(idProfile);
+        }
+        if (jobDTO.getIdProfile() == null) {
+            jobDTO.setIdProfile(new ArrayList<>());
+        }
+        jobDTO.getIdProfile().add(idProfile);
+        return update(jobDTO);  
     }
+
+    @Override
+    public JobDTO refuseProfile(JobDTO jobDTO, Integer idProfile) {
+        jobDTO.getIdProfiePending().remove(idProfile);
+        return update(jobDTO);
+    }
+
+
+
 }

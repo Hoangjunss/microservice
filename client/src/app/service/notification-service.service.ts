@@ -10,7 +10,7 @@ import { Apiresponse } from '../apiresponse';
 export class NotificationServiceService {
 
   constructor(private httpClient: HttpClient) { }
-  private baseURL = 'http://localhost:8084/notification/create';
+  private baseURL = 'http://localhost:8080/notification/create';
 
   createNotification(notification: Notification): Observable<Notification> {
     console.log('Creating notification:', notification);
@@ -30,7 +30,7 @@ export class NotificationServiceService {
 
   updateNotification(notification: Notification): Observable<Notification> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.post<Apiresponse<Notification>>(`http://localhost:8084/notification/update`, notification, { headers }).pipe(
+    return this.httpClient.post<Apiresponse<Notification>>(`http://localhost:8080/notification/update`, notification, { headers }).pipe(
       map(response => {
         if (response.success) {
           return this.mapToNotification(response.data);
@@ -44,7 +44,7 @@ export class NotificationServiceService {
 
   getNotificationById(id: number): Observable<Notification[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Notification[]>>(`http://localhost:8084/notification/findByUser?userId=${id}`, { headers }).pipe(
+    return this.httpClient.get<Apiresponse<Notification[]>>(`http://localhost:8080/notification/findByUser?userId=${id}`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToNotification);

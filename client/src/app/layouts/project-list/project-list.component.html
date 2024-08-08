@@ -10,10 +10,10 @@
         <thead>
             <tr>
                 <th title="Số thứ tự">Stt </th>
-                <th title="Mã project">Mã </th>
-                <th title="Chủ đề">Chủ đề</th>
-                <th title="Mô tả">Mô tả</th>
-                <th title="Thời gian">Ngày</th>
+                <th title="Mã project">Id</th>
+                <th title="Chủ đề">Title</th>
+                <th title="Mô tả">Description</th>
+                <th title="Thời gian">Date</th>
             </tr>
         </thead>
     </table>
@@ -28,7 +28,7 @@
                 <col [ngStyle]="{'width': '15%'}">
             </colgroup>
             <tbody>
-                <tr *ngFor="let project of project1; let i = index">
+                <tr *ngFor="let project of projects; let i = index">
                     <td>{{ i + 1 }}</td>
                     <td>{{ project.id }}</td>
                     <td>{{ project.title }}</td>

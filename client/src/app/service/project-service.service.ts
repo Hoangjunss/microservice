@@ -13,7 +13,7 @@ export class ProjectServiceService {
   constructor(private http:HttpClient) { }
   getProjectByUser(id:number):Observable<Project[]>{
     const headers = this.createAuthorizationHeader();
-    return this.http.get<Apiresponse<Project[]>>('http://localhost:8086/project/getByUser', {headers})
+    return this.http.get<Apiresponse<Project[]>>('http://localhost:8088/project/getByUser', {headers})
     .pipe(map(response=>{
       if(response.success){
         return response.data;
@@ -64,9 +64,22 @@ export class ProjectServiceService {
       }));
   }
 
+  deleteProjectByUser(id?:number):Observable<string>{
+    const headers = this.createAuthorizationHeader();
+    return this.http.delete<Apiresponse<string>>(`http://localhost:8080/project/delete/${id}`, {headers}).pipe(
+      map(response => {
+        if (!response.success) {
+          throw new Error(response.message);
+        }else{
+          return response.data;
+        }
+      })
+    );
+  }
+
   getProjectByIdProfile(id?:number):Observable<Project[]>{
     const headers = this.createAuthorizationHeader();
-    return this.http.get<Apiresponse<Project[]>>('http://localhost:8086/project/getProject?id='+id, {headers}).pipe(
+    return this.http.get<Apiresponse<Project[]>>('http://localhost:8080/project/getProject?id='+id, {headers}).pipe(
       map(response=>{
         if(response.success){
           return response.data.map(this.mapToProject);

@@ -17,6 +17,7 @@ import java.util.List;
 public class Job {
     @Id
     private  Integer id;
+    private  String  title;
     private  String  description;
     private  TypeJob typeJob;
     private  Integer size;

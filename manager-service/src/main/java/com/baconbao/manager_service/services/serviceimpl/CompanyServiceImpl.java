@@ -4,7 +4,6 @@ import com.baconbao.manager_service.dto.CompanyDTO;
 import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
 import com.baconbao.manager_service.models.Company;
-import com.baconbao.manager_service.openfeign.ProfileClient;
 import com.baconbao.manager_service.repository.CompanyRepository;
 import com.baconbao.manager_service.services.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +28,6 @@ public class CompanyServiceImpl implements CompanyService {
     private ModelMapper modelMapper;
     @Autowired
     private MongoTemplate mongoTemplate;
-    @Autowired
-    private ProfileClient profileClient;
 
     private Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();

@@ -1,3 +1,4 @@
+import { ManagerModule } from './manager-router/manager.module';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -58,6 +59,10 @@ export const routes: Routes = [
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+    },
+    {
+        path: 'manager',
+        loadChildren: () => import('./manager-router/manager.module').then(m => m.ManagerModule)
     }
 
 

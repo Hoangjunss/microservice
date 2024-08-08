@@ -2,7 +2,7 @@ spring:
   application:
     name: manager-service
 server:
-  port: 8090
+  port: 8091
 eureka:
   client:
     serviceUrl:

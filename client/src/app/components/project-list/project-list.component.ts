@@ -44,11 +44,21 @@ export class ProjectListComponent implements OnInit {
     })
   }
 
+  deleteProject(project:Project){
+    this.projectService.deleteProjectByUser(project.id).subscribe(data=>{
+      if(data){
+        console.log(data);
+        alert('Delete project successfully')
+      }
+    })
+  }
+
   showEditForm(project:Project | null): void {
     console.log(project?.title);
     this.selectedProject = project;
     this.isFormVisible = true;
   }
+
 
   hideEditForm(): void {
     this.selectedProject = null; 

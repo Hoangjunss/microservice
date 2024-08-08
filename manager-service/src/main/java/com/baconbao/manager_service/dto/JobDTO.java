@@ -15,6 +15,7 @@ import java.util.List;
 public class JobDTO {
     @Id
     private  Integer id;
+    private  String  title;
     private  String  description;
     private String typeJob;
     private  Integer size;

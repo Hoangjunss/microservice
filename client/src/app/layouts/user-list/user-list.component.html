@@ -1,4 +1,16 @@
 <div class="sanpham">
+    <div class="search-navabar d-flex flex-row">
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <select class="form-select" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+      </div>
     <table class="table-header">
         <colgroup>
             <col [ngStyle]="{'width': '5%'}">
@@ -14,6 +26,7 @@
                 <th title="Username">Username</th>
                 <th title="Email">Email</th>
                 <th title="Password">Password</th>
+                <th title="Action">Action</th>
             </tr>
         </thead>
     </table>
@@ -34,6 +47,9 @@
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{user.password}}</td>
+                    <td><button class="btn btn-primary">Details</button>
+                        <button class="btn btn-danger">Block</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

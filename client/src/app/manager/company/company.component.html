@@ -1,0 +1,16 @@
+<div class="company-details-card">
+    <div class="company-image">
+      <!-- <img [src]="company.imageUrl" alt="{{company.name}}"> -->
+    </div>
+    <div class="company-info">
+      <h2 class="company-name">{{company.name}}</h2>
+      <p class="company-type">{{company.type}}</p>
+      <p class="company-description">{{company.description}}</p>
+      <div class="company-contact">
+        <p><strong>Address:</strong> {{company.street}}, {{company.city}}, {{company.country}}</p>
+        <p><strong>Email:</strong> <a href="mailto:{{company.email}}">{{company.email}}</a></p>
+        <p><strong>Phone:</strong> <a href="tel:{{company.phone}}">{{company.phone}}</a></p>
+      </div>
+    </div>
+  </div>
+  

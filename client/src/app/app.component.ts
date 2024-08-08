@@ -7,12 +7,13 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ManagerLayoutComponent } from './manager/manager-layout/manager-layout.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,CommonModule,AdminLayoutComponent,NavbarComponent,UserComponent,LoginComponent,RegisterComponent],
+  imports: [RouterOutlet,RouterLink,CommonModule,AdminLayoutComponent,NavbarComponent,UserComponent,LoginComponent,RegisterComponent, ManagerLayoutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -22,6 +23,7 @@ export class AppComponent {
   showAdminNavbar = false; 
   showUser = false;
   showLogin = false;
+  showManagerNavabar = false;
 
 
 
@@ -37,22 +39,32 @@ export class AppComponent {
           this.showAdminNavbar = true;
           this.showUser = false;
           this.showLogin = false;
+          this.showManagerNavabar = false;
         } else if (this.router.url.startsWith('/register') || this.router.url.startsWith('/user')) {
           this.showMainNavbar = false;
           this.showAdminNavbar = false;
           this.showUser = true;
           this.showLogin = false;
+          this.showManagerNavabar = false;
         } else if(this.router.url.startsWith('/login')) {
           this.showMainNavbar = false;
           this.showAdminNavbar = false;
           this.showUser = false;
           this.showLogin = true;
+          this.showManagerNavabar = false;
+        } else if(this.router.url.startsWith('/manager')){
+          this.showMainNavbar = false;
+          this.showAdminNavbar = false;
+          this.showUser = false;
+          this.showLogin = false;
+          this.showManagerNavabar = true;
         }
         else {
           this.showMainNavbar = true;
           this.showAdminNavbar = false;
           this.showUser = false;
           this.showLogin = false;
+          this.showManagerNavabar = false;
         }
         
       }

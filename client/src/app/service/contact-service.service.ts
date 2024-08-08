@@ -12,7 +12,7 @@ export class ContactServiceService {
   constructor(private http:HttpClient) { }
   getContactByUser(id:number):Observable<Contact>{
     const headers = this.createAuthorizationHeader();
-    return this.http.get<Apiresponse<Contact>>('http://localhost:8085/contact/getByUser?idUser'+id, {headers}).pipe(
+    return this.http.get<Apiresponse<Contact>>('http://localhost:8080/contact/getByUser?idUser'+id, {headers}).pipe(
       map(response=>{
         if(response.success){
           return response.data;
@@ -25,7 +25,7 @@ export class ContactServiceService {
   }
   createContactByUser(contact:Contact):Observable<Contact>{
     const headers = this.createAuthorizationHeader();
-    return this.http.post<Apiresponse<Contact>>('http://localhost:8085/contact/save',contact, {headers}).pipe(
+    return this.http.post<Apiresponse<Contact>>('http://localhost:8080/contact/save',contact, {headers}).pipe(
       map(response=>{
         if(response.success){
           return response.data;
@@ -38,7 +38,7 @@ export class ContactServiceService {
   }
   updateContactByUser(contact:Contact):Observable<Contact>{
     const headers = this.createAuthorizationHeader();
-    return this.http.put<Apiresponse<Contact>>('http://localhost:8085/contact/update',contact, {headers}).pipe(
+    return this.http.put<Apiresponse<Contact>>('http://localhost:8080/contact/update',contact, {headers}).pipe(
       map(response=>{
         if(response.success){
           return response.data;
