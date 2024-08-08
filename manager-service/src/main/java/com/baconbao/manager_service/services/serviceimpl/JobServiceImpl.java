@@ -124,11 +124,10 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobDTO refuseProfile(JobDTO jobDTO, Integer idProfile) {
+    public JobDTO rejectProfile(JobDTO jobDTO, Integer idProfile) {
         jobDTO.getIdProfiePending().remove(idProfile);
         return update(jobDTO);
     }
-
 
 
 }

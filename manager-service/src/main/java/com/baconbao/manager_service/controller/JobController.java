@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RequestMapping("/manager")
 @RestController
@@ -46,7 +49,23 @@ public class JobController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Jobs found", jobs));
     }
 
+    @PutMapping("/job/apply")
+    public ResponseEntity<ApiResponse<JobDTO>> apply(@RequestBody JobDTO jobDTO, Integer idProfile) {
+        JobDTO job = jobService.acceptProfile(jobDTO, idProfile);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Job applied", job));
+    }
 
+    @PutMapping("/job/accept")
+    public ResponseEntity<ApiResponse<JobDTO>> accept(@RequestBody JobDTO jobDTO, Integer idProfile) {
+        JobDTO job = jobService.acceptProfile(jobDTO, idProfile);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Job accepted", job));
+    }
+
+    @PutMapping("/job/reject")
+    public ResponseEntity<ApiResponse<JobDTO>> reject(@RequestBody JobDTO jobDTO, Integer idProfile) {
+        JobDTO job = jobService.rejectProfile(jobDTO, idProfile);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Job rejected", job));
+    }
 
 
 }
