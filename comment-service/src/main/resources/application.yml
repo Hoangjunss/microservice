@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: comment-service
-server:
-  port: 8082
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8671/eureka

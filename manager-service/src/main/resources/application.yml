@@ -1,6 +1,6 @@
 spring:
   application:
-    name: profile-hr-service
+    name: manager-service
 server:
   port: 8090
 eureka:
