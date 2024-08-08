@@ -78,16 +78,37 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             return userService.isValid(token)
                     .flatMap(authenticationResponse -> {
                         AuthenticationResponse authenticationResponse1=authenticationResponse.getData();
-                        log.info("api"+authenticationResponse1);
                         if (authenticationResponse.getData().isVaild()) {
+                            switch (authenticationResponse.getData().getRole()){
+                                case "admin":
+                                    if(path.startsWith("/admin")){
+                                        return chain.filter(exchange);
+                                    }else
+                                        return unauthenticated(exchange.getResponse());
+                                case "user":
+                                    if(path.startsWith("/user")){
+                                        return chain.filter(exchange);
+                                    }else
+                                        return unauthenticated(exchange.getResponse());
+                                case "manager":
+                                    if(path.startsWith("/manager")){
+                                        return chain.filter(exchange);
+                                    }else
+                                        return unauthenticated(exchange.getResponse());
+                                case "hr":
+                                    if(path.startsWith("/hr")){
+                                        return chain.filter(exchange);
+                                    }else
+                                        return unauthenticated(exchange.getResponse());
+                            }
                             return chain.filter(exchange);
                         } else {
-                            log.info("immm");
+
                             return unauthenticated(exchange.getResponse());
                         }
                     })
                     .onErrorResume(e -> {
-                        log.info("lopi");
+
                         return unauthenticated(exchange.getResponse());
                     });
         };
