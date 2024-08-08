@@ -4,12 +4,15 @@ import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router
 import { NotificationComponent } from './components/notification/notification.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,CommonModule,AdminLayoutComponent,NavbarComponent],
+  imports: [RouterOutlet,RouterLink,CommonModule,AdminLayoutComponent,NavbarComponent,UserComponent,LoginComponent,RegisterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -17,6 +20,8 @@ export class AppComponent {
   title = 'angular';
   showMainNavbar = true;
   showAdminNavbar = false; 
+  showUser = false;
+  showLogin = false;
 
 
 
@@ -30,12 +35,24 @@ export class AppComponent {
         if (this.router.url.startsWith('/admin')) {
           this.showMainNavbar = false;
           this.showAdminNavbar = true;
-        } else if (this.router.url.startsWith('/login') || this.router.url.startsWith('/register')) {
+          this.showUser = false;
+          this.showLogin = false;
+        } else if (this.router.url.startsWith('/register') || this.router.url.startsWith('/user')) {
           this.showMainNavbar = false;
           this.showAdminNavbar = false;
-        } else {
+          this.showUser = true;
+          this.showLogin = false;
+        } else if(this.router.url.startsWith('/login')) {
+          this.showMainNavbar = false;
+          this.showAdminNavbar = false;
+          this.showUser = false;
+          this.showLogin = true;
+        }
+        else {
           this.showMainNavbar = true;
           this.showAdminNavbar = false;
+          this.showUser = false;
+          this.showLogin = false;
         }
         
       }
