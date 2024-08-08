@@ -63,6 +63,9 @@ public class AuthService {
                 .email(registrationRequest.getEmail())
                 .role(Role.valueOf("admin"))
                 .build();
+        if(registrationRequest.getIdEmployee()!=null){
+           users.setIdEmployee(registrationRequest.getIdEmployee());
+        }
 
         users.setPassword(encodedPassword);
         log.info("User object before save: " + users);

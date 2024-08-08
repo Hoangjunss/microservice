@@ -4,6 +4,7 @@ import com.baconbao.user_service.AuthService;
 import com.baconbao.user_service.dto.ApiResponse;
 import com.baconbao.user_service.dto.AuthenticationRequest;
 import com.baconbao.user_service.dto.AuthenticationResponse;
+import com.baconbao.user_service.dto.UserDTO;
 import com.baconbao.user_service.security.OurUserDetailsService;
 import com.baconbao.user_service.services.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -63,5 +64,9 @@ public class UserController {
         ApiResponse<Boolean> response = new ApiResponse<>(true, "Check user id successfully", userService.checkUser(id));
         return ResponseEntity.ok(response);
     }
-
+    @GetMapping("/getCurrentUser")
+    public ResponseEntity<ApiResponse<UserDTO>> getCurrentUser(@RequestParam String token){
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "Check user id successfully", userService.getCurrentUser(token));
+        return ResponseEntity.ok(response);
+    }
 }
