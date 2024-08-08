@@ -1,30 +1,43 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NotificationComponent } from './components/notification/notification.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,CommonModule,NotificationComponent],
+  imports: [RouterOutlet,RouterLink,CommonModule,AdminLayoutComponent,NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'angular';
-  showNavbar = true;
+  showMainNavbar = true;
+  showAdminNavbar = false; 
 
-  showNotifications = false;
+
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    // Sử dụng NavigationEnd để lắng nghe sự kiện thay đổi đường dẫn
     this.router.events.subscribe((event) => {
-      // Lắng nghe sự kiện router để kiểm tra đường dẫn hiện tại
-      if (this.router.url === '/user' || this.router.url === '/login' || this.router.url === '/register') {
-        this.showNavbar = false;
-      } else {
-        this.showNavbar = true;
+      if (event instanceof NavigationEnd) {
+        // Kiểm tra đường dẫn hiện tại
+        if (this.router.url.startsWith('/admin')) {
+          this.showMainNavbar = false;
+          this.showAdminNavbar = true;
+        } else if (this.router.url.startsWith('/login') || this.router.url.startsWith('/register')) {
+          this.showMainNavbar = false;
+          this.showAdminNavbar = false;
+        } else {
+          this.showMainNavbar = true;
+          this.showAdminNavbar = false;
+        }
+        
       }
     });
   }
@@ -37,7 +50,5 @@ export class AppComponent {
   //   this.router.navigateByUrl('/login');
   // }
 
-  toggleNotifications() {
-    this.showNotifications = !this.showNotifications;
-  }
+  
 }

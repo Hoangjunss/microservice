@@ -1,0 +1,45 @@
+<div class="sanpham">
+    <table class="table-header">
+        <colgroup>
+            <col [ngStyle]="{'width': '5%'}">
+            <col [ngStyle]="{'width': '10%'}">
+            <col [ngStyle]="{'width': '15%'}">
+            <col [ngStyle]="{'width': '30%'}">
+            <col [ngStyle]="{'width': '30%'}">
+        </colgroup>
+        <thead>
+            <tr>
+                <th title="Số thứ tự">Stt</th>
+                <th title="Mã project">Mã</th>
+                <th title="Tên công ty">Tên công ty</th>
+                <th title="Địa chỉ">Địa chỉ</th>
+                <th title="Contact">Contact</th>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="table-content">
+        <table>
+            <colgroup>
+                <col [ngStyle]="{'width': '5%'}">
+                <col [ngStyle]="{'width': '10%'}">
+                <col [ngStyle]="{'width': '15%'}">
+                <col [ngStyle]="{'width': '30%'}">
+                <col [ngStyle]="{'width': '30%'}">
+            </colgroup>
+            <tbody>
+                <tr *ngFor="let company of companies; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ company.id }}</td>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.street }}</td>
+                    <td class="contact">
+                        <div><strong>Email:</strong> <a href="mailto:{{company.contact.email}}">{{company.contact.email}}</a></div>
+                        <div><strong>Phone:</strong> {{company.contact.phone}}</div>
+                        <div><strong>Website:</strong> <a href="{{company.contact.website}}" target="_blank">{{company.contact.website}}</a></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

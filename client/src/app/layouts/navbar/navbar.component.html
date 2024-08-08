@@ -1,0 +1,53 @@
+<div class="container">
+    <header>
+        <h2>Admin</h2>
+    </header>
+    <!-- Menu -->
+    <div class="container-right">
+        <div class="sidebar">
+            <div class="nav-title">MENU</div>
+            <a routerLink="admin" [ngClass]="{'nav-link': true, 'active': isActive('/admin')}"><i class="fa fa-home"></i>Home</a>
+            <a routerLink="admin/list-project"  [ngClass]="{'nav-link': true, 'active': isActive('/admin/list-project')}"><i class="fa fa-th-large"></i>Project List</a>
+            <a routerLink="admin/list-company" [ngClass]="{'nav-link': true, 'active': isActive('/admin/list-company')}"><i class="fa fa-file-text-o"></i>Company List</a>
+            <a routerLink="admin/list-user"[ngClass]="{'nav-link': true, 'active': isActive('/admin/list-user')}"><i class="fa fa-address-book-o"></i>User List</a>
+            <hr>
+            <div>
+                <a class="nav-link">
+                    <i class="fa fa-arrow-left"></i>Đăng xuất (về Trang chủ)
+                </a>
+            </div>
+        </div>
+        <div class="main">
+            <app-project-list *ngIf="currentUrl === '/admin/list-project'"></app-project-list>
+            <app-user-list *ngIf="currentUrl === '/admin/list-user'"></app-user-list>
+            <app-company-list *ngIf="currentUrl === '/admin/list-company'"></app-company-list>
+            <ng-container *ngIf="currentUrl === '/admin'">
+                <!-- Nội dung trang chủ -->
+                <div class="home-content">
+                    <h3 class="welcome-message">Chào mừng đến với trang Admin</h3>
+                    <div class="cards">
+                        <div class="card">
+                            <i class="fa fa-users"></i>
+                            <h4>User Management</h4>
+                            <p>Manage your users effectively and efficiently.</p>
+                            <a routerLink="/admin/list-user" class="btn">View Users</a>
+                        </div>
+                        <div class="card">
+                            <i class="fa fa-th-large"></i>
+                            <h4>Project Management</h4>
+                            <p>Keep track of all your projects in one place.</p>
+                            <a routerLink="/admin/list-project" class="btn">View Projects</a>
+                        </div>
+                        <div class="card">
+                            <i class="fa fa-building"></i>
+                            <h4>Company Management</h4>
+                            <p>Oversee company details and contact information.</p>
+                            <a routerLink="/admin/list-company" class="btn">View Companies</a>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+</div>

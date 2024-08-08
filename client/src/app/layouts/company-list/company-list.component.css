@@ -1,0 +1,120 @@
+
+/* ==================== table ====================== */
+.table-outline {
+    width: 100%;
+}
+
+/* phần chứa header (th) */
+.table-header {
+    width: 100%;
+}
+
+.table-header th {
+    color: #333; 
+    background-color: #f8f9fa; 
+    border-color: #ddd; 
+    border-collapse: collapse;
+    border: 1px solid #ddd; 
+}
+
+.table-header th {
+    cursor: pointer;
+}
+
+
+.table-header th,
+.table-content td {
+    padding: .75rem;
+    text-align: center;
+    vertical-align: top;
+
+}
+
+/* phần chứa nội dung  */
+.table-content {
+    min-height: 200px;
+    max-height: 550px;
+    overflow: auto;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.table-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-content tr {
+    border: 1px solid transparent; 
+}
+
+.table-content tr:nth-of-type(even) td {
+    border: 1px solid #ddd; 
+}
+
+.table-content tr:nth-of-type(even) {
+    background-color: #f1f1f1;
+}
+.table-content td {
+    position: relative;
+    color: 333;
+    
+}
+
+/* Link chi tiet san pham */
+.table-content td a {
+    display: block;
+    color: 007bff;
+}
+
+.table-content td a:hover {
+    text-decoration: underline;
+}
+.table-content td.contact {
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+}
+
+.table-content td.contact div {
+    display: flex;
+    align-items: center;
+}
+
+.table-content td.contact a {
+    color: #007bff; 
+    text-decoration: none; 
+}
+
+.table-content td.contact a:hover {
+    text-decoration: underline;
+}
+
+/*  phần footer table  */
+.table-footer {
+    background-color: #f8f9fa;
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+.table-footer input,
+.table-footer button,
+.table-footer select {
+    padding: 5px 10px;
+    border: 3px solid transparent;
+    background-color: #f1f1f1;
+}
+
+/* Nút bấm ở footer */
+.table-footer button {
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    transition-duration: .2s;
+    border: 1px solid #007bff;
+}
+
+.table-footer button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
