@@ -51,6 +51,8 @@ public class CompanyServiceImpl implements CompanyService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
+    
+
     private List<JobDTO> convertToListJobDTO(List<Job> jobs){
         return jobs.stream()
                 .map(job -> modelMapper.map(job, JobDTO.class))
@@ -161,6 +163,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public JobDTO setIdProfileToJob(JobDTO jobDTO, Integer idProfile) {
         if(profileClient.checkIdProfile(idProfile)){
+            JobDTO jobDTO2 = companyRepository.findOne(convertToModel(jobDTO));
                //xóa idProfiePending vaf thêm vào idProfile
             //giam size
         }

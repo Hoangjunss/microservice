@@ -4,6 +4,7 @@ import { ProfileServiceService } from '../../service/profile-service.service';
 import { Profile } from '../../model/profile';
 import { ProjectListComponent } from "../project-list/project-list.component";
 import { ContactComponent } from "../contact/contact.component";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-user',
@@ -22,9 +23,9 @@ export class ProfileUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    alert("Profile-user")
     this.route.paramMap.subscribe(params => {
       const idProfileParam = params.get('id');
-      alert(idProfileParam);
       if (idProfileParam !== null) {
         this.idProfile = +idProfileParam; // Convert to number using +
         this.getProfileById(this.idProfile);

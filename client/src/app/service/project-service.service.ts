@@ -66,7 +66,7 @@ export class ProjectServiceService {
 
   getProjectByIdProfile(id?:number):Observable<Project[]>{
     const headers = this.createAuthorizationHeader();
-    return this.http.get<Apiresponse<Project[]>>('http://localhost:8080/project/getProject?id='+id, {headers}).pipe(
+    return this.http.get<Apiresponse<Project[]>>('http://localhost:8086/project/getProject?id='+id, {headers}).pipe(
       map(response=>{
         if(response.success){
           return response.data.map(this.mapToProject);
