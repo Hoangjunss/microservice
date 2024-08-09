@@ -9,6 +9,7 @@ import { ProfileUserComponent } from './components/profile-user/profile-user.com
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
+import { JobDetailsComponent } from './components/job-details/job-details.component';
 
 
 
@@ -39,6 +40,10 @@ export const routes: Routes = [
                 component: ProfileUserComponent
             }
         ]
+    },
+    {
+        path: 'job-details/:id',
+        component: JobDetailsComponent
     },
     {
         path: 'list-project',

@@ -177,3 +177,125 @@
 .nav-button:hover {
     background-color: #0056b3;
 }
+
+
+.container {
+    position: fixed !important;
+    overflow-y: auto !important;
+    top: 5%;
+    left: 29%;
+    height: 90%;
+    width: 50%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 25px rgba(0, 0, 0, 80.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 10000;
+}
+
+.window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #0d6efd;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.window-title {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.company-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.company-header img {
+    width: 150px;
+    border-radius: 10px;
+}
+
+.company-info {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.company-info h2 {
+    color: #0d6efd;
+    margin-bottom: 10px;
+}
+
+.company-info p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.jobs-section {
+    padding: 20px;
+}
+
+.job-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.job-card:last-child {
+    border-bottom: none;
+}
+
+.job-info {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.job-title {
+    color: #27c830;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.job-details {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.job-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.job-actions button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.apply-btn {
+    background-color: #28a745;
+}
+
+.details-btn {
+    background-color: #17a2b8;
+}

@@ -1,53 +1,21 @@
-<p>job-list works!</p>
-<div *ngIf="jobs.length<0; else noJobs" class="row" [ngStyle]="{'text-align': 'center'}">
-    <div class="job-card">
+<div *ngIf="jobs.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'text-align': 'center'}">
+    <div *ngFor="let job of jobs" class="job-card">
         <div class="job-header">
-            <h3 class="job-title">Senior Developer</h3>
+            <h3 class="job-title">Title: {{job.title}}</h3>
             <span class="job-type">Full-Time</span>
         </div>
-        <p class="job-size">Team Size: 10</p>
+        <p class="job-size">Team Size: {{job.size}}</p>
         <div class="job-actions">
-            <a href="#" class="btn apply-btn">Apply</a>
-            <a href="#" class="btn details-btn">Details</a>
-        </div>
-    </div>
-    <div class="job-card">
-        <div class="job-header">
-            <h3 class="job-title">Senior Developer</h3>
-            <span class="job-type">Full-Time</span>
-        </div>
-        <p class="job-size">Team Size: 10</p>
-        <div class="job-actions">
-            <a href="#" class="btn apply-btn">Apply</a>
-            <a href="#" class="btn details-btn">Details</a>
-        </div>
-    </div>
-    <div class="job-card">
-        <div class="job-header">
-            <h3 class="job-title">Senior Developer</h3>
-            <span class="job-type">Full-Time</span>
-        </div>
-        <p class="job-size">Team Size: 10</p>
-        <div class="job-actions">
-            <a href="#" class="btn apply-btn">Apply</a>
-            <a href="#" class="btn details-btn">Details</a>
-        </div>
-    </div>
-    <div class="job-card">
-        <div class="job-header">
-            <h3 class="job-title">Senior Developer</h3>
-            <span class="job-type">Full-Time</span>
-        </div>
-        <p class="job-size">Team Size: 10</p>
-        <div class="job-actions">
-            <a href="#" class="btn apply-btn">Apply</a>
-            <a href="#" class="btn details-btn">Details</a>
+            <a class="btn apply-btn">Apply</a>
+            <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
         </div>
     </div>
 </div>
 
+<router-outlet></router-outlet>
+
 <ng-template #noJobs>
-    <div class="not-found-container">
+    <div *ngIf="!isListJob" class="not-found-container">
         <div class="not-found-content">
             <h1>Oops!</h1>
             <h2>We couldn't find what you're looking for.</h2>
@@ -56,3 +24,18 @@
         </div>
     </div>
 </ng-template>
+
+<div class="jobs-section" *ngIf="isListJob">
+    <h3 *ngIf="jobs.length>0;" class="section-title">Available Jobs</h3>
+    <!-- Job Card -->
+    <div *ngFor="let job of jobs" class="jobs-card">
+        <div class="jobs-info">
+            <h4 class="jobs-title">Title: {{job.title}}</h4>
+            <p class="jobs-details">Type: Full-time | Size: {{job.size}}</p>
+        </div>
+        <div class="jobs-actions">
+            <button class="apply-job-btn">Apply</button>
+            <button (click)="viewJobDetails(job)" class="details-job-btn">Details</button>
+        </div>
+    </div>
+</div>

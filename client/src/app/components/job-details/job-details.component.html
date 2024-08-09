@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="company-card">
+        <div class="company-logo">
+            <img src="company-logo.jpg" alt="Company Logo">
+        </div>
+        <div class="company-info">
+            <h2 class="company-name">{{company?.name}}</h2>
+            <p class="company-type">Type: {{company?.type}}</p>
+            <p class="company-description">Description: {{company?.description}}...</p>
+            <p class="company-location">Location: {{company?.street}}</p>
+            <p class="company-contact">Email: {{company?.email}} | Phone: {{company?.phone}}</p>
+        </div>
+    </div>
+
+    <div *ngIf="job" class="jobs-section">
+        <h3>Job</h3>
+        <div class="job-card">
+            <h4 class="job-title">{{job.title}}</h4>
+            <p class="job-type">{{job.typeJob}}</p>
+            <p class="job-size">Team Size: {{job.size}}</p>
+            <p class="job-type">{{job.description}}</p>
+            <button class="job-button">Apply</button>
+        </div>
+    </div>
+</div>

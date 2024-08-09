@@ -58,7 +58,7 @@ export class CompanyServiceService {
     );
   }
 
-  getCompanyById(id: number): Observable<Company> {
+  getCompanyById(id?: number): Observable<Company> {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.get<Apiresponse<Company>>(`${this.baseURL}/getbyid?id=${id}`, { headers }).pipe(
       map(response=>{

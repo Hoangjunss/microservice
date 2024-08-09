@@ -9,6 +9,7 @@ import { Apiresponse } from '../apiresponse';
   providedIn: 'root'
 })
 export class JobServiceService {
+  private job: Job | undefined;
 
   constructor(private httpClient:HttpClient) { }
   private baseURL="http://localhost:8080/manager/job";
@@ -55,7 +56,7 @@ export class JobServiceService {
 
   getJobById(id:number): Observable<Job>{
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job>>(this.baseURL+'findbyid?id='+id, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job>>(this.baseURL+'/findbyid?id='+id, {headers}).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -90,6 +91,14 @@ export class JobServiceService {
         }
       })
     );
+  }
+
+  setJob(job: Job) {
+    this.job = job;
+  }
+
+  getJob(): Job | undefined {
+    return this.job;
   }
 
 

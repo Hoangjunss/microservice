@@ -1,5 +1,5 @@
 <div *ngIf="companies.length>0; else noItem"  class="row" [ngStyle]="{'text-align': 'center'}">
-    <a *ngFor="let company of companies" href="#" class="company-card col-sm-6 col-lg-4 m-15px-tb">
+    <a *ngFor="let company of companies" (click)="viewDetailsCompany(company.id)" class="company-card col-sm-6 col-lg-4 m-15px-tb">
         <div class="company-logo">
             <img  alt="Company Logo">
         </div>
@@ -24,5 +24,31 @@
             <a routerLink="['/home']" class="home-button">Go to Homepage</a>
         </div>
     </div>
-    
 </ng-template>
+
+<div *ngIf="showCompany" class="container">
+    <div class="overlay" id="overlay_user"></div>
+    <div class="window-header" (click)="closeViewCompany()">
+        <h3 class="window-title">Company & Jobs</h3>
+        <button class="close-button">&times;</button>
+    </div>
+
+    <!-- Company Information -->
+    <div class="company-header">
+        <img src="" alt="Company Logo">
+        <div class="company-info">
+            <h2>{{company.name}}</h2>
+            <p>Type: {{company.type}}</p>
+            <p>Description: {{company.description}}</p>
+            <p>Street: {{company.street}}</p>
+            <p>Email: {{company.email}}</p>
+            <p>Phone: {{company.phone}}</p>
+            <p>City: {{company.city}}</p>
+        </div>
+    </div>
+
+    <!-- Jobs Section -->
+    <app-job-list [isListJob]="true" 
+                  [idCompany]="company.id"
+    ></app-job-list>
+</div>
