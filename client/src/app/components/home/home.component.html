@@ -1,26 +1,50 @@
+<div class="search-navabar d-flex flex-row">
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <select class="form-select" aria-label="Default select example">
+        <option value="1">Profile</option>
+        <option value="2">Company</option>
+        <option value="3">Job</option>
+      </select>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</div>
 <section class="section">
     <div class="container">
         <div [ngStyle]="{'margin-top':'85px'}">
             <div class="section">
                 <div class="container container-1">
-                    <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
-                        <div class="col-lg-8">
-                            <h3 class="h1 m-15px-b">List Profiles</h3>
-                        </div>
+                    <div class="section-header">
+                            <div class="profile-header">
+                                <h3 class="profile-title">Discover Exceptional Talent</h3>
+                                <p class="profile-subtitle">Explore profiles that stand out from the crowd and shine with excellence.</p>
+                            </div>                      
                     </div>
                     <app-profile-list></app-profile-list>
-                    <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
+                    <hr>
+                    <div class="section-header company-header">
+                        <h3 class="section-title">Outstanding Company</h3>
+                        <p class="section-subtitle">Explore companies that set the bar high and excel in their industry.</p>
+                    </div>
+                    <app-company-list></app-company-list>
+                    <hr>
+                    <div class="section-header job-header">
+                        <h3 class="section-title">Exciting Jobs Await</h3>
+                        <p class="section-subtitle">Find the perfect job opportunity that matches your skills and passions.</p>
+                    </div>
+                    <app-job-list></app-job-list>
+                    <!-- <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
                         <div class="col-lg-8">
                             <h3 class="h1 m-15px-b">List Profiles Java</h3>
                         </div>
                     </div>
-                    <!-- <app-profile-list [param]="'JAVA'"></app-profile-list> -->
+                    <app-profile-list [param]="'JAVA'"></app-profile-list>
                     <div class="row md-m-25px-b m-45px-b justify-content-center text-center">
                         <div class="col-lg-8">
                             <h3 class="h1 m-15px-b">List Profiles C</h3>
                         </div>
                     </div>
-                    <!-- <app-profile-list [param]="'C'"></app-profile-list> -->
+                    <app-profile-list [param]="'C'"></app-profile-list> -->
                 </div>
             </div>
         </div>

@@ -15,8 +15,6 @@ spring:
           uri: lb://PROFILE-SERVICE
           predicates:
             - Path=/profile/**
-          filters:
-            - AuthenticationFilter
         - id: project-service
           uri: lb://PROJECT-SERVICE
           predicates:
@@ -35,4 +33,8 @@ spring:
           uri: lb://NOTIFICATION-SERVICE
           predicates:
             - Path=/notification/**
+        - id: manager-service
+          uri: lb://MANAGER-SERVICE
+          predicates:
+            - Path=/manager/**
 

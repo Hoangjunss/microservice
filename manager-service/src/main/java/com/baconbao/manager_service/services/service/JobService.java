@@ -8,6 +8,7 @@ public interface JobService {
     JobDTO findById(Integer id);
     JobDTO create(JobDTO job);
     JobDTO update(JobDTO job);
+    List<JobDTO> getAllJobs();
     List<JobDTO> getJobByCompany(Integer id);
     JobDTO applyJob(JobDTO jobDTO,Integer idProfile);
     JobDTO acceptProfile(JobDTO jobDTO,Integer idProfile);

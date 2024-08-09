@@ -14,13 +14,22 @@
                 </div>
             </div>
 
-            <div class="col-12 p-25px-t text-center">
-                <a class="m-btn m-btn-radius m-btn-theme">Load More</a>
+            <div class="d-flex justify-content-end">
+                <button class="nav-button prev"><</button>
+                <button class="nav-button next">></button>
             </div>
         </div>
 
         <ng-template #noProfiles>
-            <h1>No profiles available</h1>
+            <div class="not-found-container">
+                <div class="not-found-content">
+                    <h1>Oops!</h1>
+                    <h2>We couldn't find what you're looking for.</h2>
+                    <p>It seems that the page you're searching for doesn't exist or has been moved. Try searching with different keywords or explore other sections.</p>
+                    <a routerLink="['/home']" routerLinkActive="router-link-active"  class="home-button">Go to Homepage</a>
+                </div>
+            </div>
+            
           </ng-template>
 
 <router-outlet></router-outlet>

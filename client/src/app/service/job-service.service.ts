@@ -11,7 +11,7 @@ import { Apiresponse } from '../apiresponse';
 export class JobServiceService {
 
   constructor(private httpClient:HttpClient) { }
-  private baseURL="http://localhost:8080/job";
+  private baseURL="http://localhost:8080/manager/job";
 
   createJob(job: Job): Observable<Job>{
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -59,6 +59,19 @@ export class JobServiceService {
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
+  getAllJobs(): Observable<Job[]> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getall', {headers}).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data.map(this.mapToJob);
         } else {
           throw new Error(response.message);
         }

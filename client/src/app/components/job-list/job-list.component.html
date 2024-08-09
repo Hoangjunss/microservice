@@ -1,0 +1,58 @@
+<p>job-list works!</p>
+<div *ngIf="jobs.length<0; else noJobs" class="row" [ngStyle]="{'text-align': 'center'}">
+    <div class="job-card">
+        <div class="job-header">
+            <h3 class="job-title">Senior Developer</h3>
+            <span class="job-type">Full-Time</span>
+        </div>
+        <p class="job-size">Team Size: 10</p>
+        <div class="job-actions">
+            <a href="#" class="btn apply-btn">Apply</a>
+            <a href="#" class="btn details-btn">Details</a>
+        </div>
+    </div>
+    <div class="job-card">
+        <div class="job-header">
+            <h3 class="job-title">Senior Developer</h3>
+            <span class="job-type">Full-Time</span>
+        </div>
+        <p class="job-size">Team Size: 10</p>
+        <div class="job-actions">
+            <a href="#" class="btn apply-btn">Apply</a>
+            <a href="#" class="btn details-btn">Details</a>
+        </div>
+    </div>
+    <div class="job-card">
+        <div class="job-header">
+            <h3 class="job-title">Senior Developer</h3>
+            <span class="job-type">Full-Time</span>
+        </div>
+        <p class="job-size">Team Size: 10</p>
+        <div class="job-actions">
+            <a href="#" class="btn apply-btn">Apply</a>
+            <a href="#" class="btn details-btn">Details</a>
+        </div>
+    </div>
+    <div class="job-card">
+        <div class="job-header">
+            <h3 class="job-title">Senior Developer</h3>
+            <span class="job-type">Full-Time</span>
+        </div>
+        <p class="job-size">Team Size: 10</p>
+        <div class="job-actions">
+            <a href="#" class="btn apply-btn">Apply</a>
+            <a href="#" class="btn details-btn">Details</a>
+        </div>
+    </div>
+</div>
+
+<ng-template #noJobs>
+    <div class="not-found-container">
+        <div class="not-found-content">
+            <h1>Oops!</h1>
+            <h2>We couldn't find what you're looking for.</h2>
+            <p>It seems that the page you're searching for doesn't exist or has been moved. Try searching with different keywords or explore other sections.</p>
+            <a routerLink="['/home']" class="home-button">Go to Homepage</a>
+        </div>
+    </div>
+</ng-template>

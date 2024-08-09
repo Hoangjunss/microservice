@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Profile } from '../model/profile';
 import { catchError, map, Observable, throwError } from 'rxjs';
@@ -26,8 +26,13 @@ export class ProfileServiceService {
       }),
       catchError(error => {
         console.error('Error fetching profile by user:', error);
-        return throwError(() => new Error(error));
-      })
+        if (error instanceof HttpErrorResponse) {
+            console.error('Server Error:', error.message);
+        } else {
+            console.error('Client Error:', error);
+        }
+        return throwError(() => new Error('Something went wrong!'));
+    })
     );
   }
   createProfile(profile: Profile):Observable<Profile> {
@@ -47,7 +52,8 @@ export class ProfileServiceService {
   }
 
   getProfileByType(type: string): Observable<Profile[]> {
-    return this.httpClient.get<Apiresponse<Profile[]>>('http://localhost:8080/profile/findProfileByType?typeProfile=' + type).pipe(
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Profile[]>>('http://localhost:8080/profile/findProfileByType?typeProfile=' + type, {headers}).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToProfile);

@@ -70,6 +70,110 @@ body {
     line-height: 50px;
 }
 
+
+.search-navabar{
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.search-navabar{
+    width: 100%;
+    background-color: #fff !important;
+}
+
+.search-navabar form{
+    width: 50%;
+    display: flex;
+    gap: 4px;
+    margin: 5px;
+}
+
+.search-navabar form input{
+    margin-left: 5px;
+}
+
+.search-navabar select{
+    width: 20%;
+    height: 43px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #23b82b 0%, #0d6efd 100%);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title {
+    font-size: 2.5rem;
+    color: #fff;
+    margin: 0;
+    font-weight: bold;
+    animation: fadeInUp 1s ease-out;
+}
+
+.profile-subtitle {
+    font-size: 1.2rem;
+    color: #f8f9fa;
+    margin-top: 10px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.company-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #7f5fc7 100%);
+}
+
+.job-header {
+    background: linear-gradient(135deg, #27c830 0%, #a1c4fd 100%);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #fff;
+    margin: 0;
+    font-weight: bold;
+    animation: fadeInUp 1s ease-out;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #f8f9fa;
+    margin-top: 10px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .p-20px-l {
     padding-left: 20px;
 }

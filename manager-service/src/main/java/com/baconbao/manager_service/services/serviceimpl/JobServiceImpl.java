@@ -91,6 +91,13 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public List<JobDTO> getAllJobs(){
+        Query query = new Query();
+        query.limit(20);
+        return convertToListDTO(mongoTemplate.find(query, Job.class));
+    }
+
+    @Override
     public List<JobDTO> getJobByCompany(Integer id) {
         try {
             log.info("Fetching jobs by company id: {}", id);

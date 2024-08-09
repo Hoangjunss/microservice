@@ -1,0 +1,28 @@
+<div *ngIf="companies.length>0; else noItem"  class="row" [ngStyle]="{'text-align': 'center'}">
+    <a *ngFor="let company of companies" href="#" class="company-card col-sm-6 col-lg-4 m-15px-tb">
+        <div class="company-logo">
+            <img  alt="Company Logo">
+        </div>
+        <div class="company-info">
+            <h3>{{company.name}}</h3>
+            <p>{{company.city}}</p>
+            <p>{{company.email}}</p>
+        </div>
+    </a>
+    <div class="d-flex justify-content-end">
+        <button class="nav-button prev"><</button>
+        <button class="nav-button next">></button>
+    </div>
+</div>
+
+<ng-template #noItem>
+    <div class="not-found-container">
+        <div class="not-found-content">
+            <h1>Oops!</h1>
+            <h2>We couldn't find what you're looking for.</h2>
+            <p>It seems that the page you're searching for doesn't exist or has been moved. Try searching with different keywords or explore other sections.</p>
+            <a routerLink="['/home']" class="home-button">Go to Homepage</a>
+        </div>
+    </div>
+    
+</ng-template>

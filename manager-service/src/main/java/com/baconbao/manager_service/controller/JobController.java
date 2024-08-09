@@ -43,6 +43,12 @@ public class JobController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Job found", job));
     }
 
+    @GetMapping("/job/getall")
+    public ResponseEntity<ApiResponse<List<JobDTO>>> getAll(){
+        List<JobDTO> jobs = jobService.getAllJobs();
+        return ResponseEntity.ok(new ApiResponse<>(true, "Jobs found", jobs));
+    }
+
     @GetMapping("/job/getjobbycompany")
     public ResponseEntity<ApiResponse<List<JobDTO>>> getJobByCompany(@RequestParam Integer id){
         List<JobDTO> jobs = jobService.getJobByCompany(id);

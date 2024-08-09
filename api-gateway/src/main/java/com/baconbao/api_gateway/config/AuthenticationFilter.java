@@ -1,31 +1,20 @@
 package com.baconbao.api_gateway.config;
 
 import com.baconbao.api_gateway.UserService;
-import com.baconbao.api_gateway.dto.AuthenticationRequest;
 import com.baconbao.api_gateway.dto.AuthenticationResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
 
@@ -42,7 +31,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     }
 
     Mono<Void> unauthenticated(ServerHttpResponse response) {
-        AuthenticationResponse authenticationResponse = AuthenticationResponse.builder().error("Unauthenticated").statusCode(1041).build();
+        AuthenticationResponse authenticationResponse = AuthenticationResponse.builder().error("Unauthenticated")
+                .statusCode(1041).build();
 
         String body = null;
         try {
@@ -77,28 +67,28 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             String token = authHeader.get(0).substring(7);
             return userService.isValid(token)
                     .flatMap(authenticationResponse -> {
-                        AuthenticationResponse authenticationResponse1=authenticationResponse.getData();
+                        AuthenticationResponse authenticationResponse1 = authenticationResponse.getData();
                         if (authenticationResponse.getData().isVaild()) {
-                            switch (authenticationResponse.getData().getRole()){
+                            switch (authenticationResponse.getData().getRole()) {
                                 case "admin":
-                                    if(path.startsWith("/admin")){
+                                    if (path.startsWith("/admin")) {
                                         return chain.filter(exchange);
-                                    }else
+                                    } else
                                         return unauthenticated(exchange.getResponse());
                                 case "user":
-                                    if(path.startsWith("/user")){
+                                    if (path.startsWith("/home")) {
                                         return chain.filter(exchange);
-                                    }else
+                                    } else
                                         return unauthenticated(exchange.getResponse());
                                 case "manager":
-                                    if(path.startsWith("/manager")){
+                                    if (path.startsWith("/manager")) {
                                         return chain.filter(exchange);
-                                    }else
+                                    } else
                                         return unauthenticated(exchange.getResponse());
                                 case "hr":
-                                    if(path.startsWith("/hr")){
+                                    if (path.startsWith("/hr")) {
                                         return chain.filter(exchange);
-                                    }else
+                                    } else
                                         return unauthenticated(exchange.getResponse());
                             }
                             return chain.filter(exchange);
