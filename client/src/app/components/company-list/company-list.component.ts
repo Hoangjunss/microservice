@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Company } from '../../model/company';
 import { CompanyServiceService } from '../../service/company-service.service';
 import { JobListComponent } from "../job-list/job-list.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-list',
@@ -17,7 +18,7 @@ export class CompanyListComponent implements OnInit{
   showCompany: boolean = false;
 
   @Input() typeCompany?: string;
-  constructor(private companyService: CompanyServiceService) { }
+  constructor(private companyService: CompanyServiceService, public router: Router) { }
 
   ngOnInit(): void {
     if (this.typeCompany) {

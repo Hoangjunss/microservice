@@ -63,36 +63,35 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
-            String[] parts = path.split("/");
 
             String token = authHeader.get(0).substring(7);
             return userService.isValid(token)
                     .flatMap(authenticationResponse -> {
                         AuthenticationResponse authenticationResponse1 = authenticationResponse.getData();
                         log.info(authenticationResponse.getData().toString()+" filter exchange");
-                        if (authenticationResponse.getData().isVaild()) {
+                        if (authenticationResponse.getData().isVaild()) {/* 
                             switch (authenticationResponse.getData().getRole()) {
                                 case "admin":
-                                    if (parts[2].startsWith("/admin")) {
+                                    if (path.startsWith("/list-project")) {
                                         return chain.filter(exchange);
                                     } else
                                         return unauthenticated(exchange.getResponse());
                                 case "user":
-                                    if (parts[2].startsWith("/user")) {
+                                    if (path.startsWith("/home")) {
                                         return chain.filter(exchange);
                                     } else
                                         return unauthenticated(exchange.getResponse());
                                 case "manager":
-                                    if (parts[2].startsWith("/manager")) {
+                                    if (path.startsWith("/manager")) {
                                         return chain.filter(exchange);
                                     } else
                                         return unauthenticated(exchange.getResponse());
                                 case "hr":
-                                    if (parts[2].startsWith("/hr")) {
+                                    if (path.startsWith("/hr")) {
                                         return chain.filter(exchange);
                                     } else
                                         return unauthenticated(exchange.getResponse());
-                            }
+                            } */
                             return chain.filter(exchange);
                         } else {
 

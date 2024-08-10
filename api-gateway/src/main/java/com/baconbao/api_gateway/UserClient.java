@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Mono;
-@FeignClient("user-service")
+@FeignClient(name="user-service")
 public interface UserClient {
     @PostMapping("/auth/isValid")
    ApiResponse<AuthenticationResponse> isValid(@RequestBody String token);

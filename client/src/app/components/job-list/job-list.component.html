@@ -1,4 +1,4 @@
-<div *ngIf="jobs.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'text-align': 'center'}">
+<div *ngIf="jobs.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
     <div *ngFor="let job of jobs" class="job-card">
         <div class="job-header">
             <h3 class="job-title">Title: {{job.title}}</h3>
@@ -26,7 +26,7 @@
 </ng-template>
 
 <div class="jobs-section" *ngIf="isListJob">
-    <h3 *ngIf="jobs.length>0;" class="section-title">Available Jobs</h3>
+    <h3 *ngIf="jobs.length>0; else noJobsOfCompany" class="section-title">Available Jobs</h3>
     <!-- Job Card -->
     <div *ngFor="let job of jobs" class="jobs-card">
         <div class="jobs-info">
@@ -39,3 +39,17 @@
         </div>
     </div>
 </div>
+
+<ng-template #noJobsOfCompany>
+    <div class="no-jobs-notification">
+    <div class="no-jobs-icon">
+        <i class="fas fa-suitcase-rolling"></i>
+    </div>
+    <div class="no-jobs-content">
+        <h2>No Jobs Available</h2>
+        <p>It seems that this company currently has no job openings. Check back later or explore other opportunities!</p>
+        <button class="explore-btn">Explore Other Companies</button>
+    </div>
+</div>
+</ng-template>
+

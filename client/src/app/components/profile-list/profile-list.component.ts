@@ -16,7 +16,11 @@ import { CreateProfileComponent } from "../create-profile/create-profile.compone
 export class ProfileListComponent implements OnInit {
   profiles: Profile[] = [];
   profile: Profile = new Profile;
+  displayedProfiles: Profile[] = [];
   @Input() param?: string;
+
+  profilesPerPage = 3;
+  currentPage = 0;
   constructor(private profileService: ProfileServiceService, private router: Router) { }
   
   ngOnInit(): void {
@@ -24,6 +28,7 @@ export class ProfileListComponent implements OnInit {
       this.getByType(this.param);
     } else {
       this.getAll();
+      
     }
   }
 
@@ -38,6 +43,8 @@ export class ProfileListComponent implements OnInit {
   getAll() {
     this.profileService.getProfilesList().subscribe(data => {
       this.profiles = data;
+      console.log(this.profiles);
+      this.updateDisplayedProfiles();
     })
   }
   getByType(type: string) {
@@ -51,6 +58,27 @@ export class ProfileListComponent implements OnInit {
     })
   }
 
+  updateDisplayedProfiles() {
+    const startIndex = this.currentPage * this.profilesPerPage;
+    this.displayedProfiles = this.profiles.slice(startIndex, startIndex + this.profilesPerPage);
+  }
 
+  nextPage() {
+    if (this.currentPage < this.totalPages() - 1) {
+      this.currentPage++;
+      this.updateDisplayedProfiles();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.updateDisplayedProfiles();
+    }
+  }
+
+  totalPages() {
+    return Math.ceil(this.profiles.length / this.profilesPerPage);
+  }
 
 }

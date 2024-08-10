@@ -20,7 +20,7 @@ public class ProfileDTO {
     private String skills;
     private Contact contact;
     private String typeProfile;
-    private Integer userId;
+    private Integer idUser;
     private String url;
     private MultipartFile imageFile;
     private String title;
