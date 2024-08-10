@@ -4,6 +4,7 @@ import com.baconbao.manager_service.dto.CompanyDTO;
 import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
 import com.baconbao.manager_service.models.Company;
+import com.baconbao.manager_service.openfeign.ImageClient;
 import com.baconbao.manager_service.repository.CompanyRepository;
 import com.baconbao.manager_service.services.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,8 @@ public class CompanyServiceImpl implements CompanyService {
     private ModelMapper modelMapper;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private ImageClient imageClient;
 
     private Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
@@ -49,6 +52,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     private Company save(CompanyDTO companyDTO){
         log.info("Inserting company");
+        Integer idImage=null;
+        if(companyDTO.getImageFile()!=null){
+            idImage=imageClient.save(companyDTO.getImageFile()).getData().getId();
+        }
         try{
             Company company = Company.builder()
                     .id(getGenerationId())
@@ -60,6 +67,7 @@ public class CompanyServiceImpl implements CompanyService {
                     .phone(companyDTO.getPhone())
                     .email(companyDTO.getEmail())
                     .country(companyDTO.getCountry())
+                    .idImage(idImage)
                     .build();
             return companyRepository.insert(company);
         }catch (DataAccessException e){
