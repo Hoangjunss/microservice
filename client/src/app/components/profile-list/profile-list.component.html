@@ -1,36 +1,32 @@
-
-        <div *ngIf="profiles.length>0; else noProfiles" class="row" [ngStyle]="{'text-align': 'center'}">
-            <div class="col-sm-6 col-lg-4 m-15px-tb" *ngFor="let profile of profiles">
-                <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
-                    <div class="icon-50 theme-bg white-color border-radius-50 d-inline-block">
-                        <i class="number">{{ profile.id}}</i>
-                    </div>
-                    <div class="p-20px-l media-body">
-                        <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">Full time</span>
-                        <h6 class="m-5px-tb">{{ profile.objective }}</h6>
-                        <p class="m-0px font-small">{{ profile.education }}</p>
-                    </div>
-                    <button type="button" class="btn btn-primary" (click)="viewProfile(profile.id)">View profile</button>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-end">
-                <button class="nav-button prev"><</button>
-                <button class="nav-button next">></button>
-            </div>
+<div *ngIf="profiles.length > 0; else noProfiles" class="row" [ngStyle]="{'text-align': 'center'}">
+    <div class="col-sm-6 col-lg-4 m-15px-tb" *ngFor="let profile of displayedProfiles">
+      <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
+        <div class="icon-50 theme-bg white-color border-radius-50 d-inline-block">
+          <i class="number">{{ profile.id }}</i>
         </div>
-
-        <ng-template #noProfiles>
-            <div class="not-found-container">
-                <div class="not-found-content">
-                    <h1>Oops!</h1>
-                    <h2>We couldn't find what you're looking for.</h2>
-                    <p>It seems that the page you're searching for doesn't exist or has been moved. Try searching with different keywords or explore other sections.</p>
-                    <a routerLink="['/home']" routerLinkActive="router-link-active"  class="home-button">Go to Homepage</a>
-                </div>
-            </div>
-            
-          </ng-template>
-
-<router-outlet></router-outlet>
-          
+        <div class="p-20px-l media-body">
+          <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">Full time</span>
+          <h6 class="m-5px-tb">{{ profile.objective }}</h6>
+          <p class="m-0px font-small">{{ profile.education }}</p>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="viewProfile(profile.id)">View profile</button>
+      </div>
+    </div>
+  
+    <div class="d-flex justify-content-end">
+      <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0"><</button>
+      <button class="nav-button next" (click)="nextPage()" [disabled]="currentPage >= totalPages() - 1">></button>
+    </div>
+  </div>
+  
+  <ng-template #noProfiles>
+    <div class="not-found-container">
+      <div class="not-found-content">
+        <h1>Oops!</h1>
+        <h2>We couldn't find what you're looking for.</h2>
+        <p>It seems that the page you're searching for doesn't exist or has been moved. Try searching with different keywords or explore other sections.</p>
+        <a routerLink="/home" routerLinkActive="router-link-active" class="home-button">Go to Homepage</a>
+      </div>
+    </div>
+  </ng-template>
+  
