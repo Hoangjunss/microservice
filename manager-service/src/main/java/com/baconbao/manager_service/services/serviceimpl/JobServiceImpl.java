@@ -136,5 +136,19 @@ public class JobServiceImpl implements JobService {
         return update(jobDTO);
     }
 
+    @Override
+    public List<JobDTO> getJobByPrfilePending(Integer id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("idProfiePending").is(id));
+        return convertToListDTO(mongoTemplate.find(query, Job.class));
+    }
+
+    @Override
+    public List<JobDTO> getJobByProfileAccepted(Integer id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("idProfile").is(id));
+        return convertToListDTO(mongoTemplate.find(query, Job.class));
+    }
+
 
 }

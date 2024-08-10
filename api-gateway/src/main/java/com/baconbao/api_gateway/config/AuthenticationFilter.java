@@ -69,7 +69,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     .flatMap(authenticationResponse -> {
                         AuthenticationResponse authenticationResponse1 = authenticationResponse.getData();
                         log.info(authenticationResponse.getData().toString()+" filter exchange");
-                        if (authenticationResponse.getData().isVaild()) {/* 
+                        if (authenticationResponse.getData().isVaild()) {
+                            log.info(authenticationResponse.getData().toString()+" if filter exchange");
+                            
+                            /* 
                             switch (authenticationResponse.getData().getRole()) {
                                 case "admin":
                                     if (path.startsWith("/list-project")) {

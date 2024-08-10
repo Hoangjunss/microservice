@@ -22,7 +22,7 @@ export class JobListComponent implements OnInit {
   constructor (private userService: UserServiceService, private jobService:JobServiceService, private router: Router){
     const idProfileUser = localStorage.getItem('idProfileUser');
     const idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
-   }
+  }
 
   ngOnInit(): void {
     if(this.idCompany){
