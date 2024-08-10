@@ -103,6 +103,23 @@ export class ProfileServiceService {
   );
   }
 
+  getProfileByUserId(userId:number): Observable<Profile>{
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Profile>>('http://localhost:8080/profile/findByUserId?userId=' + userId, { headers }).pipe(
+      map(response => {
+        if (response.success) {
+          return this.mapToProfile(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching profile by user:', error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+
   private createAuthorizationHeader(): HttpHeaders {
     const token = localStorage.getItem('authToken');
     if(token){

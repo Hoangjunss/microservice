@@ -60,7 +60,7 @@ public class ProfileServiceImp implements ProfileService {
             if(profileDTO.getImageFile()!=null){
                 imageDTO=imageClient.save(profileDTO.getImageFile());
             }
-            if(checkUserId(profileDTO.getUserId())){}
+            if(checkUserId(profileDTO.getIdUser())){}
             Profile profile = Profile.builder()
                     .id(getGenerationId())
                     .objective(profileDTO.getObjective())
@@ -70,8 +70,8 @@ public class ProfileServiceImp implements ProfileService {
                     .skills(profileDTO.getSkills())
                     .title(profileDTO.getTitle())
                     .contact(profileDTO.getContact())
-                    // .idImage(imageDTO.getId())
-                
+                    .idUser(profileDTO.getIdUser())
+                    //.idImage(imageDTO.getId())
                     .build();
             return profileRepository.insert(profile);
         } catch (DataIntegrityViolationException e){
@@ -163,5 +163,12 @@ public class ProfileServiceImp implements ProfileService {
 
     private boolean checkUserId(Integer id){
         return userClient.checkId(id);
+    }
+
+    @Override
+    public ProfileDTO findByIdUser(Integer id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("isUser").regex(id+""));
+        return convertToDTO(mongoTemplate.findOne(query, Profile.class));
     }
 }

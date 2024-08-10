@@ -10,6 +10,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { JobDetailsComponent } from './components/job-details/job-details.component';
+import { CompanyListComponent } from './components/company-list/company-list.component';
+import { JobListComponent } from './components/job-list/job-list.component';
 
 
 
@@ -40,6 +42,10 @@ export const routes: Routes = [
                 component: ProfileUserComponent
             }
         ]
+    },
+    {
+        path: 'job-list',
+        component: JobListComponent
     },
     {
         path: 'job-details/:id',

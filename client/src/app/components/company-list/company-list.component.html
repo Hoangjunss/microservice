@@ -1,4 +1,5 @@
-<div *ngIf="companies.length>0; else noItem"  class="row" [ngStyle]="{'text-align': 'center'}">
+<!-- List Company - Home -->
+<div *ngIf="companies.length>0 && router.url ==='/home'; else noItem"  class="row" [ngStyle]="{'text-align': 'center'}">
     <a *ngFor="let company of companies" (click)="viewDetailsCompany(company.id)" class="company-card col-sm-6 col-lg-4 m-15px-tb">
         <div class="company-logo">
             <img  alt="Company Logo">
@@ -16,7 +17,7 @@
 </div>
 
 <ng-template #noItem>
-    <div class="not-found-container">
+    <div *ngIf="router.url ==='/home'" class="not-found-container">
         <div class="not-found-content">
             <h1>Oops!</h1>
             <h2>We couldn't find what you're looking for.</h2>
@@ -25,8 +26,8 @@
         </div>
     </div>
 </ng-template>
-
-<div *ngIf="showCompany" class="container">
+<!-- Company - Details -->
+<div *ngIf="showCompany && router.url ==='/home'" class="container">
     <div class="overlay" id="overlay_user"></div>
     <div class="window-header" (click)="closeViewCompany()">
         <h3 class="window-title">Company & Jobs</h3>

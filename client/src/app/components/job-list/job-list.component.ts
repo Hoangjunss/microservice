@@ -1,8 +1,10 @@
+import { UserServiceService } from './../../service/user-service.service';
 import { CommonModule, NumberSymbol } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Job } from '../../model/job';
 import { JobServiceService } from '../../service/job-service.service';
 import { Router, RouterOutlet } from '@angular/router';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-job-list',
@@ -14,9 +16,13 @@ import { Router, RouterOutlet } from '@angular/router';
 export class JobListComponent implements OnInit {
   job: Job = new Job();
   jobs: Job[] = [];
+  @Input() user: User= new User();
   @Input() idCompany!: number | undefined ;
   @Input() isListJob: boolean = false;
-  constructor (private jobService:JobServiceService, private router: Router){ }
+  constructor (private userService: UserServiceService, private jobService:JobServiceService, private router: Router){
+    const idProfileUser = localStorage.getItem('idProfileUser');
+    const idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
+   }
 
   ngOnInit(): void {
     if(this.idCompany){

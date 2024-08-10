@@ -5,6 +5,8 @@ import { Profile } from '../../model/profile';
 import { ProjectListComponent } from "../project-list/project-list.component";
 import { ContactComponent } from "../contact/contact.component";
 import { HttpClient } from '@angular/common/http';
+import { UserServiceService } from '../../service/user-service.service';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-profile-user',
@@ -16,8 +18,10 @@ import { HttpClient } from '@angular/common/http';
 export class ProfileUserComponent implements OnInit {
   idProfile?: number;
   profile?: Profile;
+  user:User = new User();
 
   constructor(
+    private userService: UserServiceService,
     private profileService: ProfileServiceService,
     private route: ActivatedRoute
   ) { }
@@ -29,12 +33,34 @@ export class ProfileUserComponent implements OnInit {
       if (idProfileParam !== null) {
         this.idProfile = +idProfileParam; // Convert to number using +
         this.getProfileById(this.idProfile);
+      }else{
+        this.getCurrentUser();
+        if (this.user?.id !== undefined) {
+          this.getProfileByUserId(this.user.id);
+          if (this.profile?.id !== undefined) {
+            localStorage.setItem('idProfileUser', `${this.profile.id}`);
+          }
+        } else {
+          console.error('User ID is undefined.');
+        }
       }
     });
   }
 
+  getCurrentUser(){
+    this.userService.getCurrentUser().subscribe(data=>{
+      this.user = data;
+    })
+  }
+
   getProfileById(idProfile: number): void {
     this.profileService.getProfileById(idProfile).subscribe(data => {
+      this.profile = data;
+    });
+  }
+
+  getProfileByUserId(userId: number): void {
+    this.profileService.getProfileByUserId(userId).subscribe(data => {
       this.profile = data;
     });
   }
