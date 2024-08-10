@@ -16,6 +16,9 @@ import { User } from '../../model/user';
 export class JobListComponent implements OnInit {
   job: Job = new Job();
   jobs: Job[] = [];
+  displayJob: Job[] = [];
+  profilesPerPage = 6;
+  currentPage = 0;
   @Input() user: User= new User();
   @Input() idCompany!: number | undefined ;
   @Input() isListJob: boolean = false;
@@ -35,6 +38,7 @@ export class JobListComponent implements OnInit {
   getJobs(): void {
     this.jobService.getAllJobs().subscribe(data => {
       this.jobs = data;
+      this.updateDisplayedProfiles();
     });
   }
 
@@ -50,4 +54,28 @@ export class JobListComponent implements OnInit {
       this.router.navigate(['job-details/', job.id]);
     }
   }
+  
+  updateDisplayedProfiles() {
+    const startIndex = this.currentPage * this.profilesPerPage;
+    this.displayJob = this.jobs.slice(startIndex, startIndex + this.profilesPerPage);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages() - 1) {
+      this.currentPage++;
+      this.updateDisplayedProfiles();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.updateDisplayedProfiles();
+    }
+  }
+
+  totalPages() {
+    return Math.ceil(this.jobs.length / this.profilesPerPage);
+  }
+
 }

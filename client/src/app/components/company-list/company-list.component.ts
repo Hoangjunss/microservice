@@ -14,8 +14,11 @@ import { Router } from '@angular/router';
 })
 export class CompanyListComponent implements OnInit{
   companies: Company[]=[];
+  displayedProfiles: Company[] = [];
   company: Company = new Company();
   showCompany: boolean = false;
+  profilesPerPage = 3;
+  currentPage = 0;
 
   @Input() typeCompany?: string;
   constructor(private companyService: CompanyServiceService, public router: Router) { }
@@ -32,6 +35,7 @@ export class CompanyListComponent implements OnInit{
   getAllCompany(){
     this.companyService.getAllCompanies().subscribe(data => {
       this.companies = data;
+      this.updateDisplayedProfiles();
     });
   }
 
@@ -40,12 +44,39 @@ export class CompanyListComponent implements OnInit{
       if(data){
         this.company = data;
         this.showCompany = true;
+        document.body.style.overflowY = 'hidden';
+            document.body.style.touchAction = 'none';
       }
     });
   }
 
   closeViewCompany(){
     this.showCompany = false;
+    document.body.style.overflowY = '';
+    document.body.style.touchAction = '';
+  }
+
+  updateDisplayedProfiles() {
+    const startIndex = this.currentPage * this.profilesPerPage;
+    this.displayedProfiles = this.companies.slice(startIndex, startIndex + this.profilesPerPage);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages() - 1) {
+      this.currentPage++;
+      this.updateDisplayedProfiles();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.updateDisplayedProfiles();
+    }
+  }
+
+  totalPages() {
+    return Math.ceil(this.companies.length / this.profilesPerPage);
   }
 
 }
