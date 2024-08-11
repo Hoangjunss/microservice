@@ -168,7 +168,7 @@ public class ProfileServiceImp implements ProfileService {
     @Override
     public ProfileDTO findByIdUser(Integer id) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("isUser").regex(id+""));
+        query.addCriteria(Criteria.where("idUser").regex(id+""));
         return convertToDTO(mongoTemplate.findOne(query, Profile.class));
     }
 }

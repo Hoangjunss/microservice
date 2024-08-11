@@ -15,4 +15,5 @@ public class UserDTO {
     private String email;
     private String password;
     private  String role;
+    private boolean isActive;
 }

@@ -5,18 +5,18 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <select class="form-select" aria-label="Default select example" [(ngModel)]="searchCriteria" name="searchCriteria" (change)="onCriteriaChange($event)">
-            <option value="1" selected>Mã </option>
+            <option value="1" selected>Mã</option>
             <option value="2">Username</option>
             <option value="3">Email</option>
-          </select>
+            <option value="4">Trạng thái</option>
+        </select>
       </div>
-    <table class="table-header">
+    <table *ngIf="filteredUsers.length > 0" class="table-header">
         <colgroup>
             <col [ngStyle]="{'width': '5%'}">
             <col [ngStyle]="{'width': '10%'}">
             <col [ngStyle]="{'width': '15%'}">
             <col [ngStyle]="{'width': '40%'}">
-            <col [ngStyle]="{'width': '15%'}">
         </colgroup>
         <thead>
             <tr>
@@ -24,30 +24,32 @@
                 <th title="Mã project">Mã</th>
                 <th title="Username">Username</th>
                 <th title="Email">Email</th>
-                <th title="Password">Password</th>
                 <th title="Action">Action</th>
             </tr>
         </thead>
     </table>
 
     <div class="table-content">
-        <table>
+        <div *ngIf="filteredUsers.length === 0" class="no-data-message">
+            <p><strong>No data found!!</strong></p>
+            <p>We have nothing to show here. Try searching again or adding a new user!</p>
+          </div>
+          <table *ngIf="filteredUsers.length > 0">
             <colgroup>
                 <col [ngStyle]="{'width': '5%'}">
                 <col [ngStyle]="{'width': '10%'}">
                 <col [ngStyle]="{'width': '15%'}">
                 <col [ngStyle]="{'width': '40%'}">
-                <col [ngStyle]="{'width': '15%'}">
             </colgroup>
             <tbody>
                 <tr *ngFor="let user of filteredUsers; let i = index">
                     <td>{{ i + 1 }}</td>
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{user.password}}</td>
-                    <td class="button-action"><button class="btn btn-primary">Details</button>
-                        <button class="btn btn-danger">Block</button>
+                    <td>{{ user.email }}</td> Từ từ bé đi kiếm j ăn phát. Push bài dìa nhe
+                    <td class="button-action">
+                        <button *ngIf="!user.active" (click)="unlockUser(user)" class="btn btn-primary">Unlock</button>
+                        <button *ngIf="user.active" (click)="blockUser(user)" class="btn btn-danger">Block</button>
                     </td>
                 </tr>
             </tbody>

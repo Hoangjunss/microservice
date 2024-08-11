@@ -8,6 +8,9 @@ import com.baconbao.user_service.dto.UserDTO;
 import com.baconbao.user_service.security.OurUserDetailsService;
 import com.baconbao.user_service.services.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +57,14 @@ public class UserController {
         }
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<ApiResponse<UserDTO>> update(@RequestParam String token,@RequestBody UserDTO userDTO){
+        UserDTO updatedUser = userService.update(token, userDTO);
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User updated successfully", updatedUser);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> refreshToken(@RequestBody AuthenticationRequest refreshTokenRequest){
         ApiResponse<AuthenticationResponse> response = new ApiResponse<>(true, "Refresh token successfully", authService.refreshToken(refreshTokenRequest));
@@ -67,6 +78,20 @@ public class UserController {
     @GetMapping("/getCurrentUser")
     public ResponseEntity<ApiResponse<UserDTO>> getCurrentUser(@RequestParam String token){
         ApiResponse<UserDTO> response = new ApiResponse<>(true, "Check user id successfully", userService.getCurrentUser(token));
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponse<List<UserDTO>>> getAllUsers(@RequestParam String token){
+        List<UserDTO> userDTOS = userService.getALl(token);
+        ApiResponse<List<UserDTO>> response = new ApiResponse<>(true, "All users retrieved successfully", userDTOS);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/updateactive")
+    public ResponseEntity<ApiResponse<UserDTO>> updateActive(@RequestParam String token,@RequestBody UserDTO userDTO){
+        UserDTO updatedUser = userService.updateIsActive(token, userDTO.getId());
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User updated successfully", updatedUser);
         return ResponseEntity.ok(response);
     }
 }

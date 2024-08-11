@@ -3,8 +3,9 @@ import { CommonModule, NumberSymbol } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Job } from '../../model/job';
 import { JobServiceService } from '../../service/job-service.service';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { User } from '../../model/user';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-job-list',
@@ -14,24 +15,38 @@ import { User } from '../../model/user';
   styleUrl: './job-list.component.css'
 })
 export class JobListComponent implements OnInit {
+  idProfileNumber:number | undefined;
+  currentUrl?:string;
   job: Job = new Job();
   jobs: Job[] = [];
+  newJobs: Job[] = [];
+  sentJobs: Job[] = [];
+  acceptedJobs: Job[] = [];
   displayJob: Job[] = [];
   profilesPerPage = 6;
   currentPage = 0;
   @Input() user: User= new User();
   @Input() idCompany!: number | undefined ;
   @Input() isListJob: boolean = false;
-  constructor (private userService: UserServiceService, private jobService:JobServiceService, private router: Router){
+  constructor (private jobService:JobServiceService, public router: Router){
     const idProfileUser = localStorage.getItem('idProfileUser');
-    const idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
+    this.idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.currentUrl = this.router.url;
+    });
   }
 
   ngOnInit(): void {
+    this.currentUrl = this.router.url;
     if(this.idCompany){
       this.getJobsByIdCompany(this.idCompany);
-    }else{
-      this.getJobs();
+    }
+    if(this.idProfileNumber !== undefined){
+      this.getNewJob(this.idProfileNumber);
+      this.getJobPending(this.idProfileNumber);
+      this.getJobAccepted(this.idProfileNumber);
     }
   }
 
@@ -45,6 +60,24 @@ export class JobListComponent implements OnInit {
   getJobsByIdCompany(id:number): void{
     this.jobService.getJobByCompany(id).subscribe(data=>{
       this.jobs=data;
+    })
+  }
+
+  getNewJob(idProfile:number):void{
+    this.jobService.getNewJob(idProfile).subscribe(data=>{
+      this.newJobs=data;
+    })
+  }
+
+  getJobPending(idProfile:number):void{
+    this.jobService.getJobPending(idProfile).subscribe(data=>{
+      this.sentJobs=data;
+    })
+  }
+
+  getJobAccepted(idProfile:number):void{
+    this.jobService.getJobAccepted(idProfile).subscribe(data=>{
+      this.acceptedJobs=data;
     })
   }
 

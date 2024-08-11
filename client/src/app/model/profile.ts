@@ -7,7 +7,7 @@ export class Profile {
     workExperience?:string;
     skills?:string;
     typeProfile?:string;
-    userId?:number;
+    idUser?:number;
     url?:string;
     title?:string;
     contact?:Contact;

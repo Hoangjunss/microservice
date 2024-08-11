@@ -18,7 +18,7 @@ export class ProjectListComponent implements OnInit {
   project:Project=new Project;
   selectedProject: Project | null = null;
   isFormVisible: boolean = false;
-  @Input() idProfile?:number;
+  @Input() idProfile?:number | null;
   constructor(private projectService:ProjectServiceService, private datePipe: DatePipe){}
   ngOnInit(): void {
     console.log("Project start");

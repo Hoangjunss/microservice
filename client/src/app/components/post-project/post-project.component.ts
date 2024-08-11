@@ -18,7 +18,7 @@ export class PostProjectComponent implements OnInit {
   projectForm: FormGroup;
   @Input() idUser?:number;
   @Input() projectEdit: Project | null = null;
-  @Input() idProfile?: number;
+  @Input() idProfile?: number | null;
   @Output() closeForm = new EventEmitter<void>();
   constructor(private projectService:ProjectServiceService, private fb:FormBuilder, private router: Router){
     this.projectForm = this.fb.group({

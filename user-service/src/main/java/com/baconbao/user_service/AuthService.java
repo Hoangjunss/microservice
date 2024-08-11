@@ -62,6 +62,7 @@ public class AuthService {
                 .name(registrationRequest.getName())
                 .email(registrationRequest.getEmail())
                 .role(Role.valueOf("admin"))
+                .isActive(true)
                 .build();
         if(registrationRequest.getIdEmployee()!=null){
            users.setIdEmployee(registrationRequest.getIdEmployee());
