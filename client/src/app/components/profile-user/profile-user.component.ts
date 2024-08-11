@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ProfileServiceService } from '../../service/profile-service.service';
 import { Profile } from '../../model/profile';
 import { ProjectListComponent } from "../project-list/project-list.component";
@@ -7,6 +7,7 @@ import { ContactComponent } from "../contact/contact.component";
 import { HttpClient } from '@angular/common/http';
 import { UserServiceService } from '../../service/user-service.service';
 import { User } from '../../model/user';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-profile-user',
@@ -16,41 +17,40 @@ import { User } from '../../model/user';
   styleUrls: ['./profile-user.component.css']
 })
 export class ProfileUserComponent implements OnInit {
-  idProfile?: number;
+  currentUrl:string='';
+  idProfile: number | null = null;
+  idProfileUser?:number;
   profile?: Profile;
-  user:User = new User();
+  idProfileNumber?:number;
 
   constructor(
-    private userService: UserServiceService,
     private profileService: ProfileServiceService,
-    private route: ActivatedRoute
-  ) { }
-
-  ngOnInit(): void {
-    alert("Profile-user")
-    this.route.paramMap.subscribe(params => {
-      const idProfileParam = params.get('id');
-      if (idProfileParam !== null) {
-        this.idProfile = +idProfileParam; // Convert to number using +
-        this.getProfileById(this.idProfile);
-      }else{
-        this.getCurrentUser();
-        if (this.user?.id !== undefined) {
-          this.getProfileByUserId(this.user.id);
-          if (this.profile?.id !== undefined) {
-            localStorage.setItem('idProfileUser', `${this.profile.id}`);
-          }
-        } else {
-          console.error('User ID is undefined.');
-        }
-      }
-    });
+    private route: ActivatedRoute,
+    public router: Router
+  ) {
+    // Lấy idProfile từ localStorage khi khởi tạo
+    const idProfileUser = localStorage.getItem('idProfileUser');
+    this.idProfileUser = idProfileUser ? Number(idProfileUser) : undefined;
   }
 
-  getCurrentUser(){
-    this.userService.getCurrentUser().subscribe(data=>{
-      this.user = data;
-    })
+  ngOnInit(): void {
+    const url = this.router.url;
+    this.idProfile = this.extractIdFromUrl(url);
+    alert(this.idProfile+ " idpf "+ this.idProfileUser+ " idpfu");
+    if (this.idProfile != 0 && this.idProfile) {
+      this.getProfileById(this.idProfile);
+    } else {
+      if(this.idProfileUser){
+        this.idProfile = this.idProfileUser;
+        this.getProfileByUserId(this.idProfile);
+      }
+    }
+  }
+
+  extractIdFromUrl(url: string): number | null {
+    const parts = url.split('/');
+    const id = Number(parts[parts.length - 1]);
+    return isNaN(id) ? null : id;
   }
 
   getProfileById(idProfile: number): void {

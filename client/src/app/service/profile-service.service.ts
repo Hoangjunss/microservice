@@ -138,6 +138,7 @@ export class ProfileServiceService {
       objective: profileDTO.objective,
       education: profileDTO.education,
       workExperience: profileDTO.workExperience,
+      idUser:profileDTO.idUser,
       title: profileDTO.title,
       contact: profileDTO.contact
     };

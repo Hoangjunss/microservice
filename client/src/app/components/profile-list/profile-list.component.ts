@@ -19,7 +19,7 @@ export class ProfileListComponent implements OnInit {
   displayedProfiles: Profile[] = [];
   @Input() param?: string;
 
-  profilesPerPage = 3;
+  profilesPerPage = 9;
   currentPage = 0;
   constructor(private profileService: ProfileServiceService, private router: Router) { }
   

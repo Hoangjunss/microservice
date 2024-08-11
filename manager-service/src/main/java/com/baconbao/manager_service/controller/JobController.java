@@ -37,6 +37,24 @@ public class JobController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Job deleted", "ok"));
     }
 
+    @PutMapping("/job/apply")
+    public ResponseEntity<ApiResponse<JobDTO>> apply(@RequestBody JobDTO jobDTO, Integer idProfile) {
+        JobDTO job = jobService.acceptProfile(jobDTO, idProfile);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Job applied", job));
+    }
+
+    @PutMapping("/job/accept")
+    public ResponseEntity<ApiResponse<JobDTO>> accept(@RequestBody JobDTO jobDTO, Integer idProfile) {
+        JobDTO job = jobService.acceptProfile(jobDTO, idProfile);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Job accepted", job));
+    }
+
+    @PutMapping("/job/reject")
+    public ResponseEntity<ApiResponse<JobDTO>> reject(@RequestBody JobDTO jobDTO, Integer idProfile) {
+        JobDTO job = jobService.rejectProfile(jobDTO, idProfile);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Job rejected", job));
+    }
+    
     @GetMapping("/job/findbyid")
     public ResponseEntity<ApiResponse<JobDTO>> getById(Integer id){
         JobDTO job = jobService.findById(id);
@@ -55,22 +73,22 @@ public class JobController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Jobs found", jobs));
     }
 
-    @PutMapping("/job/apply")
-    public ResponseEntity<ApiResponse<JobDTO>> apply(@RequestBody JobDTO jobDTO, Integer idProfile) {
-        JobDTO job = jobService.acceptProfile(jobDTO, idProfile);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Job applied", job));
+    @GetMapping("/job/getjobpending")
+    public ResponseEntity<ApiResponse<List<JobDTO>>> getJobPending(@RequestParam Integer id){
+        List<JobDTO> jobs = jobService.getJobByPrfilePending(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Jobs pending found", jobs));
     }
 
-    @PutMapping("/job/accept")
-    public ResponseEntity<ApiResponse<JobDTO>> accept(@RequestBody JobDTO jobDTO, Integer idProfile) {
-        JobDTO job = jobService.acceptProfile(jobDTO, idProfile);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Job accepted", job));
+    @GetMapping("/job/getjobaccepted")
+    public ResponseEntity<ApiResponse<List<JobDTO>>> getJobAccepted(@RequestParam Integer id){
+        List<JobDTO> jobs = jobService.getJobByProfileAccepted(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Jobs accepted found", jobs));
     }
 
-    @PutMapping("/job/reject")
-    public ResponseEntity<ApiResponse<JobDTO>> reject(@RequestBody JobDTO jobDTO, Integer idProfile) {
-        JobDTO job = jobService.rejectProfile(jobDTO, idProfile);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Job rejected", job));
+    @GetMapping("/job/getnewjob")
+    public ResponseEntity<ApiResponse<List<JobDTO>>> getNewJob(@RequestParam Integer id){
+        List<JobDTO> jobs = jobService.getNewJob(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "New jobs found", jobs));
     }
 
 

@@ -150,5 +150,16 @@ public class JobServiceImpl implements JobService {
         return convertToListDTO(mongoTemplate.find(query, Job.class));
     }
 
+    @Override
+    public List<JobDTO> getNewJob(Integer id) {
+        Query query = new Query();
+        query.addCriteria(
+            Criteria.where("idProfiePending").nin(id)
+                    .and("idProfile").nin(id)
+        );
+        return convertToListDTO(mongoTemplate.find(query, Job.class));
+    }
+
+
 
 }

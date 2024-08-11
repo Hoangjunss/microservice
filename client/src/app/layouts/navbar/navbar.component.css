@@ -7,6 +7,9 @@
     box-sizing: border-box;
 }
 
+.container-fluid {
+    padding: 0 15px; /* Thêm padding cho container */
+}
 .container {
     max-width: 100%;
     display: flex;
@@ -37,8 +40,8 @@ a {
 
 /* header */
 header {
-    z-index: 10;
-    /* position: sticky; */
+    z-index: 1000;
+    position: relative;
     padding: 20px 10px;
     background-color: #f8f9fa;
     border-bottom: 1px solid #ddd;
@@ -56,10 +59,16 @@ header h2 {
 
 /* =========== Menu ================= */
 .sidebar {
-    float: left;
-    width: 170px;
-    background-color: #f8f9fa;  
+    z-index: 999;
+    position: fixed; /* Để thanh điều hướng luôn cố định */
+    left: 0;
+    height: 100vh; /* Chiếm toàn bộ chiều cao của màn hình */
+    width: 100%;
+    max-width: 250px; /* Đặt chiều rộng tối đa cho sidebar */
+    background-color: #f8f9fa;
     border-right: 1px solid #ddd;
+    padding: 20px 0;
+    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung quá dài */
 }
 
 .sidebar .nav-title {
@@ -106,6 +115,7 @@ header h2 {
     font-size: 1.2em;
     color: #555;
     text-align: center;
+    font-weight :700;
 }
 .fa {
     display: inline-block;
@@ -135,11 +145,12 @@ header h2 {
 /* ==================== main ==================== */
 .main {
     float: left;
-    width: calc(100% - 170px);
     color: #333;
     background-color: #ffffff;
     flex-grow: 1;
+    margin-left: 250px;
     /* 150px la width cua aside */
+    position: relative;
 }
 
 .welcome-message {
@@ -150,21 +161,16 @@ header h2 {
     font-weight: bold;
 }
 
-.cards {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
 
 .card {
     background-color: #fefefe;
-    width: 30%;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
     margin: 10px;
+    border: 1px solid #ddd;
 }
 
 .card:hover {
@@ -207,4 +213,81 @@ hr {
     border: none;
     border-top: 1px solid #4a4a72;
     margin: 15px 0;
+}
+.home-content {
+    margin: 20px 0;
+}
+
+.navbar-toggler {
+    border: none;
+    background: transparent;
+    display: none;
+}
+
+
+/* Responsive Styles */
+
+/* iPad (768px đến 1024px) */
+@media (max-width: 1024px) {
+    .sidebar {
+        max-width: 200px; /* Điều chỉnh kích thước sidebar cho iPad */
+    }
+    
+    .main {
+        margin-left: 200px; /* Điều chỉnh khoảng cách margin */
+    }
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: absolute; /* Để menu sidebar xuất hiện bên trên nội dung */
+        width: 100%;
+        max-width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
+        height: auto; /* Chiều cao tự động để phù hợp với nội dung */
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        transform: translateX(-100%); /* Ẩn sidebar mặc định */
+    }
+
+    .sidebar.show {
+        transform: translateX(0); /* Hiển thị sidebar khi có class 'show' */
+    }
+
+    .main {
+        margin-left: 0; /* Loại bỏ khoảng cách margin khi sidebar ở chế độ ẩn */
+    }
+
+    .navbar-toggler {
+        display: block; /* Hiển thị nút hamburger */
+        color: #333;
+        font-size: 24px;
+    }
+
+    .navbar-toggler-icon {
+        display: block;
+        color: black;
+        font-size: 24px;
+    }
+    .home-content {
+        margin: 10px;
+        padding: 0;
+    }
+
+    .card {
+        margin: 10px 0; 
+        width: 100%;
+    }
+
+    .card i {
+        font-size: 2em; /* Kích thước icon nhỏ hơn trên màn hình nhỏ */
+    }
+
+    .card h4 {
+        font-size: 1.2em; /* Giảm kích thước tiêu đề */
+    }
+
+    .card p {
+        font-size: 12px; /* Giảm kích thước văn bản */
+    }
 }

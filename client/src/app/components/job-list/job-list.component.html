@@ -1,55 +1,160 @@
-<div *ngIf="jobs.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
-    <div *ngFor="let job of jobs" class="job-card">
-        <div class="job-header">
-            <h3 class="job-title">Title: {{job.title}}</h3>
-            <span class="job-type">Full-Time</span>
+<div *ngIf="currentUrl === '/home'">
+    <div *ngIf="jobs.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
+        <div *ngFor="let job of displayJob" class="job-card">
+            <div class="job-header">
+                <h3 class="job-title">Title: {{job.title}}</h3>
+                <span class="job-type">Full-Time</span>
+            </div>
+            <p class="job-size">Team Size: {{job.size}}</p>
+            <div class="job-actions">
+                <a class="btn apply-btn">Apply</a>
+                <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
+            </div>
         </div>
-        <p class="job-size">Team Size: {{job.size}}</p>
-        <div class="job-actions">
-            <a class="btn apply-btn">Apply</a>
-            <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
+        <div class="d-flex justify-content-end">
+            <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
+                </button>
+                    <button class="nav-button next" (click)="nextPage()"
+                        [disabled]="currentPage >= totalPages() - 1">></button>
         </div>
     </div>
+
+    <router-outlet></router-outlet>
+
+    <ng-template #noJobs>
+        <div *ngIf="!isListJob" class="not-found-container">
+            <div class="not-found-content">
+                <h1>Oops!</h1>
+                <h2>We couldn't find what you're looking for.</h2>
+                <p>It seems that the page you're searching for doesn't exist or has been moved. Try searching with
+                    different keywords or explore other sections.</p>
+                <a routerLink="['/home']" class="home-button">Go to Homepage</a>
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="jobs-section" *ngIf="isListJob">
+        <h3 *ngIf="jobs.length>0; else noJobsOfCompany" class="section-title">Available Jobs</h3>
+        <!-- Job Card -->
+        <div *ngFor="let job of jobs" class="jobs-card">
+            <div class="jobs-info">
+                <h4 class="jobs-title">Title: {{job.title}}</h4>
+                <p class="jobs-details">Type: Full-time | Size: {{job.size}}</p>
+            </div>
+            <div class="jobs-actions">
+                <button class="apply-job-btn">Apply</button>
+                <button (click)="viewJobDetails(job)" class="details-job-btn">Details</button>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noJobsOfCompany>
+        <div class="no-jobs-notification">
+            <div class="no-jobs-icon">
+                <i class="fas fa-suitcase-rolling"></i>
+            </div>
+            <div class="no-jobs-content">
+                <h2>No Jobs Available</h2>
+                <p>It seems that this company currently has no job openings. Check back later or explore other
+                    opportunities!</p>
+                <button class="explore-btn">Explore Other Companies</button>
+            </div>
+        </div>
+    </ng-template>
 </div>
 
-<router-outlet></router-outlet>
+<div *ngIf="currentUrl === '/job-list'">
+    <div class="container container-1">
+        <h3>Jobs that may interest you</h3>
+        <div *ngIf="newJobs.length>0; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
+            <div *ngFor="let job of newJobs" class="job-card">
+                <div class="job-header">
+                    <h3 class="job-title">Title: {{job.title}}</h3>
+                    <span class="job-type">Full-Time</span>
+                </div>
+                <p class="job-size">Team Size: {{job.size}}</p>
+                <div class="job-actions">
+                    <a class="btn apply-btn">Apply</a>
+                    <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
+                    </button>
+                        <button class="nav-button next" (click)="nextPage()"
+                            [disabled]="currentPage >= totalPages() - 1">></button>
+            </div>
+        </div>
+        <ng-template #noJobs>
+            <div class="alert alert-warning text-center mt-4" role="alert">
+                <h4 class="alert-heading">No Jobs Available</h4>
+                <p>Unfortunately, there are no jobs available at the moment. Please check back later or explore other
+                    opportunities.</p>
+                <hr>
+                <a href="/home" class="btn btn-primary">Go Back to Home</a>
+            </div>
+        </ng-template>
 
-<ng-template #noJobs>
-    <div *ngIf="!isListJob" class="not-found-container">
-        <div class="not-found-content">
-            <h1>Oops!</h1>
-            <h2>We couldn't find what you're looking for.</h2>
-            <p>It seems that the page you're searching for doesn't exist or has been moved. Try searching with different keywords or explore other sections.</p>
-            <a routerLink="['/home']" class="home-button">Go to Homepage</a>
+        <h3>Jobs you have applied for</h3>
+        <div *ngIf="sentJobs.length > 0; else noJobsSent" class="row" [ngStyle]="{'margin-top': '100px'}">
+            <div *ngFor="let job of sentJobs" class="job-card">
+                <div class="job-header">
+                    <h3 class="job-title">Title: {{job.title}}</h3>
+                    <span class="job-type">Full-Time</span>
+                </div>
+                <p class="job-size">Team Size: {{job.size}}</p>
+                <div class="job-actions">
+                    <a class="btn apply-btn">Apply</a>
+                    <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
+                    </button>
+                        <button class="nav-button next" (click)="nextPage()"
+                            [disabled]="currentPage >= totalPages() - 1">></button>
+            </div>
         </div>
-    </div>
-</ng-template>
 
-<div class="jobs-section" *ngIf="isListJob">
-    <h3 *ngIf="jobs.length>0; else noJobsOfCompany" class="section-title">Available Jobs</h3>
-    <!-- Job Card -->
-    <div *ngFor="let job of jobs" class="jobs-card">
-        <div class="jobs-info">
-            <h4 class="jobs-title">Title: {{job.title}}</h4>
-            <p class="jobs-details">Type: Full-time | Size: {{job.size}}</p>
+        <ng-template #noJobsSent>
+            <div class="alert alert-warning text-center" role="alert">
+                <h4 class="alert-heading">No Jobs Found</h4>
+                <p>You haven't applied for any jobs yet. Start exploring and applying to find your dream job!</p>
+                <hr>
+                <a href="#" class="btn btn-primary">Explore Jobs</a>
+            </div>
+        </ng-template>
+        <h3>Your jobs</h3>
+        <div *ngIf="acceptedJobs.length > 0; else noJobsAccepted" class="row" [ngStyle]="{'margin-top': '100px'}">
+            <div *ngFor="let job of acceptedJobs" class="job-card">
+                <div class="job-header">
+                    <h3 class="job-title">Title: {{job.title}}</h3>
+                    <span class="job-type">Full-Time</span>
+                </div>
+                <p class="job-size">Team Size: {{job.size}}</p>
+                <div class="job-actions">
+                    <a class="btn apply-btn">Apply</a>
+                    <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
+                    </button>
+                        <button class="nav-button next" (click)="nextPage()"
+                            [disabled]="currentPage >= totalPages() - 1">></button>
+            </div>
         </div>
-        <div class="jobs-actions">
-            <button class="apply-job-btn">Apply</button>
-            <button (click)="viewJobDetails(job)" class="details-job-btn">Details</button>
-        </div>
+
+        <ng-template #noJobsAccepted>
+            <div class="alert alert-info text-center" role="alert">
+                <h4 class="alert-heading">No Jobs Accepted</h4>
+                <p>You haven't accepted any job offers yet. Stay tuned for new opportunities!</p>
+                <hr>
+                <a href="#" class="btn btn-success">Find Jobs</a>
+            </div>
+        </ng-template>
     </div>
+
+
+
 </div>
-
-<ng-template #noJobsOfCompany>
-    <div class="no-jobs-notification">
-    <div class="no-jobs-icon">
-        <i class="fas fa-suitcase-rolling"></i>
-    </div>
-    <div class="no-jobs-content">
-        <h2>No Jobs Available</h2>
-        <p>It seems that this company currently has no job openings. Check back later or explore other opportunities!</p>
-        <button class="explore-btn">Explore Other Companies</button>
-    </div>
-</div>
-</ng-template>
-

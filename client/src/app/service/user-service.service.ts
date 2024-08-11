@@ -35,9 +35,37 @@ export class UserServiceService {
     );
    }
 
+   updateUser(user: User): Observable<User> {
+    const token = localStorage.getItem('authToken');
+    console.log('Token:', token); // Log the token
+    return this.http.post<Apiresponse<User>>(`${this.baseURL}/updateactive?token=${token}`, user).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data;
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+}
+
    getCurrentUser(): Observable<User>{
     const token = localStorage.getItem('authToken');
     return this.http.get<Apiresponse<User>>(this.baseURL+"/getCurrentUser?token="+token).pipe(
+      map(response => {
+        if(response.success){
+          console.log(response.data+" user service");
+          return response.data;
+        }else{
+          throw new Error(response.message);
+        }
+      })
+    );
+   }
+
+   getAllUser(): Observable<User[]>{
+    const token = localStorage.getItem('authToken');
+    return this.http.get<Apiresponse<User[]>>(this.baseURL+"/getAll?token="+token).pipe(
       map(response => {
         if(response.success){
           return response.data;

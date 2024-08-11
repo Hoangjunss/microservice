@@ -93,6 +93,45 @@ export class JobServiceService {
     );
   }
 
+  getJobPending(idProfile:number): Observable<Job[]> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getjobpending?id='+idProfile, {headers}).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data.map(this.mapToJob);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
+  getJobAccepted(idProfile:number): Observable<Job[]> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getjobaccepted?id='+idProfile, {headers}).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data.map(this.mapToJob);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
+  getNewJob(idProfile: number): Observable<Job[]> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getnewjob?id='+idProfile, {headers}).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data.map(this.mapToJob);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
   setJob(job: Job) {
     this.job = job;
   }

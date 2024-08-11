@@ -1,18 +1,18 @@
 <!-- List Company - Home -->
-<div *ngIf="companies.length>0 && router.url ==='/home'; else noItem"  class="row" [ngStyle]="{'text-align': 'center'}">
-    <a *ngFor="let company of companies" (click)="viewDetailsCompany(company.id)" class="company-card col-sm-6 col-lg-4 m-15px-tb">
+<div *ngIf="displayedProfiles.length>0 && router.url ==='/home'; else noItem"  class="row" [ngStyle]="{'text-align': 'center'}">
+    <a *ngFor="let company of displayedProfiles" (click)="viewDetailsCompany(company.id)" class="company-card col-sm-6 col-lg-4 m-15px-tb">
         <div class="company-logo">
             <img  alt="Company Logo">
         </div>
         <div class="company-info">
             <h3>{{company.name}}</h3>
-            <p>{{company.city}}</p>
-            <p>{{company.email}}</p>
+            <p>City: {{company.city}}</p>
+            <p>Contact: {{company.email}}</p>
         </div>
     </a>
     <div class="d-flex justify-content-end">
-        <button class="nav-button prev"><</button>
-        <button class="nav-button next">></button>
+        <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0"><</button>
+        <button class="nav-button next" (click)="nextPage()" [disabled]="currentPage >= totalPages() - 1">></button>
     </div>
 </div>
 
@@ -27,8 +27,8 @@
     </div>
 </ng-template>
 <!-- Company - Details -->
-<div *ngIf="showCompany && router.url ==='/home'" class="container">
-    <div class="overlay" id="overlay_user"></div>
+<div class="overlay" *ngIf="showCompany"></div>
+<div *ngIf="showCompany && router.url ==='/home'" class="container company-details-window">
     <div class="window-header" (click)="closeViewCompany()">
         <h3 class="window-title">Company & Jobs</h3>
         <button class="close-button">&times;</button>

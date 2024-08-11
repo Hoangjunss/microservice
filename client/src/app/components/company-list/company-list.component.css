@@ -219,6 +219,36 @@
     cursor: pointer;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Đảm bảo overlay nằm trên tất cả các thành phần khác */
+}
+
+/* Cửa sổ thông tin công ty */
+.company-details-window {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Đảm bảo cửa sổ nằm trên overlay */
+    overflow: auto; /* Cho phép cuộn khi nội dung vượt quá chiều cao */
+    max-height: 80%; /* Giới hạn chiều cao tối đa */
+    padding: 20px;
+}
+
+.modal-open {
+    overflow-y: hidden !important;
+    touch-action: none !important;
+}
 .company-header {
     display: flex;
     align-items: center;
@@ -298,4 +328,30 @@
 
 .details-btn {
     background-color: #17a2b8;
+}
+
+
+
+
+.nav-button {
+    margin: 7px -9px 0px 15px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.nav-button:disabled {
+    background-color: #e0e0e0; /* Lighter background color for disabled state */
+    color: #8c8c8c; /* Gray text color for disabled state */
+    cursor: not-allowed;
 }

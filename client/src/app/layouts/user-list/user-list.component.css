@@ -56,7 +56,7 @@
 }
 .table-content td {
     position: relative;
-    color: 333;
+    color: #333;
     
 }
 
@@ -70,6 +70,12 @@
     text-decoration: underline;
 }
 
+.button-action
+{   
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
 
 /*  phần footer table  */
 .table-footer {
@@ -121,3 +127,27 @@
     width: 20%;
     margin: 5px;
 }
+
+/* user-list.component.css */
+
+.no-data-message {
+    padding: 20px;
+    text-align: center;
+    background-color: #f8d7da; /* Background color */
+    color: #721c24; /* Text color */
+    border: 1px solid #f5c6cb; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 20px;
+  }
+  
+  .no-data-message p {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .no-data-message strong {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  

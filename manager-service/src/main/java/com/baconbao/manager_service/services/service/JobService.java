@@ -10,6 +10,7 @@ public interface JobService {
     JobDTO update(JobDTO job);
     List<JobDTO> getAllJobs();
     List<JobDTO> getJobByCompany(Integer id);
+    List<JobDTO> getNewJob(Integer id);
     List<JobDTO> getJobByPrfilePending(Integer id);
     List<JobDTO> getJobByProfileAccepted(Integer id);
     JobDTO applyJob(JobDTO jobDTO,Integer idProfile);
