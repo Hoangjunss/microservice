@@ -46,7 +46,7 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td> Từ từ bé đi kiếm j ăn phát. Push bài dìa nhe
+                    <td>{{ user.email }}</td>
                     <td class="button-action">
                         <button *ngIf="!user.active" (click)="unlockUser(user)" class="btn btn-primary">Unlock</button>
                         <button *ngIf="user.active" (click)="blockUser(user)" class="btn btn-danger">Block</button>
