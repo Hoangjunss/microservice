@@ -56,7 +56,7 @@
 }
 .table-content td {
     position: relative;
-    color: 333;
+    color: #333;
     
 }
 
@@ -70,6 +70,12 @@
     text-decoration: underline;
 }
 
+.button-action
+{   
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
 
 /*  phần footer table  */
 .table-footer {
