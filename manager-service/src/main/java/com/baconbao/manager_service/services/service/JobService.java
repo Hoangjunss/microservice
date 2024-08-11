@@ -13,7 +13,7 @@ public interface JobService {
     List<JobDTO> getNewJob(Integer id);
     List<JobDTO> getJobByPrfilePending(Integer id);
     List<JobDTO> getJobByProfileAccepted(Integer id);
-    JobDTO applyJob(JobDTO jobDTO,Integer idProfile);
-    JobDTO acceptProfile(JobDTO jobDTO,Integer idProfile);
-    JobDTO rejectProfile(JobDTO jobDTO,Integer idProfile);
+    JobDTO applyJob(Integer idJob,Integer idProfile);
+    JobDTO acceptProfile(Integer idJob,Integer idProfile);
+    JobDTO rejectProfile(Integer idJob,Integer idProfile);
 }

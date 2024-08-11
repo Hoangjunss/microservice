@@ -16,45 +16,45 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    @PostMapping("/save")
+    @PostMapping("/user/save")
     public ResponseEntity<ApiResponse<ProfileDTO>> save(@RequestBody ProfileDTO profileDTO) {
         ProfileDTO resultProfileDTO = profileService.saveProfile(profileDTO);
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile saved successfully", resultProfileDTO));
     }
 
-    @PostMapping("/update")
+    @PostMapping("/user/update")
     public ResponseEntity<ApiResponse<ProfileDTO>> update(@RequestBody ProfileDTO profileDTO) {
         ProfileDTO resultProfileDTO = profileService.updateProfile(profileDTO);
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile update successfully", resultProfileDTO));
     }
 
-    @GetMapping("/findProfileByType")
+    @GetMapping("/user/findProfileByType")
     public ResponseEntity<ApiResponse<List<ProfileDTO>>> findProfilesByType(@RequestParam String typeProfile) {
         List<ProfileDTO> resultProfiles = profileService.findProfilesByType(TypeProfile.valueOf(typeProfile));
         return ResponseEntity.ok(new ApiResponse<>(true, "Find Profile By Type", resultProfiles));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/user/getAll")
     public ResponseEntity<ApiResponse<List<ProfileDTO>>> getAll() {
         List<ProfileDTO> resultProfiles = profileService.getAllProfile();
         return ResponseEntity.ok(new ApiResponse<>(true, "Get all is successfully", resultProfiles));
     }
-    @GetMapping("/findById")
+    @GetMapping("/user/findById")
     public ResponseEntity<ApiResponse<ProfileDTO>> getProfileById(@RequestParam Integer id) {
         ProfileDTO profileDTO = profileService.findById(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "Find by id is successfully", profileDTO));
     }
-    @GetMapping("/findByUserId")
+    @GetMapping("/user/findByUserId")
     public ResponseEntity<ApiResponse<ProfileDTO>> findByUserId(@RequestParam Integer userId) {
         ProfileDTO resultProfiles = profileService.findByIdUser(userId);
         return ResponseEntity.ok(new ApiResponse<>(true, "Find by user id is successfully", resultProfiles));
     }
-    @GetMapping("/findByTitle")
+    @GetMapping("/user/findByTitle")
     public ResponseEntity<ApiResponse<List<ProfileDTO>>> findByTitle(@RequestParam String title) {
         List<ProfileDTO> resultProfiles = profileService.findByTitle(title);
         return ResponseEntity.ok(new ApiResponse<>(true, "Find by title is successfully", resultProfiles));
     }
-    @GetMapping("/checkIdProfile")
+    @GetMapping("/user/checkIdProfile")
     public ResponseEntity<ApiResponse<Boolean>> checkIdProfie(@RequestParam Integer id) {
         boolean result = profileService.checkIdProfile(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "Check id profile", result));

@@ -16,35 +16,35 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @PostMapping("/save")
+    @PostMapping("/user/save")
     public ResponseEntity<ApiResponse<ProjectDTO>> save(@RequestBody ProjectDTO projectDTO) {
         ProjectDTO savedProject = projectService.saveProject(projectDTO);
         ApiResponse<ProjectDTO> response = new ApiResponse<>(true, "Project saved successfully", savedProject);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update")
+    @PostMapping("/user/update")
     public ResponseEntity<ApiResponse<ProjectDTO>> update(@RequestBody ProjectDTO projectDTO) {
         ProjectDTO updatedProject = projectService.updateProject(projectDTO);
         ApiResponse<ProjectDTO> response = new ApiResponse<>(true, "Project updated successfully", updatedProject);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/getProfile")
+    @GetMapping("/user/getProfile")
     public ResponseEntity<ApiResponse<List<ProfileDTO>>> getProfile() {
         List<ProfileDTO> profiles = projectService.getAlliProfile();
         ApiResponse<List<ProfileDTO>> response = new ApiResponse<>(true, "Profiles fetched successfully", profiles);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/getProject")
+    @GetMapping("/user/getProject")
     public ResponseEntity<ApiResponse<List<ProjectDTO>>> getProjectByIdProfile(@RequestParam Integer id) {
         List<ProjectDTO> projects = projectService.getProjectByIdProfile(id);
         ApiResponse<List<ProjectDTO>> response = new ApiResponse<>(true, "Projects fetched successfully", projects);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/user/get")
     public ResponseEntity<ApiResponse<String>> get() {
         ApiResponse<String> response = new ApiResponse<>(true, "ok", "ok");
         return ResponseEntity.ok(response);

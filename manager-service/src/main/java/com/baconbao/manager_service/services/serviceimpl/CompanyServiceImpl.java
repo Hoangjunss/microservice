@@ -1,10 +1,14 @@
 package com.baconbao.manager_service.services.serviceimpl;
 
+import com.baconbao.manager_service.dto.ApiResponse;
+import com.baconbao.manager_service.dto.AuthenticationRequest;
+import com.baconbao.manager_service.dto.AuthenticationResponse;
 import com.baconbao.manager_service.dto.CompanyDTO;
 import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
 import com.baconbao.manager_service.models.Company;
 import com.baconbao.manager_service.openfeign.ImageClient;
+import com.baconbao.manager_service.openfeign.UserClient;
 import com.baconbao.manager_service.repository.CompanyRepository;
 import com.baconbao.manager_service.services.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,8 @@ public class CompanyServiceImpl implements CompanyService {
     private MongoTemplate mongoTemplate;
     @Autowired
     private ImageClient imageClient;
+    @Autowired
+    private UserClient userClient;
 
     private Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
@@ -135,5 +141,24 @@ public class CompanyServiceImpl implements CompanyService {
             // Return an empty list in case of an error
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public CompanyDTO setHRToCompany(AuthenticationRequest authenticationRequest,Integer idCompany) {
+        ApiResponse<AuthenticationResponse> authenticationResponseApiResponse=userClient.signUp(authenticationRequest);
+        CompanyDTO companyDTO=findById(idCompany);
+        List<Integer> idHR=companyDTO.getIdHR();
+        idHR.add(authenticationResponseApiResponse.getData().getUser().getId());
+        companyDTO.setIdHR(idHR);
+        return update(companyDTO);
+    }
+
+    @Override
+    public CompanyDTO deleteHRToCompany(Integer idHR, Integer idCompany) {
+        CompanyDTO companyDTO=findById(idCompany);
+        List<Integer> idHr=companyDTO.getIdHR();
+        idHr.remove(idHR);
+        companyDTO.setIdHR(idHr);
+        return update(companyDTO);
     }
 }

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,4 +23,5 @@ public class CompanyDTO {
     private String city;
     private String country;
     private MultipartFile imageFile;
+    private List<Integer> idHR;
 }

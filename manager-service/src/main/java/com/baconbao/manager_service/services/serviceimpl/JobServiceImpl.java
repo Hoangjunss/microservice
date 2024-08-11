@@ -110,29 +110,40 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobDTO applyJob(JobDTO jobDTO, Integer idProfile) {
+    public JobDTO applyJob(Integer idJob, Integer idProfile) {
+        JobDTO jobDTO=findById(idJob);
         if (jobDTO.getIdProfiePending() == null) {
             jobDTO.setIdProfiePending(new ArrayList<>());
         }
-        jobDTO.getIdProfiePending().add(idProfile);
+
+        List<Integer> idProfilePending=jobDTO.getIdProfiePending();
+        idProfilePending.add(idProfile);
+        jobDTO.setIdProfiePending(idProfilePending);
         return update(jobDTO);  
     }
 
     @Override
-    public JobDTO acceptProfile(JobDTO jobDTO, Integer idProfile) {
+    public JobDTO acceptProfile(Integer idJob, Integer idProfile) {
+        JobDTO jobDTO=findById(idJob);
         if (jobDTO.getIdProfiePending() != null) {
             jobDTO.getIdProfiePending().remove(idProfile);
         }
         if (jobDTO.getIdProfile() == null) {
             jobDTO.setIdProfile(new ArrayList<>());
         }
-        jobDTO.getIdProfile().add(idProfile);
+        List<Integer> idProfileJob=jobDTO.getIdProfile();
+        idProfileJob.add(idProfile);
+        jobDTO.setIdProfile(idProfileJob);
+
         return update(jobDTO);  
     }
 
     @Override
-    public JobDTO rejectProfile(JobDTO jobDTO, Integer idProfile) {
-        jobDTO.getIdProfiePending().remove(idProfile);
+    public JobDTO rejectProfile(Integer idJob, Integer idProfile) {
+        JobDTO jobDTO=findById(idJob);
+        List<Integer> idProfilePending=jobDTO.getIdProfiePending();
+        idProfilePending.remove(idProfile);
+        jobDTO.setIdProfiePending(idProfilePending);
         return update(jobDTO);
     }
 

@@ -31,7 +31,7 @@ public class NotificationController {
         NotificationDTO notificationDTO1 = notificationService.update(notificationDTO);
         return ResponseEntity.ok(new ApiResponse<>(true, "Update is success", notificationDTO1));
     }
-    @GetMapping("/findByUser")
+    @GetMapping("/user/findByUser")
     public ResponseEntity<ApiResponse<List<NotificationDTO>>> findByUser(@RequestParam Integer userId){
         List<NotificationDTO> notificationDTOS = notificationService.getNotificationsByIdUser(userId);
         return ResponseEntity.ok(new ApiResponse<>(true, "Find is success", notificationDTOS));
