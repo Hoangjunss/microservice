@@ -5,4 +5,5 @@ export class User {
     password?:string
     confirmPassword?: string
     active?:boolean
+    role?:string
 }
