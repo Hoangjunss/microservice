@@ -1,15 +1,15 @@
 <div class="sanpham">
     <div class="search-navabar d-flex flex-row">
         <form class="form-inline">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <select class="form-select" aria-label="Default select example">
             <option selected value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
-          </select>
-      </div>
+        </select>
+    </div>
     <table class="table-header">
         <colgroup>
             <col [ngStyle]="{'width': '5%'}">
@@ -42,15 +42,45 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
-                    <td class="button-action" >
-                        <button class="btn btn-primary">Update</button>
-                        <button class="btn btn-danger">Delete</button>
+                    <td class="button-action">
+                        <button class="btn btn-primary" (click)="openModal('edit', user)">Update</button>
+                        <!-- <button class="btn btn-danger" (click)="deleteUser(user)">Delete</button> -->
+                        <button class="btn btn-danger" >Delete</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <div id="employeeModal" class="overlay" *ngIf="isModalOpen">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <h2 id="modalTitle">{{ modalTitle }}</h2>
+
+            <div class="form-group">
+                <label for="employeeId">Id employee:</label>
+                <input type="text" id="employeeId" formControlName="id" class="form-control" [readonly]="isEdit">
+            </div>
+
+            <div class="form-group">
+                <label for="employeeName">Name employee:</label>
+                <input type="text" id="employeeName" formControlName="name" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="employeeEmail">Email employee:</label>
+                <input type="email" id="employeeEmail" formControlName="email" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="employeePassword">Password employee:</label>
+                <input type="password" id="employeePassword" formControlName="password" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{ modalButtonLabel }}</button>
+        </form>
+    </div>
 </div>
 <div class="table-footer">
-    <button ><i class="fa fa-plus-square"></i> Thêm người dùng</button>
+    <button (click)="openModal('add')"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
 </div>
