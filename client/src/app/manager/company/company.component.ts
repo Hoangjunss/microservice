@@ -18,12 +18,12 @@ export class CompanyComponent implements OnInit {
     
   }
 
-  getCompanies(id:number) {
-    this.companyService.getCompanyById(id).subscribe(data=>{
-      this.company = data;
-    }
-    );
+  // getCompanies(id:number) {
+  //   this.companyService.getCompanyById(id).subscribe(data=>{
+  //     this.company = data;
+  //   }
+  //   );
   
-  }
+  // }
 
 }

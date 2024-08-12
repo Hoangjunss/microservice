@@ -5,8 +5,7 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
+            <option selected value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
           </select>
@@ -17,7 +16,6 @@
             <col [ngStyle]="{'width': '10%'}">
             <col [ngStyle]="{'width': '15%'}">
             <col [ngStyle]="{'width': '40%'}">
-            <col [ngStyle]="{'width': '15%'}">
         </colgroup>
         <thead>
             <tr>
@@ -25,7 +23,6 @@
                 <th title="Mã project">Mã</th>
                 <th title="Username">Username</th>
                 <th title="Email">Email</th>
-                <th title="Password">Password</th>
                 <th title="Action">Action</th>
             </tr>
         </thead>
@@ -38,20 +35,22 @@
                 <col [ngStyle]="{'width': '10%'}">
                 <col [ngStyle]="{'width': '15%'}">
                 <col [ngStyle]="{'width': '40%'}">
-                <col [ngStyle]="{'width': '15%'}">
             </colgroup>
             <tbody>
-                <!-- <tr *ngFor="let job of jobs; let i = index">
+                <tr *ngFor="let user of users; let i = index">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ job.id }}</td>
-                    <td>{{ job.title }}</td>
-                    <td>{{ job.size }}</td>
-                    <td>{{job.typeJob}}</td>
-                    <td><button class="btn btn-primary">Details</button>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td class="button-action" >
+                        <button class="btn btn-primary">Update</button>
                         <button class="btn btn-danger">Delete</button>
                     </td>
-                </tr> -->
+                </tr>
             </tbody>
         </table>
     </div>
+</div>
+<div class="table-footer">
+    <button ><i class="fa fa-plus-square"></i> Thêm người dùng</button>
 </div>

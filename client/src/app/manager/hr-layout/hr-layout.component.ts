@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserServiceService } from '../../service/user-service.service';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-hr-layout',
@@ -8,6 +10,20 @@ import { Component } from '@angular/core';
   templateUrl: './hr-layout.component.html',
   styleUrl: './hr-layout.component.css'
 })
-export class HrLayoutComponent {
+export class HrLayoutComponent implements OnInit {
 
+  users : User[] = [];
+
+  constructor(private userService : UserServiceService) {}
+
+  ngOnInit() {
+    this.getAllUsers();
+  }
+
+
+  getAllUsers(): void {
+    this.userService.getAllUser().subscribe(data => {
+      this.users = data;
+    });
+  }
 }

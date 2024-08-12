@@ -70,6 +70,13 @@
     text-decoration: underline;
 }
 
+.button-action
+{   
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
 
 /*  phần footer table  */
 .table-footer {
