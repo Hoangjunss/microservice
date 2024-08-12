@@ -61,7 +61,7 @@ public class AuthService {
                 .id(getGenerationId())
                 .name(registrationRequest.getName())
                 .email(registrationRequest.getEmail())
-                .role(Role.valueOf("admin"))
+                .role(Role.valueOf(registrationRequest.getRole()))
                 .isActive(true)
                 .build();
         if (registrationRequest.getIdEmployee() != null) {
@@ -119,6 +119,7 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .expirationTime("24Hr")
                 .message("Successfully Signed In")
+                .role(user.getRole()+"")
                 .isVaild(true)
                 .build();
 

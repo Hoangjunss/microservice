@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserServiceService } from '../../service/user-service.service';
 import { Router, RouterModule } from '@angular/router';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class LoginComponent {
 
+  user:User = new User();
   userForm : FormGroup;
 
   constructor(private fb: FormBuilder,private userService : UserServiceService,private router: Router) {
@@ -36,16 +38,18 @@ export class LoginComponent {
   login() {
     this.userService.signInUser(this.userForm.value).subscribe(
       (response: any) => {
-        // Giả sử phản hồi từ máy chủ chứa token
         const token = response.token;
 
-        // Lưu token vào localStorage
         localStorage.setItem('authToken', token);
-
         console.log('Login successful, token saved to localStorage');
         console.log('Token:', token);
-
-        this.router.navigateByUrl('/home');
+        if(response.role === 'admin') {
+          this.router.navigateByUrl('/admin');
+        } else if (response.role === 'hr'){
+          this.router.navigateByUrl('/manager');
+        } else if(response.role === 'user'){
+          this.router.navigateByUrl('/home');
+        }
       },
       (error) => {
         console.error('Error logging in:', error);
