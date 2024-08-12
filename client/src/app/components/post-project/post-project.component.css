@@ -175,4 +175,11 @@ textarea{
   z-index: 9999;
   display: block; /* Mặc định ẩn */
 }
-
+.form-check
+{
+    display: flex;
+}
+.form-box
+{
+    margin-left: 50px;
+}

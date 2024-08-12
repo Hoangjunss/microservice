@@ -11,6 +11,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+  idProfileNumber:number | undefined;
+  constructor (){
+    const idProfileUser = localStorage.getItem('idProfileUser');
+    this.idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
+  }
 
   showNotifications = false;
   toggleNotifications() {

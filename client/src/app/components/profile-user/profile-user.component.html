@@ -9,7 +9,7 @@
             <li><a (click)="scrollToSection('service')"><i class="bi fs-5 bi-gear me-2"></i> Service</a></li>
             <li><a (click)="scrollToSection('testimonial')"><i class="bi fs-5 bi-columns-gap me-2"></i> Skill</a></li>
             <li><a (click)="scrollToSection('contact_us')"><i class="bi fs-5 bi-envelope me-2"></i> Contact</a></li>
-            <li><a class="btn btn-primary btn-edit-profile"><i class="bi fs-5 me-2">Edit profile</i></a></li>
+            <li><a (click)="showEditForm()" class="btn btn-primary btn-edit-profile"><i class="bi fs-5 me-2">Edit profile</i></a></li>
         </ul>
     </div>
 </header>
@@ -23,7 +23,7 @@
                 <div class="imgcover mb-4">
                     <img src="assets/images/square.jpg" class="rounded-pill bg-white p-2 shadow" alt="">
                 </div>
-                <b class="fs-6">Hello world!. [username]</b>
+                <b class="fs-6">Hello! {{user.name}}</b>
                 <h1 class="fw-bold mb-4 fs-1">{{profile?.title}}</h1>
                 <ul>
                     <li></li>
@@ -50,14 +50,13 @@
                 </div>
                 <div class="detail-col col-md-8">
                     <h2>[Name]</h2>
-                    <h6>{{profile?.url}}...[url]</h6>
                     <p>[Decription Profile]</p>
                     <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="info-list">
                                 <ul>
-                                    <li><span>Objective:</span>{{profile?.objective}}</li>
-                                    <li><span>Education:</span>{{profile?.education}}</li>
+                                    <li><span>Objective:</span><strong>{{profile?.objective}}</strong></li>
+                                    <li><span>Education:</span><strong>{{profile?.education}}</strong></li>
                                 </ul>
                             </div>
                         </div>
@@ -151,9 +150,11 @@
     <!--########################## Contact Us Starts Here ############################# -->
 
     <app-contact [contact]="profile?.contact"></app-contact>
-
-
 </div>
+
+<app-create-profile *ngIf="formEditProfile" [profile]="profile" (closeForm)="hideEditForm()">
+</app-create-profile>
+
 <script>
     function scrollToSection(id) {
         const element = document.getElementById(id);

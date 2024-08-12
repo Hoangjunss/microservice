@@ -52,6 +52,23 @@ export class ProfileServiceService {
     );
   }
 
+  updateProfile(profile: Profile): Observable<Profile> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.post<Apiresponse<Profile>>(`${this.baseURL}user/update`, profile, { headers }).pipe(
+      map(response => {
+        if (response.success) {
+          return this.mapToProfile(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      }),
+      catchError(error => {
+        console.error('Error updating profile:', error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+
   getProfileByType(type: string): Observable<Profile[]> {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.get<Apiresponse<Profile[]>>(`${this.baseURL}user/findProfileByType?typeProfile=${type}`, {headers}).pipe(
@@ -124,7 +141,10 @@ export class ProfileServiceService {
       workExperience: profileDTO.workExperience,
       idUser:profileDTO.idUser,
       title: profileDTO.title,
-      contact: profileDTO.contact
+      contact: profileDTO.contact,
+      skills: profileDTO.skills,
+      typeProfile: profileDTO.typeProfile,
+      url: profileDTO.url
     };
   }
 }

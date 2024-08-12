@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    User findById(Integer id);
+    UserDTO findById(String token, Integer id);
     boolean checkUser(Integer id);
     UserDTO getCurrentUser(String token);
     UserDTO update(String token, UserDTO userDTO);

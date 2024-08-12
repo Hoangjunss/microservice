@@ -47,7 +47,20 @@ export class UserServiceService {
         }
       })
     );
-}
+  }
+
+  getUserById(id:number): Observable<User>{
+    const token = localStorage.getItem('authToken');
+    return this.http.get<Apiresponse<User>>(`${this.baseURL}/findbyid?id=${id}&token=${token}`).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data;
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
 
    getCurrentUser(): Observable<User>{
     const token = localStorage.getItem('authToken');

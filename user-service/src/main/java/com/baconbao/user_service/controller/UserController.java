@@ -65,6 +65,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/findbyid")
+    public ResponseEntity<ApiResponse<UserDTO>> findById(@RequestParam String token,@RequestParam Integer id){
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User retrieved successfully", userService.findById(token, id));
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> refreshToken(@RequestBody AuthenticationRequest refreshTokenRequest){
         ApiResponse<AuthenticationResponse> response = new ApiResponse<>(true, "Refresh token successfully", authService.refreshToken(refreshTokenRequest));

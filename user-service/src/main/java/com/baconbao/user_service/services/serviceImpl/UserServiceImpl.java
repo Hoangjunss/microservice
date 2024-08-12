@@ -38,10 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Integer id) {
+    public UserDTO findById(String token, Integer id) {
         log.info("Get user by id: {}", id);
-        return userRepository.findById(id)
-                .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND));
+        jwtTokenUtil.extractUsername(token);
+        return convertToDto(userRepository.findById(id)
+        .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
     }
 
     @Override
@@ -93,9 +94,9 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateIsActive(String token, Integer id) {
         try {
             log.info("Updating active status by id: {}", id);
-            User user = findById(id);
+            UserDTO user = findById(token, id);
             user.setActive(!user.isActive());
-            return convertToDto(userRepository.save(user));
+            return convertToDto(userRepository.save(convertToEntity(user)));
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.USER_UNABLE_TO_UPDATE);
         } catch (DataAccessException e) {

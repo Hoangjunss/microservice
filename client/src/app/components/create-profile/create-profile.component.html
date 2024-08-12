@@ -1,26 +1,70 @@
-<!-- profile-form.component.html -->
-<div>
-    <label for="objective">Objective:</label>
-    <input type="text" id="objective" [(ngModel)]="profile.objective">
+<div class="profiledetails animate-overlay" id="edit_profile_user">
+  <div class="dialog">
+    <div class="overlay" id="overlay_user"></div>
+    <div class="edit_profile_container">
+      <h2>Edit Project Details</h2>
+      <form [formGroup]="profileForm" (ngSubmit)="updateProject()" class="form_edit_profile" id="form_edit_account">
+        <input type="hidden" id="id_project" formControlName="id" name="id_project" [value]="profile?.id">
+
+        <div class="image_box">
+          <div class="item" id="image_box_item">
+            <label for="imageInput">Image Index Project</label>
+            <input type="file" id="imageInput" formControlName="imageFile" name="image">
+          </div>
+          <div class="preview_box" id="preview_box">
+            <img id="currentImage" [src]="profileForm.get('imageFile')?.value ? profileForm.get('imageFile')?.value : '#' " alt="Image project"/>
+          </div>
+        </div>
+
+        <div class="name_box">
+          <label for="title">Title:</label>
+          <input type="text" id="title" formControlName="title" placeholder="Enter title" [value]="profile?.title">
+        </div>
+        <div class="name_box">
+          <label for="objective">Objective:</label>
+          <textarea id="objective" formControlName="objective" rows="4" placeholder="Enter project objective" [value]="profile?.objective"></textarea>
+        </div>
+        <div class="name_box">
+          <label for="education">Education:</label>
+          <input id="education" formControlName="education" placeholder="Enter project education" [value]="profile?.education">
+        </div>
+        <div class="name_box">
+          <label for="workExperience">Work Experience:</label>
+          <input id="workExperience" formControlName="workExperience" placeholder="Enter project workExperience" [value]="profile?.workExperience">
+        </div>
+        <div class="name_box">
+          <label for="skills">Skills:</label>
+          <input id="skills" formControlName="skills" placeholder="Enter project skills" [value]="profile?.skills">
+        </div>
+        <div class="name_box">
+          <label for="typeProfile">Type Profile:</label>
+          <select id="typeProfile" formControlName="typeProfile">
+            <option selected value="JAVA">JAVA</option>
+            <option value="PYTHON">PYTHON</option>
+            <option value="C">C</option>
+          </select>
+        </div>
+        <!-- Contact Fields -->
+        <div formGroupName="contact">
+          <div class="name_box">
+            <label for="address">Address:</label>
+            <input id="address" formControlName="address" placeholder="Enter address" [value]="profile?.contact?.address">
+          </div>
+          <div class="name_box">
+            <label for="phone">Phone:</label>
+            <input id="phone" formControlName="phone" placeholder="Enter phone number" [value]="profile?.contact?.phone">
+          </div>
+          <div class="name_box">
+            <label for="email">Email:</label>
+            <input id="email" formControlName="email" placeholder="Enter email" [value]="profile?.contact?.email">
+          </div>
+        </div>
+
+        <div class="form_buttons d-flex justify-content-between">
+          <button type="submit" id="submitBtn" class="btn btn-primary">Save</button>
+          <button type="button" (click)="onClose()" class="btn btn-secondary">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div>
-    <label for="education">Education:</label>
-    <input type="text" id="education" [(ngModel)]="profile.education">
-  </div>
-  <div>
-    <label for="workExperience">Work Experience:</label>
-    <input type="text" id="workExperience" [(ngModel)]="profile.workExperience">
-  </div>
-  <div>
-    <label for="skills">Skills:</label>
-    <input type="text" id="skills" [(ngModel)]="profile.skills">
-  </div>
-  <div>
-    <label for="typeProfile">Type Profile:</label>
-    <input type="text" id="typeProfile" [(ngModel)]="profile.typeProfile">
-  </div>
-  
-  <div>
-    <button (click)="sendProfile()">Send Profile</button>
-  </div>
-  
+</div>

@@ -1,36 +1,47 @@
 <div class="profiledetails animate-overlay" id="edit_profile_user">
     <div class="dialog">
-      <div class="overlay" id="overlay_user"></div>
-      <div class="edit_profile_container">
-        <h2>Edit Project Details</h2>
-            <form [formGroup]="projectForm" (ngSubmit)="updateProject($event)" class="form_edit_profile" id="form_edit_account">
+        <div class="overlay" id="overlay_user"></div>
+        <div class="edit_profile_container">
+            <h2>Edit Project Details</h2>
+            <form [formGroup]="projectForm" (ngSubmit)="updateProject($event)" class="form_edit_profile"
+                id="form_edit_account">
                 <input type="hidden" id="id_project" formControlName="id" name="id_project" [value]="projectEdit?.id">
-                <input type="hidden" id="id_profile" formControlName="idProfile" name="id_profile" [value]="projectEdit?.idProfile">
+                <input type="hidden" id="id_profile" formControlName="idProfile" name="id_profile"
+                    [value]="projectEdit?.idProfile">
                 <div class="image_box">
                     <div class="item" id="image_box_item">
                         <label for="imageInput">Image Index Project</label>
-                        <input type="file" placeholder="Image Project" id="imageInput" formControlName="imageFile" name="image">
+                        <input type="file" placeholder="Image Project" id="imageInput" formControlName="imageFile"
+                            name="image">
                     </div>
                     <div class="preview_box" id="preview_box">
-                        <img id="currentImage" src="#" alt="Image project"/>
+                        <img id="currentImage" src="#" alt="Image project" />
                     </div>
                 </div>
                 <div class="name_box">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" formControlName="title" placeholder="Enter title" [value]="projectEdit?.title">
+                    <input type="text" id="title" formControlName="title" placeholder="Enter title"
+                        [value]="projectEdit?.title">
                 </div>
                 <div class="name_box">
                     <label for="description">Description:</label>
-                    <textarea id="description" formControlName="description" rows="4" placeholder="Enter project description">{{projectEdit?.description}}</textarea>
+                    <textarea id="description" formControlName="description" rows="4"
+                        placeholder="Enter project description">{{projectEdit?.description}}</textarea>
                 </div>
                 <div class="name_box">
                     <label for="url">URL Project:</label>
-                    <input type="text" id="url" formControlName="url" placeholder="Enter project URL" [value]="projectEdit?.url">
+                    <input type="text" id="url" formControlName="url" placeholder="Enter project URL"
+                        [value]="projectEdit?.url">
                 </div>
-                <div class="form-check form-switch d-flex flex-row-reverse">
-                    <label class="" for="flexSwitchCheckChecked"><strong>Display in profile</strong>
-                        <input class="form-check-input" type="checkbox" role="switch" id="isDisplay" formControlName="display" id="flexSwitchCheckChecked" [checked]="projectEdit?.display">
-                    </label>
+                <div class="form-check form-switch">
+                    <div>
+                        <label class="" for="flexSwitchCheckChecked">Display in profile
+                        </label>
+                    </div>
+                    <div class="form-box">
+                        <input class="form-check-input" type="checkbox" role="switch" id="isDisplay"
+                            formControlName="display" id="flexSwitchCheckChecked" [checked]="projectEdit?.display">
+                    </div>
                 </div>
 
                 <div class="form_buttons d-flex justify-content-between">
