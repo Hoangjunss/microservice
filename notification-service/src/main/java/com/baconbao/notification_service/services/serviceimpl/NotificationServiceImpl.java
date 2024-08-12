@@ -4,6 +4,7 @@ import com.baconbao.notification_service.dto.NotificationDTO;
 import com.baconbao.notification_service.exception.CustomException;
 import com.baconbao.notification_service.exception.Error;
 import com.baconbao.notification_service.model.Notification;
+import com.baconbao.notification_service.openFeign.UserClient;
 import com.baconbao.notification_service.repository.NotificationRepository;
 import com.baconbao.notification_service.services.service.NotificationService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationRepository notificationRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private UserClient userClient;
 
     private Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
@@ -99,6 +102,7 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationDTO> getNotificationsByIdUser(Integer userId) {
         try {
             log.info("Get notifications by user id: {}", userId);
+            userClient.checkId(userId);
             return convertToDTOList(notificationRepository.getNotificationsByIdUser(userId));
         } catch (DataAccessException e){
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);

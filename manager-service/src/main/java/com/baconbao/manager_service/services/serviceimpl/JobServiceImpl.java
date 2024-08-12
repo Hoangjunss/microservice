@@ -5,6 +5,7 @@ import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
 import com.baconbao.manager_service.models.Job;
 import com.baconbao.manager_service.models.TypeJob;
+import com.baconbao.manager_service.openfeign.ProfileClient;
 import com.baconbao.manager_service.repository.JobRepository;
 import com.baconbao.manager_service.services.service.JobService;
 import com.mongodb.DuplicateKeyException;
@@ -34,6 +35,8 @@ public class JobServiceImpl implements JobService {
     private ModelMapper modelMapper;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private ProfileClient profileClient;
 
     private Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
@@ -131,11 +134,13 @@ public class JobServiceImpl implements JobService {
     public JobDTO applyJob(Integer idJob, Integer idProfile) {
         try {
             log.info("Applying for job id: {}, profile id: {}", idJob, idProfile);
+
             JobDTO jobDTO = findById(idJob);
             if (jobDTO.getIdProfiePending() == null) {
                 jobDTO.setIdProfiePending(new ArrayList<>());
             }
             List<Integer> idProfilePending = jobDTO.getIdProfiePending();
+            profileClient.checkIdProfile(idProfile);
             idProfilePending.add(idProfile);
             jobDTO.setIdProfiePending(idProfilePending);
             return update(jobDTO);
@@ -159,6 +164,7 @@ public class JobServiceImpl implements JobService {
                 jobDTO.setIdProfile(new ArrayList<>());
             }
             List<Integer> idProfileJob = jobDTO.getIdProfile();
+            profileClient.checkIdProfile(idProfile);
             idProfileJob.add(idProfile);
             jobDTO.setIdProfile(idProfileJob);
 
@@ -177,6 +183,7 @@ public class JobServiceImpl implements JobService {
             log.info("Rejecting profile id: {}, job id: {}", idProfile, idJob);
             JobDTO jobDTO = findById(idJob);
             List<Integer> idProfilePending = jobDTO.getIdProfiePending();
+            profileClient.checkIdProfile(idProfile);
             idProfilePending.remove(idProfile);
             jobDTO.setIdProfiePending(idProfilePending);
             return update(jobDTO);
