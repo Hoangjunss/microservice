@@ -33,8 +33,8 @@ public class CloudinaryService {
     }
 
     // tai hinh anh len cloud
-    public Map upload(MultipartFile multipartFile)  {
-        try{
+    public Map upload(MultipartFile multipartFile) {
+        try {
             log.info("Uploading photo to clound: {}", multipartFile.getOriginalFilename());
             File file = convert(multipartFile);
             Map result = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
@@ -43,7 +43,7 @@ public class CloudinaryService {
                 throw new IOException("Unable to upload temporary file: " + file.getAbsolutePath());
             }
             return result;
-        }catch (IOException e){
+        } catch (IOException e) {
             log.error("Unable to upload file: {}", e.getMessage());
             throw new CloudinaryException(Error.UPLOAD_FAILED);
         }
@@ -54,7 +54,7 @@ public class CloudinaryService {
         try {
             log.info("Deleting photo from cloud: {}", id);
             return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
-        }catch (IOException e){
+        } catch (IOException e) {
             log.error("Unable to delete file: {}", e.getMessage());
             throw new CloudinaryException(Error.DELETE_FAILED);
         }
@@ -68,7 +68,7 @@ public class CloudinaryService {
             fo.write(multipartFile.getBytes());
             fo.close();
             return file;
-        }catch (IOException e){
+        } catch (IOException e) {
             log.error("Unable to convert file: {}", e.getMessage());
             throw new CloudinaryException(Error.CONVERSION_FAILED);
         }

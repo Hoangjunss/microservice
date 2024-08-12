@@ -23,16 +23,17 @@ public class ImageServiceImpl implements ImageService {
     private CloudinaryService cloudinaryService;
     @Autowired
     private ModelMapper modelMapper;
-private  Image save(MultipartFile imageFile){
-    log.info("Uploading image");
-    Map<String, Object> resultMap = cloudinaryService.upload(imageFile);
-    String imageUrl = (String) resultMap.get("url");
-    Image image= Image.builder()
-            .url(imageUrl)
-            .id(getGenerationId())
-            .build();
-    return imageRepository.save(image);
-}
+
+    private Image save(MultipartFile imageFile) {
+        log.info("Uploading image");
+        Map<String, Object> resultMap = cloudinaryService.upload(imageFile);
+        String imageUrl = (String) resultMap.get("url");
+        Image image = Image.builder()
+                .url(imageUrl)
+                .id(getGenerationId())
+                .build();
+        return imageRepository.save(image);
+    }
 
     @Override
     public ImageDTO saveImage(MultipartFile imageFile) {
@@ -40,11 +41,13 @@ private  Image save(MultipartFile imageFile){
         return coventToDTO(save(imageFile));
 
     }
+
     public Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
         return (int) (uuid.getMostSignificantBits() & 0xFFFFFFFFL);
     }
-    public ImageDTO coventToDTO(Image image){
-    return modelMapper.map(image,ImageDTO.class);
+
+    public ImageDTO coventToDTO(Image image) {
+        return modelMapper.map(image, ImageDTO.class);
     }
 }

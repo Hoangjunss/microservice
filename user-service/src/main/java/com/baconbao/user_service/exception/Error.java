@@ -1,4 +1,4 @@
-package com.baconbao.manager_service.exception;
+package com.baconbao.user_service.exception;
 
 
 import lombok.Getter;
@@ -20,26 +20,16 @@ public enum Error {
     DUPLICATE_KEY(9996, "Duplicate key found", HttpStatus.CONFLICT),
     EMPTY_RESULT(9995, "No result found", HttpStatus.NOT_FOUND),
     NON_UNIQUE_RESULT(9994, "Non-unique result found", HttpStatus.CONFLICT),
-    // MongoDB-related errors
-    MONGO_CONNECTION_FAILURE(3001, "MongoDB connection failed", HttpStatus.INTERNAL_SERVER_ERROR),
-    MONGO_DUPLICATE_KEY_ERROR(3002, "MongoDB duplicate key error", HttpStatus.CONFLICT),
-    MONGO_VALIDATION_ERROR(3003, "MongoDB validation error", HttpStatus.BAD_REQUEST),
-    MONGO_WRITE_CONCERN_ERROR(3004, "MongoDB write concern error", HttpStatus.INTERNAL_SERVER_ERROR),
-    MONGO_TIMEOUT_ERROR(3005, "MongoDB operation timed out", HttpStatus.INTERNAL_SERVER_ERROR),
-    MONGO_QUERY_EXECUTION_ERROR(3006, "MongoDB query execution error", HttpStatus.INTERNAL_SERVER_ERROR),
-    MONGO_UNKNOWN_ERROR(3007, "Unknown MongoDB error", HttpStatus.INTERNAL_SERVER_ERROR),
-    //Company-related errors
-    COMPANY_NOT_FOUND(11001, "Company not found", HttpStatus.NOT_FOUND),
-    COMPANY_ALREADY_EXISTS(11002, "Company already exists", HttpStatus.CONFLICT),
-    COMPANY_UNABLE_TO_SAVE(11003, "Company unable to save", HttpStatus.INTERNAL_SERVER_ERROR),
-    COMPANY_UNABLE_TO_UPDATE(11003, "Company unable to update", HttpStatus.INTERNAL_SERVER_ERROR),
-    COMPANY_UNABLE_TO_DELETE(11003, "Company unable to delete", HttpStatus.INTERNAL_SERVER_ERROR),
-    //Job-related errors
-    JOB_NOT_FOUND(12001, "Job not found", HttpStatus.NOT_FOUND),
-    JOB_ALREADY_EXISTS(12002, "Job already exists", HttpStatus.CONFLICT),
-    JOB_UNABLE_TO_SAVE(12003, "Job unable to save", HttpStatus.INTERNAL_SERVER_ERROR),
-    JOB_UNABLE_TO_UPDATE(12003, "Job unable to update", HttpStatus.INTERNAL_SERVER_ERROR),
-    JOB_UNABLE_TO_DELETE(12003, "Job unable to delete", HttpStatus.INTERNAL_SERVER_ERROR),
+    //User-related errors
+    USER_NOT_FOUND(1001, "User not found", HttpStatus.NOT_FOUND),
+    USER_ALREADY_EXISTS(1002, "User already exists", HttpStatus.CONFLICT),
+    USER_UNABLE_TO_SAVE(1003, "Unable to save user", HttpStatus.INTERNAL_SERVER_ERROR),
+    USER_UNABLE_TO_UPDATE(1004, "Unable to update user", HttpStatus.INTERNAL_SERVER_ERROR),
+    USER_UNABLE_TO_DELETE(1005, "Unable to delete user", HttpStatus.INTERNAL_SERVER_ERROR),
+    //Jwt token-related errors
+    JWT_INVALID(1101, "Invalid JWT token", HttpStatus.UNAUTHORIZED),
+    JWT_EXPIRED(1102, "JWT token expired", HttpStatus.UNAUTHORIZED),
+    JWT_MALFORMED(1103, "Malformed JWT token", HttpStatus.UNAUTHORIZED),
     ;
 
     private final int code;

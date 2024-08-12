@@ -10,6 +10,8 @@ import com.baconbao.profile_service.openFeign.ImageClient;
 import com.baconbao.profile_service.openFeign.UserClient;
 import com.baconbao.profile_service.repository.ProfileRepository;
 import com.baconbao.profile_service.services.service.ProfileService;
+import com.mongodb.MongoCommandException;
+
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +56,14 @@ public class ProfileServiceImp implements ProfileService {
     }
 
     private Profile save(ProfileDTO profileDTO) {
-        try{
+        try {
             log.info("Saving profile");
             ImageDTO imageDTO = null;
-            if(profileDTO.getImageFile()!=null){
-                imageDTO=imageClient.save(profileDTO.getImageFile());
+            if (profileDTO.getImageFile() != null) {
+                imageDTO = imageClient.save(profileDTO.getImageFile());
             }
-            if(checkUserId(profileDTO.getIdUser())){}
+            if (checkUserId(profileDTO.getIdUser())) {
+            }
             Profile profile = Profile.builder()
                     .id(getGenerationId())
                     .objective(profileDTO.getObjective())
@@ -71,12 +74,12 @@ public class ProfileServiceImp implements ProfileService {
                     .title(profileDTO.getTitle())
                     .contact(profileDTO.getContact())
                     .idUser(profileDTO.getIdUser())
-                    //.idImage(imageDTO.getId())
+                    // .idImage(imageDTO.getId())
                     .build();
             return profileRepository.insert(profile);
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.PROFILE_UNABLE_TO_SAVE);
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
@@ -95,80 +98,88 @@ public class ProfileServiceImp implements ProfileService {
 
     @Override
     public ProfileDTO updateProfile(ProfileDTO profileDTO) {
-        try{
+        try {
             log.info("Updating profile id: {}", profileDTO.getId());
             return convertToDTO(profileRepository.save(convertToModel(profileDTO)));
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.PROFILE_UNABLE_TO_UPDATE);
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
-    
 
     @Override
     public ProfileDTO findById(Integer id) {
         log.info("Get profile by id: {}", id);
         return convertToDTO(profileRepository.findById(id)
-                .orElseThrow(()-> new CustomException(Error.PROFILE_NOT_FOUND)));
+                .orElseThrow(() -> new CustomException(Error.PROFILE_NOT_FOUND)));
     }
 
     @Override
     public List<ProfileDTO> findProfilesByType(TypeProfile typeProfile) {
-        try{
+        try {
             log.info("Get profile by type: {}", typeProfile.name());
             Query query = new Query();
             query.addCriteria(Criteria.where("typeProfile").in(typeProfile.name()));
             query.limit(20);
             List<Profile> profiles = mongoTemplate.find(query, Profile.class);
             return convertToDTOList(profiles);
-        } catch (InvalidDataAccessResourceUsageException e){
-            log.error("Get profile by type failed: {}", e.getMessage());
-        } catch (DataAccessException e){
+        } catch (MongoCommandException e) {
+            throw new CustomException(Error.MONGO_QUERY_EXECUTION_ERROR);
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
-        return null;
     }
 
     @Override
     public List<ProfileDTO> getAllProfile() {
-        try{
+        try {
             log.info("Get all profiles");
             Query query = new Query();
             query.limit(20);
             return convertToDTOList(mongoTemplate.find(query, Profile.class));
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
 
     @Override
     public List<ProfileDTO> findByTitle(String title) {
-        try
-        {
+        try {
             log.info("Get profile by title: {}", title);
             Query query = new Query();
             query.addCriteria(Criteria.where("title").regex(title));
             query.limit(20);
             return convertToDTOList(mongoTemplate.find(query, Profile.class));
-        } catch (DataAccessException e){
+        } catch (MongoCommandException e) {
+            throw new CustomException(Error.MONGO_QUERY_EXECUTION_ERROR);
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
 
     @Override
     public Boolean checkIdProfile(Integer id) {
+        log.info("Check id profile: {}", id);
         return profileRepository.findById(id).isPresent();
     }
 
-    private boolean checkUserId(Integer id){
+    private boolean checkUserId(Integer id) {
+        log.info("Check id user: {}", id);
         return userClient.checkId(id);
     }
 
     @Override
     public ProfileDTO findByIdUser(Integer id) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("idUser").regex(id+""));
-        return convertToDTO(mongoTemplate.findOne(query, Profile.class));
+        try {
+            log.info("Get profile by idUser: {}", id);
+            Query query = new Query();
+            query.addCriteria(Criteria.where("idUser").regex(id + ""));
+            return convertToDTO(mongoTemplate.findOne(query, Profile.class));
+        } catch (MongoCommandException e) {
+            throw new CustomException(Error.MONGO_QUERY_EXECUTION_ERROR);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 }

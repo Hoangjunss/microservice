@@ -64,8 +64,8 @@ public class AuthService {
                 .role(Role.valueOf("admin"))
                 .isActive(true)
                 .build();
-        if(registrationRequest.getIdEmployee()!=null){
-           users.setIdEmployee(registrationRequest.getIdEmployee());
+        if (registrationRequest.getIdEmployee() != null) {
+            users.setIdEmployee(registrationRequest.getIdEmployee());
         }
 
         users.setPassword(encodedPassword);
@@ -97,19 +97,18 @@ public class AuthService {
                     .build();
         }
 
-
         log.info("Sign in Auth Service");
         // Nếu email tồn tại thì kiểm tra mật khẩu
-            try {
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(email, signinRequest.getPassword()));
-            } catch (Exception e) {
-                return AuthenticationResponse.builder()
-                        .message("Invalid credentials")
-                        .statusCode(401) 
-                        .isVaild(false)
-                        .build();
-            }
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, signinRequest.getPassword()));
+        } catch (Exception e) {
+            return AuthenticationResponse.builder()
+                    .message("Invalid credentials")
+                    .statusCode(401)
+                    .isVaild(false)
+                    .build();
+        }
         var user = userRepository.findByEmail(email).orElseThrow();
         System.out.println("USER IS: " + user);
         var jwt = jwtTokenUtil.generateToken(user);
@@ -148,7 +147,7 @@ public class AuthService {
         if (email != null) {
             UserDetails userDetails = ourUserDetailsService.loadUserByUsername(email);
             if (jwtTokenUtil.isTokenValid(token, userDetails)) {
-                User user=userRepository.findByEmail(userDetails.getUsername()).get();
+                User user = userRepository.findByEmail(userDetails.getUsername()).get();
                 return AuthenticationResponse.builder().isVaild(true).role(user.getRole().toString()).build();
             }
         }

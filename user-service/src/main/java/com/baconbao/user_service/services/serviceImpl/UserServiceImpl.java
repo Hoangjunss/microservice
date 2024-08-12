@@ -1,6 +1,8 @@
 package com.baconbao.user_service.services.serviceImpl;
 
 import com.baconbao.user_service.dto.UserDTO;
+import com.baconbao.user_service.exception.CustomException;
+import com.baconbao.user_service.exception.Error;
 import com.baconbao.user_service.utils.JwtTokenUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,8 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.baconbao.user_service.model.User;
@@ -35,7 +39,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Integer id) {
-        return userRepository.findById(id).orElse(null);
+        log.info("Get user by id: {}", id);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND));
     }
 
     @Override
@@ -45,9 +51,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getCurrentUser(String token) {
+        log.info("Get current user by token: {}", token);
         String email = jwtTokenUtil.extractUsername(token);
-
-        return convertToDto(userRepository.findByEmail(email).orElseThrow());
+        return convertToDto(userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
     }
 
     public UserDTO convertToDto(User user) {
@@ -60,23 +67,40 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getALl(String token) {
-        log.info("Get all");
-        jwtTokenUtil.extractUsername(token);
-        return convertToDTOList(userRepository.findAll());
+        try {
+            log.info("Get all");
+            jwtTokenUtil.extractUsername(token);
+            return convertToDTOList(userRepository.findAll());
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
     public UserDTO update(String token, UserDTO userDTO) {
-        jwtTokenUtil.extractUsername(token);
-        return convertToDto(userRepository.save(convertToEntity(userDTO)));
+        try {
+            log.info("Updating user by id: {}", userDTO.getId());
+            jwtTokenUtil.extractUsername(token);
+            return convertToDto(userRepository.save(convertToEntity(userDTO)));
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(Error.USER_UNABLE_TO_UPDATE);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
-    public UserDTO updateIsActive(String token,Integer id) {
-        User user = findById(id);
-        user.setActive(!user.isActive());
-        return convertToDto(userRepository.save(user));
+    public UserDTO updateIsActive(String token, Integer id) {
+        try {
+            log.info("Updating active status by id: {}", id);
+            User user = findById(id);
+            user.setActive(!user.isActive());
+            return convertToDto(userRepository.save(user));
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(Error.USER_UNABLE_TO_UPDATE);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
-    
 
 }

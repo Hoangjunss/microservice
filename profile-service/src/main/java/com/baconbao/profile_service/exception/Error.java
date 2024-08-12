@@ -19,6 +19,14 @@ public enum Error {
     DUPLICATE_KEY(9996, "Duplicate key found", HttpStatus.CONFLICT),
     EMPTY_RESULT(9995, "No result found", HttpStatus.NOT_FOUND),
     NON_UNIQUE_RESULT(9994, "Non-unique result found", HttpStatus.CONFLICT),
+    // MongoDB-related errors
+    MONGO_CONNECTION_FAILURE(3001, "MongoDB connection failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    MONGO_DUPLICATE_KEY_ERROR(3002, "MongoDB duplicate key error", HttpStatus.CONFLICT),
+    MONGO_VALIDATION_ERROR(3003, "MongoDB validation error", HttpStatus.BAD_REQUEST),
+    MONGO_WRITE_CONCERN_ERROR(3004, "MongoDB write concern error", HttpStatus.INTERNAL_SERVER_ERROR),
+    MONGO_TIMEOUT_ERROR(3005, "MongoDB operation timed out", HttpStatus.INTERNAL_SERVER_ERROR),
+    MONGO_QUERY_EXECUTION_ERROR(3006, "MongoDB query execution error", HttpStatus.INTERNAL_SERVER_ERROR),
+    MONGO_UNKNOWN_ERROR(3007, "Unknown MongoDB error", HttpStatus.INTERNAL_SERVER_ERROR),
     //Profile-related errors
     PROFILE_NOT_FOUND(2001, "Profile not found", HttpStatus.NOT_FOUND),
     PROFILE_ALREADY_EXISTS(2002, "Profile already exists", HttpStatus.CONFLICT),

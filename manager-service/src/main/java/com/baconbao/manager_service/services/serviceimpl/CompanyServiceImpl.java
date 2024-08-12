@@ -11,6 +11,10 @@ import com.baconbao.manager_service.openfeign.ImageClient;
 import com.baconbao.manager_service.openfeign.UserClient;
 import com.baconbao.manager_service.repository.CompanyRepository;
 import com.baconbao.manager_service.services.service.CompanyService;
+import com.mongodb.DuplicateKeyException;
+import com.mongodb.MongoCommandException;
+import com.mongodb.MongoWriteException;
+
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,26 +47,27 @@ public class CompanyServiceImpl implements CompanyService {
         return (int) (uuid.getMostSignificantBits() & 0x7FFFFFFF);
     }
 
-    private Company convertToModel(CompanyDTO companyDTO){
+    private Company convertToModel(CompanyDTO companyDTO) {
         return modelMapper.map(companyDTO, Company.class);
     }
-    private CompanyDTO convertToDTO(Company company){
+
+    private CompanyDTO convertToDTO(Company company) {
         return modelMapper.map(company, CompanyDTO.class);
     }
 
-    private List<CompanyDTO> convertToListDTO(List<Company> companies){
+    private List<CompanyDTO> convertToListDTO(List<Company> companies) {
         return companies.stream()
                 .map(this::convertToDTO)
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    private Company save(CompanyDTO companyDTO){
+    private Company save(CompanyDTO companyDTO) {
         log.info("Inserting company");
-        Integer idImage=null;
-        if(companyDTO.getImageFile()!=null){
-            idImage=imageClient.save(companyDTO.getImageFile()).getData().getId();
+        Integer idImage = null;
+        if (companyDTO.getImageFile() != null) {
+            idImage = imageClient.save(companyDTO.getImageFile()).getData().getId();
         }
-        try{
+        try {
             Company company = Company.builder()
                     .id(getGenerationId())
                     .name(companyDTO.getName())
@@ -76,17 +81,18 @@ public class CompanyServiceImpl implements CompanyService {
                     .idImage(idImage)
                     .build();
             return companyRepository.insert(company);
-        }catch (DataAccessException e){
+        } catch (DuplicateKeyException e) {
+            throw new CustomException(Error.MONGO_DUPLICATE_KEY_ERROR);
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
-
 
     @Override
     public CompanyDTO findById(Integer id) {
         log.info("Get company by id: {}", id);
         return convertToDTO(companyRepository.findById(id)
-                .orElseThrow(()-> new CustomException(Error.COMPANY_NOT_FOUND)));
+                .orElseThrow(() -> new CustomException(Error.COMPANY_NOT_FOUND)));
     }
 
     @Override
@@ -96,10 +102,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDTO update(CompanyDTO companyDTO) {
-        try{
+        try {
             log.info("Updating Company by id: {}", companyDTO.getId());
             return convertToDTO(companyRepository.save(convertToModel(companyDTO)));
-        } catch (DataAccessException e){
+        } catch (MongoWriteException e) {
+            throw new CustomException(Error.MONGO_WRITE_CONCERN_ERROR);
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
@@ -109,56 +117,66 @@ public class CompanyServiceImpl implements CompanyService {
         try {
             log.info("Deleting Company by id: {}", id);
             companyRepository.deleteById(id);
-        }catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
 
     @Override
     public List<CompanyDTO> getCompanyDTOs() {
-        try{
+        try {
             log.info("Fetching all CompanyDTOs");
             Query query = new Query();
             query.limit(20);
             return convertToListDTO(mongoTemplate.find(query, Company.class));
-        }  catch (DataAccessException e) {
-            System.err.println("Error while fetching CompanyDTOs: " + e.getMessage());
+        } catch (DataAccessException e) {
             return Collections.emptyList();
         }
     }
 
     @Override
     public List<CompanyDTO> getCompanyByType(String type) {
-        try{
+        try {
             log.info("Fetching companies by type: {}", type);
             Query query = new Query();
             query.addCriteria(Criteria.where("type").regex(type));
             query.limit(20);
             return convertToListDTO(mongoTemplate.find(query, Company.class));
-        }  catch (DataAccessException e) {
-            // Log the error message
+        } catch (MongoCommandException e) {
+            throw new CustomException(Error.MONGO_QUERY_EXECUTION_ERROR);
+        } catch (DataAccessException e) {
             System.err.println("Error while fetching companies by type: " + e.getMessage());
-            // Return an empty list in case of an error
             return Collections.emptyList();
         }
     }
 
     @Override
-    public CompanyDTO setHRToCompany(AuthenticationRequest authenticationRequest,Integer idCompany) {
-        ApiResponse<AuthenticationResponse> authenticationResponseApiResponse=userClient.signUp(authenticationRequest);
-        CompanyDTO companyDTO=findById(idCompany);
-        List<Integer> idHR=companyDTO.getIdHR();
-        idHR.add(authenticationResponseApiResponse.getData().getUser().getId());
-        companyDTO.setIdHR(idHR);
-        return update(companyDTO);
+    public CompanyDTO setHRToCompany(AuthenticationRequest authenticationRequest, Integer idCompany) {
+        try {
+            log.info("Setting HR to Company by idCompany: {}, idHR: {}", idCompany, authenticationRequest.getEmail());
+            ApiResponse<AuthenticationResponse> authenticationResponseApiResponse = userClient
+                    .signUp(authenticationRequest);
+            CompanyDTO companyDTO = findById(idCompany);
+            List<Integer> idHR = companyDTO.getIdHR();
+            idHR.add(authenticationResponseApiResponse.getData().getUser().getId());
+            companyDTO.setIdHR(idHR);
+            return update(companyDTO);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 
     @Override
     public CompanyDTO deleteHRToCompany(Integer idHR, Integer idCompany) {
-        CompanyDTO companyDTO=findById(idCompany);
-        List<Integer> idHr=companyDTO.getIdHR();
-        idHr.remove(idHR);
-        companyDTO.setIdHR(idHr);
-        return update(companyDTO);
+        try {
+            log.info("Deleting HR from Company by idHR: {}, idCompany: {}", idHR, idCompany);
+            CompanyDTO companyDTO = findById(idCompany);
+            List<Integer> idHr = companyDTO.getIdHR();
+            idHr.remove(idHR);
+            companyDTO.setIdHR(idHr);
+            return update(companyDTO);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
     }
 }

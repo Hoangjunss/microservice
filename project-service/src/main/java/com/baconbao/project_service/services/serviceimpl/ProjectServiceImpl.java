@@ -42,21 +42,20 @@ public class ProjectServiceImpl implements ProjectService {
         return modelMapper.map(projectDTO, Project.class);
     }
 
-    private List<ProjectDTO> convertToDTOList(List<Project> projects){
+    private List<ProjectDTO> convertToDTOList(List<Project> projects) {
         return projects.stream()
                 .map(project -> modelMapper.map(project, ProjectDTO.class))
                 .collect(Collectors.toList());
     }
 
-
     private Project save(ProjectDTO projectDTO) {
         try {
             log.info("Saving project");
-            ImageDTO imageDTO=null;
-            if(projectDTO.getImageFile()!=null){
-                imageDTO= imageClient.save(projectDTO.getImageFile());
+            ImageDTO imageDTO = null;
+            if (projectDTO.getImageFile() != null) {
+                imageDTO = imageClient.save(projectDTO.getImageFile());
             }
-            Project project=Project.builder()
+            Project project = Project.builder()
                     .id(getGenerationId())
                     .title(projectDTO.getTitle())
                     .description(projectDTO.getDescription())
@@ -66,12 +65,13 @@ public class ProjectServiceImpl implements ProjectService {
                     .isDisplay(projectDTO.isDisplay())
                     .build();
             return projectRepository.save(project);
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.PROJECT_UNABLE_TO_SAVE);
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
+
     public Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
         return (int) (uuid.getMostSignificantBits() & 0xFFFFFFFFL);
@@ -88,11 +88,11 @@ public class ProjectServiceImpl implements ProjectService {
         try {
             log.info("Update project");
             projectDTO.setCreateAt(findById(projectDTO.getId()).getCreateAt());
-            Project project=projectRepository.save(convertToModel(projectDTO));
+            Project project = projectRepository.save(convertToModel(projectDTO));
             return convertToDTO(project);
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.PROJECT_UNABLE_TO_UPDATE);
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
@@ -101,16 +101,15 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDTO findById(Integer id) {
         log.info("Find project by id: {}", id);
         return convertToDTO(projectRepository.findById(id)
-                .orElseThrow(()-> new CustomException(Error.PROJECT_NOT_FOUND)));
+                .orElseThrow(() -> new CustomException(Error.PROJECT_NOT_FOUND)));
     }
-
 
     @Override
     public List<ProfileDTO> getAlliProfile() {
         try {
             log.info("Get all profile");
             return profileClient.getAll();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }

@@ -2,7 +2,6 @@ package com.baconbao.manager_service.services.service;
 
 import com.baconbao.manager_service.dto.AuthenticationRequest;
 import com.baconbao.manager_service.dto.CompanyDTO;
-import com.baconbao.manager_service.models.Company;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
