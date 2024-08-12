@@ -16,6 +16,59 @@ export class NotificationComponent implements OnInit {
   notifications : Notification[] = [];
   newNotification : Notification = new Notification();
 
+  text: Notification [] = [
+    {
+      id: 1,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 2,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 3,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 4,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 5,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 6,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 7,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 8,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 9,
+      message: 'This is a new notification',
+      read: false
+    },
+    {
+      id: 10,
+      message: 'This is a new notification',
+      read: false
+    }
+  ];
+
   constructor(private notificationService: NotificationServiceService) { }
 
   ngOnInit(): void {

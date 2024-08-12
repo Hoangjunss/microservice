@@ -1,20 +1,30 @@
-<div class="notification-dropdown" *ngIf="notifications.length > 0">
-    <h5>Notifications</h5>
+<div *ngIf="text.length > 0; else noNotifications" class="notification-dropdown">
+  <h5>Notifications</h5>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let notification of text" (click)="markAsRead(notification)">
+      <!-- Image before the message -->
+      <img src="" alt="Notification Icon" class="notification-icon">
+      
+      <!-- Span with message and unread class -->
+      <span [class.unread]="!notification.read">{{ notification.message }}</span>
+    </li>
+  </ul>
+
+  <!-- Use a component method for complex logic -->
+  <div *ngIf="allNotificationsRead()" class="no-unread">
+    All notifications are read.
+  </div>
+</div>
+
+<!-- Template for no notifications -->
+<ng-template #noNotifications>
+  <div class="notification-dropdown">
+    <h5>Notifications</h5>  
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let notification of notifications" (click)="markAsRead(notification)">
-        <!-- Image before the message -->
+      <li class="list-group-item">
         <img src="" alt="Notification Icon" class="notification-icon">
-  
-        <!-- Span with message and unread class -->
-        <span [class.unread]="!notification.read">{{ notification.message }}</span>
-        
-  
+        <span class="unread">No notifications available.</span>
       </li>
     </ul>
-  
-    <!-- Use a component method for complex logic -->
-    <div *ngIf="allNotificationsRead()" class="no-unread">
-      All notifications are read.
-    </div>
   </div>
-  
+</ng-template>
