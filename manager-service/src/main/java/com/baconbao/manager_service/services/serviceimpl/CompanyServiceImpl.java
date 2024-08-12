@@ -37,8 +37,8 @@ public class CompanyServiceImpl implements CompanyService {
     private ModelMapper modelMapper;
     @Autowired
     private MongoTemplate mongoTemplate;
-    @Autowired
-    private ImageClient imageClient;
+    /* @Autowired
+    private ImageClient imageClient; */
     @Autowired
     private UserClient userClient;
 
@@ -65,7 +65,7 @@ public class CompanyServiceImpl implements CompanyService {
         log.info("Inserting company");
         Integer idImage = null;
         if (companyDTO.getImageFile() != null) {
-            idImage = imageClient.save(companyDTO.getImageFile()).getData().getId();
+            //idImage = imageClient.save(companyDTO.getImageFile()).getData().getId();
         }
         try {
             Company company = Company.builder()

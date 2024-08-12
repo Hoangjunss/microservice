@@ -47,13 +47,13 @@ export class JobListComponent implements OnInit {
       this.getNewJob(this.idProfileNumber);
       this.getJobPending(this.idProfileNumber);
       this.getJobAccepted(this.idProfileNumber);
+      console.log(this.idProfileNumber+" new")
     }
   }
 
   getJobs(): void {
     this.jobService.getAllJobs().subscribe(data => {
       this.jobs = data;
-      this.updateDisplayedProfiles();
     });
   }
 
@@ -66,6 +66,8 @@ export class JobListComponent implements OnInit {
   getNewJob(idProfile:number):void{
     this.jobService.getNewJob(idProfile).subscribe(data=>{
       this.newJobs=data;
+      console.log(this.newJobs.length+" new jis")
+      this.updateDisplayedProfiles();
     })
   }
 
@@ -87,10 +89,22 @@ export class JobListComponent implements OnInit {
       this.router.navigate(['job-details/', job.id]);
     }
   }
+
+  applyJobs(idJob?:number){
+    if(idJob && this.idProfileNumber){
+      this.jobService.applyJobs(idJob, this.idProfileNumber).subscribe(data => {
+        if(data){
+          alert("Job applied successfully");
+        }
+    })
+    }
+    
+  }
   
   updateDisplayedProfiles() {
     const startIndex = this.currentPage * this.profilesPerPage;
-    this.displayJob = this.jobs.slice(startIndex, startIndex + this.profilesPerPage);
+    this.displayJob = this.newJobs.slice(startIndex, startIndex + this.profilesPerPage);
+    console.log(this.displayJob+" new jis this.displayJob")
   }
 
   nextPage() {

@@ -300,3 +300,9 @@
     color: #8c8c8c; /* Gray text color for disabled state */
     cursor: not-allowed;
 }
+
+.apply-btn.disabled {
+    background-color: #e0e0e0;
+    color: #8c8c8c;
+    cursor: not-allowed;
+}

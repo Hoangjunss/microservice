@@ -10,7 +10,7 @@ import { map, Observable, observeOn } from 'rxjs';
 export class CompanyServiceService {
 
   constructor(private httpClient: HttpClient) { }
-  private baseURL="http://localhost:8080/manager/company";
+  private baseURL="http://localhost:8080/manager/";
 
   createCompany(company: Company): Observable<Company> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -18,7 +18,7 @@ export class CompanyServiceService {
     if (authHeaders.has('Authorization')) {
         headers = headers.set('Authorization', authHeaders.get('Authorization')!);
     }
-    return this.httpClient.post<Apiresponse<Company>>(`${this.baseURL}/create`, company, { headers }).pipe(
+    return this.httpClient.post<Apiresponse<Company>>(`${this.baseURL}admin/company/create`, company, { headers }).pipe(
       map(response=>{
         if (response.success) {
           return this.mapToCompany(response.data);
@@ -35,7 +35,7 @@ export class CompanyServiceService {
     if (authHeaders.has('Authorization')) {
         headers = headers.set('Authorization', authHeaders.get('Authorization')!);
     }
-    return this.httpClient.post<Apiresponse<Company>>(`${this.baseURL}/update`, company, { headers }).pipe(
+    return this.httpClient.post<Apiresponse<Company>>(`${this.baseURL}manager/company/update`, company, { headers }).pipe(
       map(response=>{
         if (response.success) {
           return this.mapToCompany(response.data);
@@ -48,7 +48,7 @@ export class CompanyServiceService {
 
   deleteCompany(id:number): void{
     const authHeaders = this.createAuthorizationHeader();
-    this.httpClient.post<Apiresponse<String>>(`${this.baseURL}/delete?id=`+id, { authHeaders }).pipe(
+    this.httpClient.post<Apiresponse<String>>(`${this.baseURL}admin/company/delete?id=${id}`, { authHeaders }).pipe(
       map(response=>{
         if (!response.success) {
           throw new Error(response.message);
@@ -60,7 +60,7 @@ export class CompanyServiceService {
 
   getCompanyById(id?: number): Observable<Company> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Company>>(`${this.baseURL}/getbyid?id=${id}`, { headers }).pipe(
+    return this.httpClient.get<Apiresponse<Company>>(`${this.baseURL}user/company/getbyid?id=${id}`, { headers }).pipe(
       map(response=>{
         if (response.success) {
           return this.mapToCompany(response.data);
@@ -73,7 +73,7 @@ export class CompanyServiceService {
 
   getAllCompanies(): Observable<Company[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Company[]>>(`http://localhost:8080/manager/company/getcompany`, { headers}).pipe(
+    return this.httpClient.get<Apiresponse<Company[]>>(`${this.baseURL}user/company/getcompany`, { headers}).pipe(
       map((response) => {
         if (response.success) {
           return response.data.map(this.mapToCompany);
@@ -86,7 +86,7 @@ export class CompanyServiceService {
 
   getCompanyByType(type:string): Observable<Company[]>{
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Company[]>>(`${this.baseURL}/getcompanybytype?type=${type}`, { headers }).pipe(
+    return this.httpClient.get<Apiresponse<Company[]>>(`${this.baseURL}user/company/getcompanybytype?type=${type}`, { headers }).pipe(
       map(response=>{
         if (response.success) {
           return response.data.map(this.mapToCompany);

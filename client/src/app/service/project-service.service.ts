@@ -9,8 +9,10 @@ import { response } from 'express';
   providedIn: 'root'
 })
 export class ProjectServiceService {
+  private baseURL = 'http://localhost:8080/project/user/';
 
   constructor(private http:HttpClient) { }
+  
   getProjectByUser(id:number):Observable<Project[]>{
     const headers = this.createAuthorizationHeader();
     return this.http.get<Apiresponse<Project[]>>('http://localhost:8088/project/getByUser', {headers})
@@ -40,7 +42,7 @@ export class ProjectServiceService {
     if (authHeaders.has('Authorization')) {
         headers = headers.set('Authorization', authHeaders.get('Authorization')!);
     }
-    return this.http.post<Apiresponse<Project>>('http://localhost:8080/project/save', project, { headers }).pipe(
+    return this.http.post<Apiresponse<Project>>(`${this.baseURL}save`, project, { headers }).pipe(
       map(response => {
         if (response.success) {
           return response.data;
@@ -53,7 +55,7 @@ export class ProjectServiceService {
 
   updateProjectByUser(project:Project):Observable<Project>{
     const headers = this.createAuthorizationHeader();
-    return this.http.post<Apiresponse<Project>>('http://localhost:8080/project/update',project, {headers}).pipe(
+    return this.http.post<Apiresponse<Project>>(`${this.baseURL}update`,project, {headers}).pipe(
       map(response=>{
         if(response.success){
           return this.mapToProject(response.data);
@@ -66,7 +68,7 @@ export class ProjectServiceService {
 
   deleteProjectByUser(id?:number):Observable<string>{
     const headers = this.createAuthorizationHeader();
-    return this.http.delete<Apiresponse<string>>(`http://localhost:8080/project/delete/${id}`, {headers}).pipe(
+    return this.http.delete<Apiresponse<string>>(`${this.baseURL}delete/${id}`, {headers}).pipe(
       map(response => {
         if (!response.success) {
           throw new Error(response.message);
@@ -79,7 +81,7 @@ export class ProjectServiceService {
 
   getProjectByIdProfile(id?:number):Observable<Project[]>{
     const headers = this.createAuthorizationHeader();
-    return this.http.get<Apiresponse<Project[]>>('http://localhost:8080/project/getProject?id='+id, {headers}).pipe(
+    return this.http.get<Apiresponse<Project[]>>(`${this.baseURL}getProject?id=${id}`, {headers}).pipe(
       map(response=>{
         if(response.success){
           return response.data.map(this.mapToProject);

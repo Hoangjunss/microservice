@@ -11,12 +11,12 @@ import { response } from 'express';
 export class ProfileServiceService {
 
   constructor(private httpClient:HttpClient) { }
-  private baseURL = 'http://localhost:8080/profile/save';
+  private baseURL = 'http://localhost:8080/profile/';
 
   
   getProfilesList(): Observable<Profile[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Profile[]>>('http://localhost:8080/profile/getAll', {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Profile[]>>(`${this.baseURL}user/getAll`, {headers}).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToProfile);
@@ -35,6 +35,7 @@ export class ProfileServiceService {
     })
     );
   }
+  
   createProfile(profile: Profile):Observable<Profile> {
     console.log('Creating profile:', profile);
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -53,7 +54,7 @@ export class ProfileServiceService {
 
   getProfileByType(type: string): Observable<Profile[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Profile[]>>('http://localhost:8080/profile/findProfileByType?typeProfile=' + type, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Profile[]>>(`${this.baseURL}user/findProfileByType?typeProfile=${type}`, {headers}).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToProfile);
@@ -68,26 +69,9 @@ export class ProfileServiceService {
     );
   }
 
-  getProfileByUser(id: number): Observable<Profile> {
-    const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Profile>>('http://localhost:8080/profile/findProfileByType?idUser=' + id, { headers }).pipe(
-      map(response => {
-        if (response.success) {
-          return this.mapToProfile(response.data);
-        } else {
-          throw new Error(response.message);
-        }
-      }),
-      catchError(error => {
-        console.error('Error fetching profile by user:', error);
-        return throwError(() => new Error(error));
-      })
-    );
-  }
-
   getProfileById(id:number):Observable<Profile>{
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<any>(`http://localhost:8080/profile/findById?id=`+id, {headers})
+    return this.httpClient.get<any>(`${this.baseURL}user/findById?id=${id}`, {headers})
    .pipe(map(response=>{
      if(response.success){
        return this.mapToProfile(response.data);
@@ -105,7 +89,7 @@ export class ProfileServiceService {
 
   getProfileByUserId(userId:number): Observable<Profile>{
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Profile>>('http://localhost:8080/profile/findByUserId?userId=' + userId, { headers }).pipe(
+    return this.httpClient.get<Apiresponse<Profile>>(`${this.baseURL}user/findByUserId?userId=${userId}`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return this.mapToProfile(response.data);

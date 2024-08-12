@@ -5,7 +5,7 @@ import com.baconbao.manager_service.dto.ImageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.multipart.MultipartFile;
 
-@FeignClient("image-service")
+//@FeignClient("image-service")
 public interface ImageClient {
    ApiResponse<ImageDTO> save(MultipartFile imageFile) ;
 }

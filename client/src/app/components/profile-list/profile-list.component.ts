@@ -52,12 +52,7 @@ export class ProfileListComponent implements OnInit {
       this.profiles = data;
     })
   }
-  getByUser(id: number) {
-    this.profileService.getProfileByUser(id).subscribe(data => {
-      this.profile = data;
-    })
-  }
-
+  
   updateDisplayedProfiles() {
     const startIndex = this.currentPage * this.profilesPerPage;
     this.displayedProfiles = this.profiles.slice(startIndex, startIndex + this.profilesPerPage);

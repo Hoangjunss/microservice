@@ -1,5 +1,5 @@
 import { title } from 'process';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Job } from '../model/job';
 import { map, Observable } from 'rxjs';
@@ -12,12 +12,12 @@ export class JobServiceService {
   private job: Job | undefined;
 
   constructor(private httpClient:HttpClient) { }
-  private baseURL="http://localhost:8080/manager/job";
+  private baseURL="http://localhost:8080/manager/";
 
   createJob(job: Job): Observable<Job>{
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const authHeaders = this.createAuthorizationHeader();
-    return this.httpClient.post<Apiresponse<Job>>(this.baseURL+'/create', JSON.stringify(job), {headers}).pipe(
+    return this.httpClient.post<Apiresponse<Job>>(`${this.baseURL}hr/job/create`, JSON.stringify(job), {headers}).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -31,7 +31,7 @@ export class JobServiceService {
   updateJob(job: Job): Observable<Job>{
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const authHeaders = this.createAuthorizationHeader();
-    return this.httpClient.put<Apiresponse<Job>>(this.baseURL+'/update', JSON.stringify(job), {headers}).pipe(
+    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/update`, JSON.stringify(job), {headers}).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -45,7 +45,7 @@ export class JobServiceService {
   deleteJob(id: number): void{
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const authHeaders = this.createAuthorizationHeader();
-    this.httpClient.delete<Apiresponse<any>>(this.baseURL+'/delete?id='+id, {headers}).subscribe(response => {
+    this.httpClient.delete<Apiresponse<any>>(`${this.baseURL}hr/job/delete?id=${id}`, {headers}).subscribe(response => {
       if (!response.success) {
         throw new Error(response.message);
       }else{
@@ -54,9 +54,26 @@ export class JobServiceService {
     });
   }
 
+  applyJobs(idJob: number, idProfile: number): Observable<Job>{
+    const headers = this.createAuthorizationHeader();
+    let params = new HttpParams();
+    params = params.append('jobDTO', idJob.toString());
+    params = params.append('idProfile', idProfile.toString());
+    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}/user/job/apply`, null, { params, headers }).pipe(
+      map(response => {
+        if (response.success) {
+          return this.mapToJob(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
+
   getJobById(id:number): Observable<Job>{
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job>>(this.baseURL+'/findbyid?id='+id, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job>>(`${this.baseURL}user/job/findbyid?id=${id}`, {headers}).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -69,7 +86,7 @@ export class JobServiceService {
 
   getAllJobs(): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getall', {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getall`, {headers}).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -82,7 +99,7 @@ export class JobServiceService {
 
   getJobByCompany(idCompany:number): Observable<Job[]>{
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getjobbycompany?id='+idCompany, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobbycompany?id=${idCompany}`, {headers}).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -95,7 +112,7 @@ export class JobServiceService {
 
   getJobPending(idProfile:number): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getjobpending?id='+idProfile, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobpending?id=${idProfile}`, {headers}).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -108,7 +125,7 @@ export class JobServiceService {
 
   getJobAccepted(idProfile:number): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getjobaccepted?id='+idProfile, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobaccepted?id=${idProfile}`, {headers}).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -121,9 +138,10 @@ export class JobServiceService {
 
   getNewJob(idProfile: number): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(this.baseURL+'/getnewjob?id='+idProfile, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getnewjob?id=${idProfile}`, {headers}).pipe(
       map(response => {
         if (response.success) {
+          console.log(response.data.length+" svjob")
           return response.data.map(this.mapToJob);
         } else {
           throw new Error(response.message);

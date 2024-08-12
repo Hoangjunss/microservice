@@ -39,11 +39,11 @@ export class ProfileComponent implements OnInit{
     });
   }
 
-  getByUser(id: number) {
+  /* getByUser(id: number) {
     this.profileService.getProfileByUser(id).subscribe(data => {
       this.profile = data;
     })
-  }
+  } */
   getProfileById(id:number){
     this.profileService.getProfileById(id).subscribe(data=>{
       this.profile=data;

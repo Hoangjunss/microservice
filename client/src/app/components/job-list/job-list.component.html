@@ -1,5 +1,5 @@
 <div *ngIf="currentUrl === '/home'">
-    <div *ngIf="jobs.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
+    <div *ngIf="displayJob.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
         <div *ngFor="let job of displayJob" class="job-card">
             <div class="job-header">
                 <h3 class="job-title">Title: {{job.title}}</h3>
@@ -7,13 +7,13 @@
             </div>
             <p class="job-size">Team Size: {{job.size}}</p>
             <div class="job-actions">
-                <a class="btn apply-btn">Apply</a>
+                <a (click)="applyJobs(job.id)" class="btn apply-btn">Apply</a>
                 <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
             </div>
         </div>
         <div class="d-flex justify-content-end">
             <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
-                </button>
+               <</button>
                     <button class="nav-button next" (click)="nextPage()"
                         [disabled]="currentPage >= totalPages() - 1">></button>
         </div>
@@ -74,7 +74,7 @@
                 </div>
                 <p class="job-size">Team Size: {{job.size}}</p>
                 <div class="job-actions">
-                    <a class="btn apply-btn">Apply</a>
+                    <a (click)="applyJobs(job.id)" class="btn apply-btn">Apply</a>
                     <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
                 </div>
             </div>
@@ -104,13 +104,13 @@
                 </div>
                 <p class="job-size">Team Size: {{job.size}}</p>
                 <div class="job-actions">
-                    <a class="btn apply-btn">Apply</a>
+                    <a class="btn apply-btn disabled">Apply</a>
                     <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
                 </div>
             </div>
             <div class="d-flex justify-content-end">
                 <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
-                    </button>
+                    <</button>
                         <button class="nav-button next" (click)="nextPage()"
                             [disabled]="currentPage >= totalPages() - 1">></button>
             </div>
@@ -139,7 +139,7 @@
             </div>
             <div class="d-flex justify-content-end">
                 <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
-                    </button>
+                    <</button>
                         <button class="nav-button next" (click)="nextPage()"
                             [disabled]="currentPage >= totalPages() - 1">></button>
             </div>

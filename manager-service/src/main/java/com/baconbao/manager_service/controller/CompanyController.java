@@ -40,7 +40,7 @@ public class CompanyController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Company retrieved successfully", companyDTO));
     }
 
-    @GetMapping("//user/company/getcompany")
+    @GetMapping("/user/company/getcompany")
     public ResponseEntity<ApiResponse<List<CompanyDTO>>> getAllCompanies(){
         List<CompanyDTO> companyDTOs = companyService.getCompanyDTOs();
         return ResponseEntity.ok(new ApiResponse<>(true, "Companies retrieved successfully", companyDTOs));
