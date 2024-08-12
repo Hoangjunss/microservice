@@ -109,6 +109,7 @@ export class CompanyServiceService {
     phone: companyDTO.phone,
     city: companyDTO.city,
     country: companyDTO.country,
+    idManager: companyDTO.idManager,
     image: companyDTO.image
     };
   }

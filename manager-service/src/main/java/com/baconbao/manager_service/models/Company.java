@@ -26,5 +26,6 @@ public class Company {
     private String city;
     private String country;
     private Integer idImage;
+    private Integer idManager;
     private List<Integer> idHr;
 }

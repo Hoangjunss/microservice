@@ -22,6 +22,7 @@ public class CompanyDTO {
     private String phone;
     private String city;
     private String country;
+    private Integer idManager;
     private MultipartFile imageFile;
     private List<Integer> idHR;
 }
