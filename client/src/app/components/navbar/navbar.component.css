@@ -42,6 +42,7 @@ body {
     display: flex;
     align-items: center;
 }
+
 .navbar .navbar-nav.navbar-left>li>a {
     color: #212f3f;
     font-size: 18px;
@@ -279,7 +280,7 @@ body {
     position: relative;
 }
 /* Large devices (desktops, 992px and down) */
-/* @media (max-width: 992px) {
+@media (max-width: 992px) {
     .navbar-nav {
         flex-direction: row;
         justify-content: space-between;
@@ -314,7 +315,7 @@ body {
     .container-fluid {
         padding: 0 15px;
     }
-} */
+}
 
 /* Extra large devices (large desktops, 1200px and up) */
 /* @media (min-width: 1200px) {
