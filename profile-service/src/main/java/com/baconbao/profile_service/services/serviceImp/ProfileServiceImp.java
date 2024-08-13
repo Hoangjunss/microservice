@@ -24,6 +24,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -161,7 +162,11 @@ public class ProfileServiceImp implements ProfileService {
     @Override
     public Boolean checkIdProfile(Integer id) {
         log.info("Check id profile: {}", id);
-        return profileRepository.findById(id).isPresent();
+        Optional<Profile> profile = profileRepository.findById(id);
+        if(profile.isPresent()){
+            return true;
+        }
+        return false;
     }
 
     private boolean checkUserId(Integer id) {
@@ -171,15 +176,14 @@ public class ProfileServiceImp implements ProfileService {
 
     @Override
     public ProfileDTO findByIdUser(Integer id) {
-        try {
             log.info("Get profile by idUser: {}", id);
             Query query = new Query();
             query.addCriteria(Criteria.where("idUser").regex(id + ""));
-            return convertToDTO(mongoTemplate.findOne(query, Profile.class));
-        } catch (MongoCommandException e) {
-            throw new CustomException(Error.MONGO_QUERY_EXECUTION_ERROR);
-        } catch (DataAccessException e) {
-            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
-        }
+            Profile profile = mongoTemplate.findOne(query, Profile.class);
+            if (profile!= null) {
+                return convertToDTO(profile);
+            } else {
+                return null;
+            }
     }
 }

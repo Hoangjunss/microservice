@@ -7,7 +7,6 @@ import com.baconbao.manager_service.dto.CompanyDTO;
 import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
 import com.baconbao.manager_service.models.Company;
-import com.baconbao.manager_service.openfeign.ImageClient;
 import com.baconbao.manager_service.openfeign.UserClient;
 import com.baconbao.manager_service.repository.CompanyRepository;
 import com.baconbao.manager_service.services.service.CompanyService;
