@@ -32,4 +32,9 @@ export class NavbarComponent implements OnInit {
   isActive(path: string): boolean {
     return this.currentUrl === path;
   }
+
+  logout(): void {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
+  }
 }

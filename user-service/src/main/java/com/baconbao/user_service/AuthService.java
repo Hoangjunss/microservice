@@ -119,6 +119,7 @@ public class AuthService {
                 .expirationTime("24Hr")
                 .message("Successfully Signed In")
                 .role(user.getRole()+"")
+                .user(user)
                 .isVaild(true)
                 .build();
 
