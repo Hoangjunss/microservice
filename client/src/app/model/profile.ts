@@ -11,4 +11,5 @@ export class Profile {
     url?:string;
     title?:string;
     contact?:Contact;
+    img?:File;
 }
