@@ -44,11 +44,16 @@ public class ProfileController {
         ProfileDTO profileDTO = profileService.findById(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "Find by id is successfully", profileDTO));
     }
+    
     @GetMapping("/user/findByUserId")
     public ResponseEntity<ApiResponse<ProfileDTO>> findByUserId(@RequestParam Integer userId) {
         ProfileDTO resultProfiles = profileService.findByIdUser(userId);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Find by user id is successfully", resultProfiles));
+        if(resultProfiles!=null){
+            return ResponseEntity.ok(new ApiResponse<>(true, "Find by user id is successfully", resultProfiles));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(false, "Profile not found", null));
     }
+
     @GetMapping("/user/findByTitle")
     public ResponseEntity<ApiResponse<List<ProfileDTO>>> findByTitle(@RequestParam String title) {
         List<ProfileDTO> resultProfiles = profileService.findByTitle(title);
