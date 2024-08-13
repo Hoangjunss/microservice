@@ -21,4 +21,7 @@ export class NavbarComponent {
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;
   }
+
+
+  
 }

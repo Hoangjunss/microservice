@@ -84,9 +84,15 @@ public class UserServiceImpl implements UserService {
     public UserDTO update(String token, UserDTO userDTO) {
         try {
             log.info("Updating user by id: {}", userDTO.getId());
+
+            User currentUser = userRepository.findById(userDTO.getId()).orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND));
+
             // Mã hóa mật khẩu mới nếu có thay đổi
-            if (userDTO.getPassword() != null) {
+            if (userDTO.getPassword() != null && !userDTO.getPassword().equals(currentUser.getPassword())) {
+                
                 userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            } else {
+                userDTO.setPassword(currentUser.getPassword()); // Giữ mật khẩu hiện tại nếu không thay đổi
             }
             jwtTokenUtil.extractUsername(token);
             return convertToDto(userRepository.save(convertToEntity(userDTO)));

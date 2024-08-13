@@ -39,7 +39,6 @@ export class LoginComponent {
     this.userService.signInUser(this.userForm.value).subscribe(
       (response: any) => {
         const token = response.token;
-
         localStorage.setItem('authToken', token);
         console.log('Login successful, token saved to localStorage');
         console.log('Token:', token);
@@ -69,6 +68,6 @@ export class LoginComponent {
         }
       }
     );
-  
   }
+
 }

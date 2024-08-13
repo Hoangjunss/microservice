@@ -72,7 +72,7 @@
                 <input type="text" id="employeeId" formControlName="id" class="form-control" [readonly]="isEdit">
                 <div class="alert" *ngIf="(userForm.controls['id']?.invalid && (userForm.controls['id']?.touched || userForm.controls['id']?.dirty))">
                     <div class="text-danger" *ngIf="userForm.controls['id'].errors?.['required']">
-                        Username is required
+                        ID is required
                     </div>
                 </div>
             </div>
