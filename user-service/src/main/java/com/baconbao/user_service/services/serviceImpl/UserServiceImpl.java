@@ -130,4 +130,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<UserDTO> findUsersByIds(String token, List<Integer> idHR) {
+        try {
+            log.info("Finding users by list of ids: {}", idHR);
+            jwtTokenUtil.extractUsername(token);
+            List<User> users = userRepository.findAllById(idHR);
+            if (users.isEmpty()) {
+                throw new CustomException(Error.USER_NOT_FOUND);
+            }
+            return convertToDTOList(users);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
 }

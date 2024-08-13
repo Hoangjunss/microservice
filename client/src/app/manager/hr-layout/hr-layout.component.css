@@ -1,3 +1,7 @@
+.container-1 {
+    margin: 100px auto 0 auto;
+    width: 1110px;
+}
 
 /* ==================== table ====================== */
 .table-outline {
@@ -134,6 +138,7 @@
     color: #fff;
 }
 .overlay {
+    margin-top: 67px;
     position: fixed;
     top: 0;
     left: 0;

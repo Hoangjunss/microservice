@@ -2,6 +2,7 @@ package com.baconbao.manager_service.controller;
 
 
 import com.baconbao.manager_service.dto.ApiResponse;
+import com.baconbao.manager_service.dto.AuthenticationRequest;
 import com.baconbao.manager_service.dto.CompanyDTO;
 import com.baconbao.manager_service.services.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class CompanyController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Company updated successfully", companyDTO1));
     }
 
+    @PutMapping("/manager/sethrtocompany")
+    public ResponseEntity<ApiResponse<CompanyDTO>> setHeadToCompany(@RequestBody AuthenticationRequest authenticationRequest, @RequestParam Integer idCompany){
+        CompanyDTO companyDTO = companyService.setHRToCompany(authenticationRequest, idCompany);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Head updated successfully", companyDTO));
+    }
+
     @PostMapping("/admin/company/delete")
     public ResponseEntity<ApiResponse<String>> delete(@RequestParam Integer id){
         companyService.deleteById(id);
@@ -52,5 +59,10 @@ public class CompanyController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Companies retrieved successfully by type", companyDTOs));
     }
 
+    @GetMapping("/company/getcompanybyidmanager")
+    public ResponseEntity<ApiResponse<CompanyDTO>> getCompanyByManagerId(@RequestParam Integer managerId){
+        CompanyDTO companyDTOs = companyService.getCompanyByIdManager(managerId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Companies retrieved successfully by manager id", companyDTOs));
+    }
 
 }

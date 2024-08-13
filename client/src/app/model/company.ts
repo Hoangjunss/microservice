@@ -8,6 +8,8 @@ export class Company {
     phone?: string;
     city?:string;
     country?:string;
-    idManager?:string;
+    idManager?:number;
+    idHR?:number[];
+    idJobs?:number[];
     image?:File;
 }

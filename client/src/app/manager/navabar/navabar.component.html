@@ -1,8 +1,74 @@
-<div class="container">
+<nav class="navbar navbar-expand-lg ta-top">
+    <!-- Navbar Toggler for Mobile View -->
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button> -->
+    <div class="container-fluid px-30">
+        <!-- Navbar Header -->
+        <div class="navbar-header">
+            <h1 class="navbar-brand">
+                <a routerLink="home">
+                    <img src="" alt="LOGO" title="LOGO">
+                </a>
+            </h1>
+        </div>
+
+        <!-- Navbar Left -->
+        <div class="navbar-left" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Contact -->
+                <li class="navbar-left__item group">
+                    <a routerLink="/manager/job" title="Job" class="nav-link">Job</a>
+                </li>
+
+                <!-- Project -->
+                <li class="navbar-left__item group">
+                    <a routerLink="/manager/emloyee" title="Hr" class="nav-link">Emloyee</a>
+                </li>
+
+                <!-- Project -->
+                <li class="navbar-left__item group">
+                    <a routerLink="/manager/hr" title="Hr" class="nav-link">Hr</a>
+                </li>
+
+                <!-- About -->
+                <li class="navbar-left__item group">
+                    <a routerLink="/manager/about" title="About" class="nav-link">About Company</a>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav navbar-nav mb-2 mb-lg-0 navbar-right">
+            <li class="navbar-right__item" *ngIf="!userCurrent">
+                <a class="btn btn-outline-primary" routerLink="login">Đăng nhập</a>
+            </li>
+            <li class="navbar-right__item" *ngIf="!userCurrent">
+                <a class="btn btn-primary" routerLink="register">Đăng ký</a>
+            </li>
+            <li class="navbar-right__item" *ngIf="userCurrent">
+                <a class="btn btn-primary" (click)="logout()">Đăng xuất</a>
+            </li>
+            <li class="navbar-right__item" *ngIf="userCurrent">
+                <span class="nav-link">Hello, {{ userCurrent.name }}</span>
+            </li>
+            
+        </ul>
+    </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+
+
+
+
+
+
+
+<!-- <div class="container">
     <header>
         <h2>Manager</h2>
     </header>
-    <!-- Menu -->
     <div class="container-right">
         <div class="sidebar">
             <div class="nav-title">MENU</div>
@@ -25,3 +91,4 @@
         </div>
     </div>
 </div>
+ -->

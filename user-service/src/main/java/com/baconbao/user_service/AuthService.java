@@ -61,6 +61,7 @@ public class AuthService {
                 .id(getGenerationId())
                 .name(registrationRequest.getName())
                 .email(registrationRequest.getEmail())
+                .idEmployee(registrationRequest.getIdEmployee())
                 .role(Role.valueOf(registrationRequest.getRole()))
                 .isActive(true)
                 .build();

@@ -1,8 +1,10 @@
+import { Company } from './../../model/company';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../../service/user-service.service';
 import { User } from '../../model/user';
 import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CompanyServiceService } from '../../service/company-service.service';
 
 @Component({
   selector: 'app-hr-layout',
@@ -13,6 +15,8 @@ import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validat
 })
 export class HrLayoutComponent implements OnInit {
 
+  company:Company = new Company();
+  idCompany?:number;
   users: User[] = [];
   filteredUsers: User[] = [];
   userForm: FormGroup;
@@ -24,9 +28,10 @@ export class HrLayoutComponent implements OnInit {
   searchTerm: string = '';
   searchCriteria: string = 'id';
 
-  constructor(private userService: UserServiceService, private fb: FormBuilder) {
+  constructor(private userService: UserServiceService, private fb: FormBuilder, private companyService: CompanyServiceService) {
     this.userForm = this.fb.group({
-      id: ['', Validators.required],
+      id: [''],
+      idEmployee: ['', Validators.required],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -34,9 +39,31 @@ export class HrLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllUsers();
+    const userCurrentString = localStorage.getItem('idCompany');
+    if(userCurrentString){
+      this.idCompany = Number(userCurrentString);
+    }
+    if(this.idCompany){
+      this.getCompanyById(this.idCompany);
+    }
   }
 
+  getCompanyById(id:number){
+    this.companyService.getCompanyById(id).subscribe(data => {
+      this.company = data;
+      if(this.company.idHR){
+        this.getListHrByIdCompany(this.company.idHR);
+      }
+    });
+  }
+
+  getListHrByIdCompany(id:number[]){
+    this.userService.getListUserById(id).subscribe(data => {
+      this.users = data;
+      this.filteredUsers = this.users;
+      console.log(this.filteredUsers)
+    });
+  }
 
   getAllUsers(): void {
     this.userService.getAllUser().subscribe(data => {
@@ -55,6 +82,7 @@ export class HrLayoutComponent implements OnInit {
     if (this.isEdit && user) {
       this.userForm.patchValue({
         id: user.id,
+        idEmployee: user.idEmployee,
         name: user.name,
         email: user.email,
         password: user.password,
@@ -82,27 +110,30 @@ export class HrLayoutComponent implements OnInit {
   
 
   saveUser(): void {
+    alert('save user');
+    alert(this.idCompany+ "idCompany")
     const newUser: User = this.userForm.value;
     newUser.role = 'hr';
-
-
     // Kiểm tra xem có trường dữ liệu nào còn trống không
-    if (!newUser.id || !newUser.name || !newUser.email || !newUser.password) {
+    if (!newUser.idEmployee || !newUser.name || !newUser.email || !newUser.password) {
       alert("Please fill out all required fields!!!");
       return;
     }
-    this.userService.signUpUser(newUser).subscribe(data => {
-      this.filteredUsers = this.users;
-      this.getAllUsers();
-      this.closeModal();
-      alert("User added successfully");
-    }, error => {
-      console.error('Lỗi khi đăng ký người dùng:', error);
-      if (error.status === 409 || error.error.message === 'Email đã tồn tại') {
-        this.userForm.get('email')?.setErrors({ emailExists: true });
-      }
-    });
-    console.log(JSON.stringify(newUser));
+    if(this.idCompany){
+        this.companyService.setHrToCompany(newUser, this.idCompany).subscribe(data => {
+        this.filteredUsers = this.users;
+        this.getAllUsers();
+        this.closeModal();
+        alert("User added successfully");
+      }, error => {
+        console.error('Lỗi khi đăng ký người dùng:', error);
+        if (error.status === 409 || error.error.message === 'Email đã tồn tại') {
+          this.userForm.get('email')?.setErrors({ emailExists: true });
+        }
+      });
+      console.log(JSON.stringify(newUser));
+    }
+    
   }
 
   updateUser(): void {
@@ -111,7 +142,10 @@ export class HrLayoutComponent implements OnInit {
     updatedUser.role = 'hr';
   
     // Tìm dữ liệu hiện tại của người dùng
-    const currentUser = this.users.find(user => user.id === this.userForm.get('id')?.value);
+    const currentUser = this.users.find(user => user.idEmployee === this.userForm.get('idEmployee')?.value);
+    console.log(JSON.stringify(this.users));
+    console.log(JSON.stringify(updatedUser) + " from JSON");
+    console.log(this.users[0].idEmployee+" idEmployee "+ this.userForm.get('idEmployee')?.value);
     if (!currentUser) {
       alert('User not found');
       return;

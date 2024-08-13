@@ -23,6 +23,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -36,8 +37,10 @@ public class CompanyServiceImpl implements CompanyService {
     private ModelMapper modelMapper;
     @Autowired
     private MongoTemplate mongoTemplate;
-    /* @Autowired
-    private ImageClient imageClient; */
+    /*
+     * @Autowired
+     * private ImageClient imageClient;
+     */
     @Autowired
     private UserClient userClient;
 
@@ -64,7 +67,7 @@ public class CompanyServiceImpl implements CompanyService {
         log.info("Inserting company");
         Integer idImage = null;
         if (companyDTO.getImageFile() != null) {
-            //idImage = imageClient.save(companyDTO.getImageFile()).getData().getId();
+            // idImage = imageClient.save(companyDTO.getImageFile()).getData().getId();
         }
         try {
             Company company = Company.builder()
@@ -77,6 +80,7 @@ public class CompanyServiceImpl implements CompanyService {
                     .phone(companyDTO.getPhone())
                     .email(companyDTO.getEmail())
                     .country(companyDTO.getCountry())
+                    .idJobs(companyDTO.getIdJobs())
                     .idImage(idImage)
                     .build();
             return companyRepository.insert(company);
@@ -103,6 +107,7 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyDTO update(CompanyDTO companyDTO) {
         try {
             log.info("Updating Company by id: {}", companyDTO.getId());
+            System.out.println(companyDTO.toString());
             return convertToDTO(companyRepository.save(convertToModel(companyDTO)));
         } catch (MongoWriteException e) {
             throw new CustomException(Error.MONGO_WRITE_CONCERN_ERROR);
@@ -156,6 +161,9 @@ public class CompanyServiceImpl implements CompanyService {
             ApiResponse<AuthenticationResponse> authenticationResponseApiResponse = userClient
                     .signUp(authenticationRequest);
             CompanyDTO companyDTO = findById(idCompany);
+            if (companyDTO.getIdHR() == null) {
+                companyDTO.setIdHR(new ArrayList<>());
+            }
             List<Integer> idHR = companyDTO.getIdHR();
             idHR.add(authenticationResponseApiResponse.getData().getUser().getId());
             companyDTO.setIdHR(idHR);
@@ -174,6 +182,23 @@ public class CompanyServiceImpl implements CompanyService {
             idHr.remove(idHR);
             companyDTO.setIdHR(idHr);
             return update(companyDTO);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
+
+    @Override
+    public CompanyDTO getCompanyByIdManager(Integer id) {
+        try {
+            log.info("Fetching company by id manager: {}", id);
+            Query query = new Query();
+            query.addCriteria(Criteria.where("idManager").is(String.valueOf(id)));
+            Company company = mongoTemplate.findOne(query, Company.class);
+            if (company == null) {
+                throw new CustomException(Error.COMPANY_NOT_FOUND);
+            }
+            System.out.println(company.toString());
+            return convertToDTO(company);
         } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }

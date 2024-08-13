@@ -28,4 +28,5 @@ public class Company {
     private Integer idImage;
     private Integer idManager;
     private List<Integer> idHr;
+    private List<Integer> idJobs;
 }

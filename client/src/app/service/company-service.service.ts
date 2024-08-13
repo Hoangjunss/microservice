@@ -2,15 +2,23 @@ import { Apiresponse } from './../apiresponse';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Company } from '../model/company';
-import { map, Observable, observeOn } from 'rxjs';
+import { BehaviorSubject, map, Observable, observeOn } from 'rxjs';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyServiceService {
 
+  private companySource = new BehaviorSubject<Company|null>(null);
+  company$ = this.companySource.asObservable();
+
   constructor(private httpClient: HttpClient) { }
   private baseURL="http://localhost:8080/manager/";
+
+  changeCompany(company: Company){
+    this.companySource.next(company);
+  }
 
   createCompany(company: Company): Observable<Company> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -71,6 +79,36 @@ export class CompanyServiceService {
     );
   }
 
+  getCompanyByManager(idManager?: number): Observable<Company> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Company>>(`${this.baseURL}company/getcompanybyidmanager?managerId=${idManager}`, { headers}).pipe(
+      map(response=>{
+        if (response.success) {
+          return this.mapToCompany(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
+  setHrToCompany(user:User, idCompany: number): Observable<Company>{
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const authHeaders = this.createAuthorizationHeader();
+    if (authHeaders.has('Authorization')) {
+        headers = headers.set('Authorization', authHeaders.get('Authorization')!);
+    }
+    return this.httpClient.put<Apiresponse<Company>>(`${this.baseURL}manager/sethrtocompany?idCompany=${idCompany}`, user, { headers }).pipe(
+      map(response=>{
+        if (response.success) {
+          return this.mapToCompany(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
   getAllCompanies(): Observable<Company[]> {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.get<Apiresponse<Company[]>>(`${this.baseURL}user/company/getcompany`, { headers}).pipe(
@@ -110,6 +148,8 @@ export class CompanyServiceService {
     city: companyDTO.city,
     country: companyDTO.country,
     idManager: companyDTO.idManager,
+    idHR: companyDTO.idHR,
+    idJobs: companyDTO.idJobs,
     image: companyDTO.image
     };
   }

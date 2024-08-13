@@ -1,0 +1,2 @@
+- save hr by manager -> error
+- logic fetch job trong compoment chính sai 

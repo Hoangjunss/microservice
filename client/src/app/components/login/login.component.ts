@@ -46,8 +46,8 @@ export class LoginComponent {
         console.log('Token:', token);
         if(response.role === 'admin') {
           this.router.navigateByUrl('/admin');
-        } else if (response.role === 'hr'){
-          this.router.navigateByUrl('/manager');
+        } else if (response.role === 'hr' || response.role === 'manager'){
+          this.router.navigateByUrl('/manager/about');
         } else if(response.role === 'user'){
           this.router.navigateByUrl('/home');
         }

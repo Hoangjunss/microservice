@@ -1,4 +1,4 @@
-<div class="sanpham">
+<div class="container-1">
     <div class="search-navabar d-flex flex-row">
         <form class="form-inline" (submit)="onSearch()">
             <input class="form-control mr-sm-2" type="search" [(ngModel)]="searchTerm" placeholder="Search"
@@ -66,10 +66,10 @@
         <span class="close" (click)="closeModal()">&times;</span>
         <form class="overlayForm form-content" [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <h2 id="modalTitle">{{ modalTitle }}</h2>
-
+            <input type="hidden" id="id" formControlName="id" name="id">
             <div class="form-group">
                 <label for="employeeId">Id employee:</label>
-                <input type="text" id="employeeId" formControlName="id" class="form-control" [readonly]="isEdit">
+                <input type="text" id="employeeId" formControlName="idEmployee" class="form-control" [readonly]="isEdit">
                 <div class="alert" *ngIf="(userForm.controls['id']?.invalid && (userForm.controls['id']?.touched || userForm.controls['id']?.dirty))">
                     <div class="text-danger" *ngIf="userForm.controls['id'].errors?.['required']">
                         ID is required

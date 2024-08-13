@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { CompanyComponent } from "../company/company.component";
 import { JobLayoutComponent } from "../job-layout/job-layout.component";
@@ -10,12 +10,13 @@ import { HrLayoutComponent } from "../hr-layout/hr-layout.component";
 @Component({
   selector: 'app-navabar',
   standalone: true,
-  imports: [CommonModule, RouterLink, CompanyComponent, JobLayoutComponent, ApplyLayoutComponent, HrLayoutComponent],
+  imports: [CommonModule, RouterLink, CompanyComponent, JobLayoutComponent, ApplyLayoutComponent, HrLayoutComponent, RouterOutlet],
   templateUrl: './navabar.component.html',
   styleUrl: './navabar.component.css'
 })
 export class NavabarComponent {
   currentUrl: string = '';
+  userCurrent: any;
 
   constructor(private router: Router) {
     this.router.events.pipe(
@@ -25,6 +26,11 @@ export class NavabarComponent {
     });
   }
   ngOnInit(): void {
+    const userCurrentString = localStorage.getItem('userCurrent');
+    if (userCurrentString) {
+      this.userCurrent = JSON.parse(userCurrentString);
+      console.log('User Current:', this.userCurrent);
+    }
     this.currentUrl = this.router.url;
   }
 
@@ -33,6 +39,7 @@ export class NavabarComponent {
   }
 
   logout(): void {
+    localStorage.removeItem('userCurrent');
     localStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }

@@ -6,4 +6,5 @@ export class User {
     confirmPassword?: string
     active?:boolean
     role?:string
+    idEmployee?:string;
 }
