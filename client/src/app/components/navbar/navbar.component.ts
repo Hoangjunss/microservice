@@ -18,7 +18,11 @@ export class NavbarComponent implements OnInit {
     this.idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
   }
   ngOnInit(): void {
-    this.userCurrent = localStorage.getItem('userCurrent');
+    const userCurrentString = localStorage.getItem('userCurrent');
+    if (userCurrentString) {
+      this.userCurrent = JSON.parse(userCurrentString);
+      console.log('User Current:', this.userCurrent);
+    }
   }
 
   showNotifications = false;

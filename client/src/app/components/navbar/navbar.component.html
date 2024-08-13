@@ -68,7 +68,7 @@
                 <a class="btn btn-primary" (click)="logout()">Đăng xuất</a>
             </li>
             <li class="navbar-right__item" *ngIf="userCurrent">
-                <span class="nav-link">Hello, {{ userCurrent }}</span>
+                <span class="nav-link">Hello, {{ userCurrent.name }}</span>
             </li>
             
         </ul>
