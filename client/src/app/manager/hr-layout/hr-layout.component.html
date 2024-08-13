@@ -1,16 +1,22 @@
 <div class="sanpham">
     <div class="search-navabar d-flex flex-row">
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline" (submit)="onSearch()">
+            <input class="form-control mr-sm-2" type="search" [(ngModel)]="searchTerm" placeholder="Search"
+                aria-label="Search" name="searchTerm">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <select class="form-select" aria-label="Default select example">
-            <option selected value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="searchCriteria"
+            name="searchCriteria" (change)="onCriteriaChange($event)">
+            <option value="id" selected>Mã</option>
+            <option value="name">Username</option>
+            <option value="email">Email</option>
         </select>
+        <div class="table-footer">
+            <button (click)="openModal('add')"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
+        </div>
     </div>
-    <table class="table-header">
+    
+    <table class="table-header" *ngIf="filteredUsers.length > 0">
         <colgroup>
             <col [ngStyle]="{'width': '5%'}">
             <col [ngStyle]="{'width': '10%'}">
@@ -29,7 +35,11 @@
     </table>
 
     <div class="table-content">
-        <table>
+        <div *ngIf="filteredUsers.length === 0" class="no-data-message">
+            <p><strong>No data found!!</strong></p>
+            <p>We have nothing to show here. Try searching again or adding a new user!</p>
+        </div>
+        <table *ngIf="filteredUsers.length > 0">
             <colgroup>
                 <col [ngStyle]="{'width': '5%'}">
                 <col [ngStyle]="{'width': '10%'}">
@@ -37,15 +47,15 @@
                 <col [ngStyle]="{'width': '40%'}">
             </colgroup>
             <tbody>
-                <tr *ngFor="let user of users; let i = index">
+                <tr *ngFor="let user of filteredUsers; let i = index">
                     <td>{{ i + 1 }}</td>
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td class="button-action">
                         <button class="btn btn-primary" (click)="openModal('edit', user)">Update</button>
-                        <!-- <button class="btn btn-danger" (click)="deleteUser(user)">Delete</button> -->
-                        <button class="btn btn-danger" >Delete</button>
+                        <button class="btn btn-danger"
+                            (click)="user.id !== undefined ? deleteUser(user.id) : null">Delete</button>
                     </td>
                 </tr>
             </tbody>
@@ -54,25 +64,46 @@
 
     <div id="employeeModal" class="overlay" *ngIf="isModalOpen">
         <span class="close" (click)="closeModal()">&times;</span>
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <form class="overlayForm form-content" [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <h2 id="modalTitle">{{ modalTitle }}</h2>
 
             <div class="form-group">
                 <label for="employeeId">Id employee:</label>
                 <input type="text" id="employeeId" formControlName="id" class="form-control" [readonly]="isEdit">
+                <div class="alert" *ngIf="(userForm.controls['id']?.invalid && (userForm.controls['id']?.touched || userForm.controls['id']?.dirty))">
+                    <div class="text-danger" *ngIf="userForm.controls['id'].errors?.['required']">
+                        Username is required
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="employeeName">Name employee:</label>
                 <input type="text" id="employeeName" formControlName="name" class="form-control">
+                <div class="alert" *ngIf="(userForm.controls['name']?.invalid && (userForm.controls['name']?.touched || userForm.controls['name']?.dirty))">
+                    <div class="text-danger" *ngIf="userForm.controls['name'].errors?.['required']">
+                        Username is required
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="employeeEmail">Email employee:</label>
                 <input type="email" id="employeeEmail" formControlName="email" class="form-control">
+                <div class="alert" *ngIf="(userForm.controls['email']?.invalid && (userForm.controls['email']?.touched || userForm.controls['email']?.dirty))">
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['required']">
+                        Email is required
+                    </div>
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['email']">
+                        Email is invalid
+                    </div>
+                    <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['emailExists']">
+                        Email already exists
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group password-wrapper">
                 <label for="employeePassword">Password employee:</label>
                 <input type="password" id="employeePassword" formControlName="password" class="form-control">
             </div>
@@ -80,7 +111,4 @@
             <button type="submit" class="btn btn-primary">{{ modalButtonLabel }}</button>
         </form>
     </div>
-</div>
-<div class="table-footer">
-    <button (click)="openModal('add')"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
 </div>

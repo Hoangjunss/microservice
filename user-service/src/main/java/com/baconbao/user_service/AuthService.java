@@ -100,8 +100,7 @@ public class AuthService {
         log.info("Sign in Auth Service");
         // Nếu email tồn tại thì kiểm tra mật khẩu
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, signinRequest.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, signinRequest.getPassword()));
         } catch (Exception e) {
             return AuthenticationResponse.builder()
                     .message("Invalid credentials")

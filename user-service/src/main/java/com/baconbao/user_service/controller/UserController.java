@@ -98,6 +98,13 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserDTO>> updateActive(@RequestParam String token,@RequestBody UserDTO userDTO){
         UserDTO updatedUser = userService.updateIsActive(token, userDTO.getId());
         ApiResponse<UserDTO> response = new ApiResponse<>(true, "User updated successfully", updatedUser);
+        return ResponseEntity.ok(response); 
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<UserDTO>> deleteUser(@RequestParam String token,@RequestParam Integer id){
+        UserDTO deletedUser = userService.deleteUser(token, id);
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User deleted successfully", deletedUser);
         return ResponseEntity.ok(response);
     }
 }
