@@ -58,12 +58,19 @@
 
         <!-- Navbar Right -->
         <ul class="nav navbar-nav mb-2 mb-lg-0 navbar-right">
-            <li class="navbar-right__item">
+            <li class="navbar-right__item" *ngIf="!userCurrent">
                 <a class="btn btn-outline-primary" routerLink="login">Đăng nhập</a>
             </li>
-            <li class="navbar-right__item">
+            <li class="navbar-right__item" *ngIf="!userCurrent">
                 <a class="btn btn-primary" routerLink="register">Đăng ký</a>
             </li>
+            <li class="navbar-right__item" *ngIf="userCurrent">
+                <a class="btn btn-primary" (click)="logout()">Đăng xuất</a>
+            </li>
+            <li class="navbar-right__item" *ngIf="userCurrent">
+                <span class="nav-link">Hello, {{ userCurrent }}</span>
+            </li>
+            
         </ul>
     </div>
 </nav>

@@ -39,7 +39,9 @@ export class LoginComponent {
     this.userService.signInUser(this.userForm.value).subscribe(
       (response: any) => {
         const token = response.token;
+        const userCurrent = response.user.name;
         localStorage.setItem('authToken', token);
+        localStorage.setItem('userCurrent', userCurrent);
         console.log('Login successful, token saved to localStorage');
         console.log('Token:', token);
         if(response.role === 'admin') {

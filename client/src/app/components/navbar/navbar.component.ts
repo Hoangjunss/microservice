@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NotificationComponent } from '../notification/notification.component';
 import { CommonModule } from '@angular/common';
 
@@ -10,11 +10,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   idProfileNumber:number | undefined;
-  constructor (){
+  userCurrent: any;
+  constructor (private router: Router){
     const idProfileUser = localStorage.getItem('idProfileUser');
     this.idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
+  }
+  ngOnInit(): void {
+    this.userCurrent = localStorage.getItem('userCurrent');
   }
 
   showNotifications = false;
@@ -22,6 +26,9 @@ export class NavbarComponent {
     this.showNotifications = !this.showNotifications;
   }
 
-
+  logout(): void {
+    localStorage.removeItem('userCurrent');
+    this.router.navigate(['/login']);
+  }
   
 }
