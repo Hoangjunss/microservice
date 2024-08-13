@@ -24,4 +24,5 @@ public class Profile {
     private Integer idImage; // Refers to Image ID, if used
     private String title;
     private Integer idUser;
+    private String url;
 }

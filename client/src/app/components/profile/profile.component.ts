@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit{
         alert(this.param+" is already")
         //this.getProfileById(this.param);
       } else {
-        this.id = 1; // default value or logic
+        this.id = 810437498; // default value or logic
         this.getProfileById(this.id);
       }
     });

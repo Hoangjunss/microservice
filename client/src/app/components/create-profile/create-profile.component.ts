@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 })
 export class CreateProfileComponent implements OnInit {
   profileForm: FormGroup;
+  selectedFile: File | null = null;
+
   @Input() profile: Profile | undefined;
   @Input() idProfile?: number | null;
   @Output() closeForm = new EventEmitter<void>();
@@ -48,9 +50,17 @@ export class CreateProfileComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement; 
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   updateProject(): void {
     if (this.profileForm.valid) {
       const updatedProfile: Profile = this.profileForm.value;
+      console.log('Profile form value',updatedProfile);
       this.profileService.updateProfile(updatedProfile).subscribe(response => {
         console.log('Profile updated successfully', response);
         alert('Profile updated successfully')
@@ -59,6 +69,10 @@ export class CreateProfileComponent implements OnInit {
         console.error('Error updating profile', error);
       });
     }
+  }
+
+  getProfileImage(): string {
+    return this.profile?.url ? this.profile.url : 'http://res.cloudinary.com/dgts7tmnb/image/upload/v1723548301/pi41b4rynddelbwfecle.jpg';
   }
 
   onClose(): void {

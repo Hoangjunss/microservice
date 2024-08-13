@@ -3,16 +3,16 @@
     <div class="overlay" id="overlay_user"></div>
     <div class="edit_profile_container">
       <h2>Edit Project Details</h2>
-      <form [formGroup]="profileForm" (ngSubmit)="updateProject()" class="form_edit_profile" id="form_edit_account">
+      <form [formGroup]="profileForm" (ngSubmit)="updateProject()" enctype="multipart/form-data" class="form_edit_profile" id="form_edit_account">
         <input type="hidden" id="id_project" formControlName="id" name="id_project" [value]="profile?.id">
 
         <div class="image_box">
           <div class="item" id="image_box_item">
             <label for="imageInput">Image Index Project</label>
-            <input type="file" id="imageInput" formControlName="imageFile" name="image">
+            <input type="file" id="imageInput" formControlName="imageFile" name="image" (change)="onFileSelected($event)">
           </div>
           <div class="preview_box" id="preview_box">
-            <img id="currentImage" [src]="profileForm.get('imageFile')?.value ? profileForm.get('imageFile')?.value : '#' " alt="Image project"/>
+            <img id="currentImage" [src]="getProfileImage()" alt="Image project" />
           </div>
         </div>
 
@@ -22,15 +22,18 @@
         </div>
         <div class="name_box">
           <label for="objective">Objective:</label>
-          <textarea id="objective" formControlName="objective" rows="4" placeholder="Enter project objective" [value]="profile?.objective"></textarea>
+          <textarea id="objective" formControlName="objective" rows="4" placeholder="Enter project objective"
+            [value]="profile?.objective"></textarea>
         </div>
         <div class="name_box">
           <label for="education">Education:</label>
-          <input id="education" formControlName="education" placeholder="Enter project education" [value]="profile?.education">
+          <input id="education" formControlName="education" placeholder="Enter project education"
+            [value]="profile?.education">
         </div>
         <div class="name_box">
           <label for="workExperience">Work Experience:</label>
-          <input id="workExperience" formControlName="workExperience" placeholder="Enter project workExperience" [value]="profile?.workExperience">
+          <input id="workExperience" formControlName="workExperience" placeholder="Enter project workExperience"
+            [value]="profile?.workExperience">
         </div>
         <div class="name_box">
           <label for="skills">Skills:</label>
@@ -48,11 +51,13 @@
         <div formGroupName="contact">
           <div class="name_box">
             <label for="address">Address:</label>
-            <input id="address" formControlName="address" placeholder="Enter address" [value]="profile?.contact?.address">
+            <input id="address" formControlName="address" placeholder="Enter address"
+              [value]="profile?.contact?.address">
           </div>
           <div class="name_box">
             <label for="phone">Phone:</label>
-            <input id="phone" formControlName="phone" placeholder="Enter phone number" [value]="profile?.contact?.phone">
+            <input id="phone" formControlName="phone" placeholder="Enter phone number"
+              [value]="profile?.contact?.phone">
           </div>
           <div class="name_box">
             <label for="email">Email:</label>

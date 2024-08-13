@@ -23,7 +23,7 @@ public class ProfileController {
     }
 
     @PostMapping("/user/update")
-    public ResponseEntity<ApiResponse<ProfileDTO>> update(@RequestBody ProfileDTO profileDTO) {
+    public ResponseEntity<ApiResponse<ProfileDTO>> update(@RequestBody  ProfileDTO profileDTO) {
         ProfileDTO resultProfileDTO = profileService.updateProfile(profileDTO);
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile update successfully", resultProfileDTO));
     }

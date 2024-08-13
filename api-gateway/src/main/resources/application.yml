@@ -41,4 +41,8 @@ spring:
             - Path=/manager/**
           filters:
             - AuthenticationFilter
+        - id: image-service
+          uri: lb://IMAGE-SERVICE
+          predicates:
+            - Path=/image/**
 

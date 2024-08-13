@@ -62,6 +62,7 @@ public class ProfileServiceImp implements ProfileService {
             ImageDTO imageDTO = null;
             if (profileDTO.getImageFile() != null) {
                 imageDTO = imageClient.save(profileDTO.getImageFile());
+
             }
             if (checkUserId(profileDTO.getIdUser())) {
             }
@@ -75,7 +76,7 @@ public class ProfileServiceImp implements ProfileService {
                     .title(profileDTO.getTitle())
                     .contact(profileDTO.getContact())
                     .idUser(profileDTO.getIdUser())
-                    // .idImage(imageDTO.getId())
+                    .url(imageDTO.getUrl())
                     .build();
             return profileRepository.insert(profile);
         } catch (DataIntegrityViolationException e) {
@@ -100,6 +101,7 @@ public class ProfileServiceImp implements ProfileService {
     @Override
     public ProfileDTO updateProfile(ProfileDTO profileDTO) {
         try {
+            
             log.info("Updating profile id: {}", profileDTO.getId());
             return convertToDTO(profileRepository.save(convertToModel(profileDTO)));
         } catch (DataIntegrityViolationException e) {
