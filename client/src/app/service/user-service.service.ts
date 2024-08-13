@@ -63,6 +63,19 @@ export class UserServiceService {
     );
   }
 
+  deleteUser(id: number): Observable<User> {
+    const token = localStorage.getItem('authToken');
+    return this.http.delete<Apiresponse<User>>(`${this.baseURL}/delete?token=${token}&id=${id}`).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data;
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
   getUserById(id:number): Observable<User>{
     const token = localStorage.getItem('authToken');
     return this.http.get<Apiresponse<User>>(`${this.baseURL}/findbyid?id=${id}&token=${token}`).pipe(

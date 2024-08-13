@@ -12,8 +12,8 @@
             <a routerLink="manager/emloyee"[ngClass]="{'nav-link': true, 'active': isActive('/manager/emloyee')}"><i class="fa fa-address-book-o"></i>User List</a>
             <hr>
             <div>
-                <a class="nav-link">
-                    <i class="fa fa-arrow-left"></i>Đăng xuất (về Trang chủ)
+                <a class="nav-link" (click)="logout()">
+                    <i  class="fa fa-arrow-left" ></i>Đăng xuất (về Trang chủ)
                 </a>
             </div>
         </div>

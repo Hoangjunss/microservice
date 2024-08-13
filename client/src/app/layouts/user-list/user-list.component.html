@@ -1,16 +1,18 @@
 <div class="sanpham">
     <div class="search-navabar d-flex flex-row">
         <form class="form-inline" (ngSubmit)="onSearch()">
-          <input class="form-control mr-sm-2" [(ngModel)]="searchText" name="searchText" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" [(ngModel)]="searchText" name="searchText" type="search"
+                placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <select class="form-select" aria-label="Default select example" [(ngModel)]="searchCriteria" name="searchCriteria" (change)="onCriteriaChange($event)">
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="searchCriteria"
+            name="searchCriteria" (change)="onCriteriaChange($event)">
             <option value="1" selected>Mã</option>
             <option value="2">Username</option>
             <option value="3">Email</option>
             <option value="4">Trạng thái</option>
         </select>
-      </div>
+    </div>
     <table *ngIf="filteredUsers.length > 0" class="table-header">
         <colgroup>
             <col [ngStyle]="{'width': '5%'}">
@@ -30,11 +32,8 @@
     </table>
 
     <div class="table-content">
-        <div *ngIf="filteredUsers.length === 0" class="no-data-message">
-            <p><strong>No data found!!</strong></p>
-            <p>We have nothing to show here. Try searching again or adding a new user!</p>
-          </div>
-          <table *ngIf="filteredUsers.length > 0">
+
+        <table *ngIf="filteredUsers.length > 0">
             <colgroup>
                 <col [ngStyle]="{'width': '5%'}">
                 <col [ngStyle]="{'width': '10%'}">
@@ -54,5 +53,9 @@
                 </tr>
             </tbody>
         </table>
+        <div *ngIf="filteredUsers.length === 0" class="no-data-message">
+            <p><strong>No data found!!</strong></p>
+            <p>We have nothing to show here. Try searching again or adding a new user!</p>
+        </div>
     </div>
 </div>

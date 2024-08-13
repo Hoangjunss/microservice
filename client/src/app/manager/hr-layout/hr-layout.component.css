@@ -80,7 +80,6 @@
 
 /*  phần footer table  */
 .table-footer {
-    background-color: #f8f9fa;
     padding: .75rem;
     vertical-align: top;
     border-top: 1px solid #ddd;
@@ -147,27 +146,28 @@
     background-color: #020202d8;
 }
 
-.overlayTable {
+.overlayForm {
     margin: 50px auto;
     width: auto;
     background-color: #23282c;
 }
 
-.overlayTable td:first-child {
+.overlayForm td:first-child {
     text-align: right;
 }
 
-.overlayTable input {
+.overlayForm input {
     padding: 4px 10px;
     border: none;
     border-radius: 5px;
     background-color: #e7e7e7;
 }
-
-.overlayTable input[type="file"] {
-    background-color: transparent;
+.form-content
+{
+    margin: 0 auto;
+    padding: 20px 0;
+    width: 50%;
 }
-
 .close {
     /* nút tắt form */
     position: fixed;
@@ -190,4 +190,76 @@
 }
 .form-group label {
     color: #fff;
+}
+.no-data-message {
+    padding: 20px;
+    text-align: center;
+    background-color: #f8d7da; /* Background color */
+    color: #721c24; /* Text color */
+    border: 1px solid #f5c6cb; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 20px;
+  }
+  
+  .no-data-message p {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .no-data-message strong {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  /* Overlay background */
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensures it is on top of other content */
+}
+
+/* Confirmation box styling */
+.confirmation-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+    max-width: 90%;
+}
+
+.confirmation-box h2 {
+    margin: 0 0 15px;
+    font-size: 18px;
+}
+
+.confirmation-buttons {
+    margin-top: 20px;
+}
+
+.confirmation-buttons .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.confirmation-buttons .confirm {
+    background: #4CAF50; /* Green */
+    color: white;
+}
+
+.confirmation-buttons .cancel {
+    background: #f44336; /* Red */
+    color: white;
 }

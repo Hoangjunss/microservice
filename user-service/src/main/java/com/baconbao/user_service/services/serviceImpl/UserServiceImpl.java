@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.baconbao.user_service.model.User;
@@ -30,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<UserDTO> convertToDTOList(List<User> users) {
         return users.stream()
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService {
         log.info("Get user by id: {}", id);
         jwtTokenUtil.extractUsername(token);
         return convertToDto(userRepository.findById(id)
-        .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
+                .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
     }
 
     @Override
@@ -81,6 +84,16 @@ public class UserServiceImpl implements UserService {
     public UserDTO update(String token, UserDTO userDTO) {
         try {
             log.info("Updating user by id: {}", userDTO.getId());
+
+            User currentUser = userRepository.findById(userDTO.getId()).orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND));
+
+            // Mã hóa mật khẩu mới nếu có thay đổi
+            if (userDTO.getPassword() != null && !userDTO.getPassword().equals(currentUser.getPassword())) {
+                
+                userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            } else {
+                userDTO.setPassword(currentUser.getPassword()); // Giữ mật khẩu hiện tại nếu không thay đổi
+            }
             jwtTokenUtil.extractUsername(token);
             return convertToDto(userRepository.save(convertToEntity(userDTO)));
         } catch (DataIntegrityViolationException e) {
@@ -99,6 +112,19 @@ public class UserServiceImpl implements UserService {
             return convertToDto(userRepository.save(convertToEntity(user)));
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.USER_UNABLE_TO_UPDATE);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
+
+    @Override
+    public UserDTO deleteUser(String token, Integer id) {
+        try {
+            log.info("Deleting user by id: {}", id);
+            jwtTokenUtil.extractUsername(token);
+            UserDTO user = findById(token, id);
+            userRepository.deleteById(id);
+            return user;
         } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
