@@ -17,4 +17,5 @@ public interface ProfileService {
     List<ProfileDTO> getAllProfile();
     List<ProfileDTO> findByTitle(String title);
     Boolean checkIdProfile(Integer id);
+    
 }

@@ -84,7 +84,7 @@ export class CreateProfileComponent implements OnInit {
       const imageFile = this.profileForm.get('imageFile')?.value;
       if (this.selectedFile) {
         formData.append('image', this.selectedFile);
-      }
+      } 
 
       console.log('FormData entries:');
       formData.forEach((value, key) => {

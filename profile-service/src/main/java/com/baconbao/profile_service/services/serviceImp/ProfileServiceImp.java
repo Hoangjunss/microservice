@@ -102,7 +102,8 @@ public class ProfileServiceImp implements ProfileService {
             String url = "";
             if (imageFile != null) {
               
-                url = imageClient.save(imageFile).getUrl();
+                url = imageClient.getAll().getData();
+
             }
             log.info("url", url);
 
@@ -204,4 +205,6 @@ public class ProfileServiceImp implements ProfileService {
                 return null;
             }
     }
+
+
 }

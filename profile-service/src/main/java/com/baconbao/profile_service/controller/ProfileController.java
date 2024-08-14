@@ -9,7 +9,7 @@ import com.baconbao.profile_service.services.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +29,7 @@ public class ProfileController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile saved successfully", resultProfileDTO));
     }
 
-    @PostMapping("/user/update")
+    @PostMapping(value = "/user/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<ProfileDTO>> update(@ModelAttribute ProfileDTO profileDTO, @RequestParam(value="image", required = false) MultipartFile imageFile) {
         log.info("ProfileDTO: {}", profileDTO);
         log.info("iamge :{}", imageFile);
