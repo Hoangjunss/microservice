@@ -3,6 +3,7 @@ package com.baconbao.image_service.controller;
 import com.baconbao.image_service.dto.ApiResponse;
 import com.baconbao.image_service.dto.ImageDTO;
 import com.baconbao.image_service.services.service.ImageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequestMapping("/image")
 @RestController
+@Slf4j
 public class ImageController {
     @Autowired
     private ImageService imageService;
@@ -23,6 +25,8 @@ public class ImageController {
         }
         // Xử lý lưu ảnh và trả về ImageDTO
         ImageDTO imageDTO = imageService.saveImage(image);
+        log.info("image: {}",imageDTO);
+
         return ResponseEntity.ok(new ApiResponse<ImageDTO>(true, "Get all is successfully", imageDTO));
     }
 

@@ -37,8 +37,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ImageDTO saveImage(MultipartFile imageFile) {
-
-        return coventToDTO(save(imageFile));
+         Image image=save(imageFile);
+        return ImageDTO.builder().id(image.getId()).url(image.getUrl()).build();
 
     }
 
