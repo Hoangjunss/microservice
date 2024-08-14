@@ -192,7 +192,24 @@ public class CompanyServiceImpl implements CompanyService {
         try {
             log.info("Fetching company by id manager: {}", id);
             Query query = new Query();
-            query.addCriteria(Criteria.where("idManager").is(String.valueOf(id)));
+            query.addCriteria(Criteria.where("idManager").is(id));
+            Company company = mongoTemplate.findOne(query, Company.class);
+            if (company == null) {
+                throw new CustomException(Error.COMPANY_NOT_FOUND);
+            }
+            System.out.println(company.toString());
+            return convertToDTO(company);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
+
+    @Override
+    public CompanyDTO findByIdHr(Integer id) {
+        try {
+            log.info("Fetching company by id HR: {}", id);
+            Query query = new Query();
+            query.addCriteria(Criteria.where("idHr").is(id));
             Company company = mongoTemplate.findOne(query, Company.class);
             if (company == null) {
                 throw new CustomException(Error.COMPANY_NOT_FOUND);

@@ -74,7 +74,7 @@
                 </div>
                 <p class="job-size">Team Size: {{job.size}}</p>
                 <div class="job-actions">
-                    <a (click)="applyJobs(job.id)" class="btn apply-btn">Apply</a>
+                    <a (click)="applyJobs(job.id)" *ngIf="userCurrent.role != 'hr'" class="btn apply-btn">Apply</a>
                     <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
                 </div>
             </div>

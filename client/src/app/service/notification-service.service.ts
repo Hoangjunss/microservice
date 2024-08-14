@@ -44,7 +44,7 @@ export class NotificationServiceService {
 
   getNotificationById(id: number): Observable<Notification[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Notification[]>>(`http://localhost:8080/notification/findByUser?userId=${id}`, { headers }).pipe(
+    return this.httpClient.get<Apiresponse<Notification[]>>(`http://localhost:8080/notification/user/findByUser?userId=${id}`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToNotification);

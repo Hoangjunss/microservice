@@ -11,7 +11,39 @@
         <p><strong>Address:</strong> {{company.street}}, {{company.city}}, {{company.country}}</p>
         <p><strong>Email:</strong> <a href="mailto:{{company.email}}">{{company.email}}</a></p>
         <p><strong>Phone:</strong> <a href="tel:{{company.phone}}">{{company.phone}}</a></p>
+        <button *ngIf="userCurrent.role === 'manager'" (click)="editCompany()" class="btn btn-dark">Edit company</button>
       </div>
     </div>
   </div>
   
+<!-- Edit Company Modal -->
+<div *ngIf="isShowingCompany" class="modal-backdrop" (click)="closeModal()"></div>
+<div *ngIf="isShowingCompany" class="modal">
+  <div class="modal-content">
+    <h2>Edit Company</h2>
+    <form (ngSubmit)="saveCompany()">
+      <div class="form-group">
+        <label for="name">Company Name</label>
+        <input type="text" id="name" [(ngModel)]="company.name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="type">Company Type</label>
+        <input type="text" id="type" [(ngModel)]="company.type" name="type" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="company.description" name="description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="company.email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" [(ngModel)]="company.phone" name="phone" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+    </form>
+  </div>
+</div>

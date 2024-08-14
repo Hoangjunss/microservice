@@ -79,6 +79,19 @@ export class CompanyServiceService {
     );
   }
 
+  getCompanyByIddHr(id:number): Observable<Company> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Company>>(`${this.baseURL}hr/findByIdHr?id=${id}`, { headers}).pipe(
+      map(response=>{
+        if (response.success) {
+          return this.mapToCompany(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
   getCompanyByManager(idManager?: number): Observable<Company> {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.get<Apiresponse<Company>>(`${this.baseURL}company/getcompanybyidmanager?managerId=${idManager}`, { headers}).pipe(

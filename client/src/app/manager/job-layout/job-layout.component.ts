@@ -8,6 +8,8 @@ import { ProfileServiceService } from '../../service/profile-service.service';
 import { Profile } from '../../model/profile';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NotificationServiceService } from '../../service/notification-service.service';
+import { Notification } from '../../model/notification';
 
 @Component({
   selector: 'app-job-layout',
@@ -35,7 +37,7 @@ export class JobLayoutComponent implements OnInit {
   searchTerm: string = '';
   searchCriteria: string = 'typeJob';
 
-  constructor(private jobService: JobServiceService, private profileService:ProfileServiceService, private router:Router, private fb:FormBuilder) {
+  constructor(private jobService: JobServiceService, private profileService:ProfileServiceService, private router:Router, private fb:FormBuilder, private notificationService: NotificationServiceService) {
     this.jobForm = this.fb.group({
       id: [],
       title: [''],
@@ -130,12 +132,32 @@ export class JobLayoutComponent implements OnInit {
         this.jobService.acceptProfileJob(idJob, idProfile).subscribe(data => {
         if(data){
           alert("Profile accepted successfully");
+          this.getProfileById(idJob,idProfile);
         }
       })
       }else{
         alert("Job full");
       }
     }
+  }
+
+  getProfileById(idJob:number,id:number){
+    this.profileService.getProfileById(id).subscribe(data=>{
+      const notification: Notification = {
+        message: `Your profile has been accepted for job ${idJob}`,
+        createAt: new Date(),
+        url: `/jobs/${idJob}`,
+        idUser: data.idUser,
+        read: false
+      };
+      this.notificationService.createNotification(notification).subscribe(
+        response => {
+          console.log('Notification created successfully:', response);
+        },
+        error => {
+          console.error('Error creating notification:', error);
+        });
+    });
   }
 
   rejectProfile(idProfile:number | undefined, idJob:number | undefined){

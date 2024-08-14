@@ -1,7 +1,7 @@
-<div *ngIf="text.length > 0; else noNotifications" class="notification-dropdown">
+<div *ngIf="notifications.length > 0; else noNotifications" class="notification-dropdown">
   <h5>Notifications</h5>
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let notification of text" (click)="markAsRead(notification)">
+    <li class="list-group-item" *ngFor="let notification of notifications" (click)="markAsRead(notification)">
       <!-- Image before the message -->
       <img src="" alt="Notification Icon" class="notification-icon">
       

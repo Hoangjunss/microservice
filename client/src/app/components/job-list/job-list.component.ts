@@ -17,6 +17,7 @@ import { filter } from 'rxjs';
 export class JobListComponent implements OnInit {
   idProfileNumber:number | undefined;
   currentUrl?:string;
+  userCurrent:User = new User();
   job: Job = new Job();
   jobs: Job[] = [];
   newJobs: Job[] = [];
@@ -39,6 +40,10 @@ export class JobListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const userCurrentString = localStorage.getItem('userCurrent');
+    if (userCurrentString) {
+      this.userCurrent = JSON.parse(userCurrentString);
+    }
     this.currentUrl = this.router.url;
     if(this.idCompany){
       this.getJobsByIdCompany(this.idCompany);

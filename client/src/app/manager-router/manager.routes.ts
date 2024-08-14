@@ -6,6 +6,7 @@ import { ApplyLayoutComponent } from "../manager/apply-layout/apply-layout.compo
 import { HrLayoutComponent } from "../manager/hr-layout/hr-layout.component";
 import { CompanyComponent } from "../manager/company/company.component";
 import { ProfileUserComponent } from "../components/profile-user/profile-user.component";
+import { EmloyeeLayoutComponent } from "../manager/emloyee-layout/emloyee-layout.component";
 
 
 export const managerRoutes: Routes = [
@@ -18,8 +19,8 @@ export const managerRoutes: Routes = [
                 component: JobLayoutComponent
             },
             {
-                path: 'apply',
-                component: ApplyLayoutComponent
+                path: 'emloyee',
+                component: EmloyeeLayoutComponent
             },
             {
                 path: 'hr',

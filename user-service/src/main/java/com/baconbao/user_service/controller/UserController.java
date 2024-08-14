@@ -109,9 +109,9 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/getlistuserbyid")
+    @GetMapping("/getlistuserbyid")
     public ResponseEntity<ApiResponse<List<UserDTO>>> getUserByIds(@RequestParam String token,
-            @RequestBody List<Integer> ids) {
+            @RequestParam List<Integer> ids) {
         List<UserDTO> userDTOS = userService.findUsersByIds(token, ids);
         ApiResponse<List<UserDTO>> response = new ApiResponse<>(true, "User retrieved successfully", userDTOS);
         return ResponseEntity.ok(response);

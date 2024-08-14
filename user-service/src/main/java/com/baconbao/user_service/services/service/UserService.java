@@ -14,6 +14,7 @@ public interface UserService {
     UserDTO getCurrentUser();
     UserDTO update(String token, UserDTO userDTO);
     List<UserDTO> getALl(String token);
+    List<UserDTO> findAllUserByIds(List<Integer> idUsers);
     UserDTO updateIsActive(String token,Integer id);
     UserDTO deleteUser(String token,Integer id);
     List<UserDTO> findUsersByIds(String token, List<Integer> idHR);

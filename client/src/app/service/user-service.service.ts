@@ -118,7 +118,7 @@ export class UserServiceService {
 
    getListUserById(ids: number[]): Observable<User[]> {
     const token = localStorage.getItem('authToken');
-    return this.http.post<Apiresponse<User[]>>(`${this.baseURL}/getlistuserbyid?token=${token}`, ids).pipe(
+    return this.http.get<Apiresponse<User[]>>(`${this.baseURL}/getlistuserbyid?token=${token}&ids=${ids}`).pipe(
         map(response => {
             if(response.success){
                 return response.data;
@@ -127,5 +127,7 @@ export class UserServiceService {
             }
         })
     );
-}
+  }
+
+
 }

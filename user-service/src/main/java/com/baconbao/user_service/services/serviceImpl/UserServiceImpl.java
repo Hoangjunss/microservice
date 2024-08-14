@@ -155,4 +155,15 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
     }
+
+    @Override
+    public List<UserDTO> findAllUserByIds(List<Integer> idUsers) {
+        try {
+            log.info("Finding users by list of ids: {}", idUsers);
+            List<User> users = userRepository.findAllById(idUsers);
+            return convertToDTOList(users);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
 }

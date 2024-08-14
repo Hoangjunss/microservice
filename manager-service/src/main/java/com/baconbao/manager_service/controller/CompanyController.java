@@ -65,4 +65,10 @@ public class CompanyController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Companies retrieved successfully by manager id", companyDTOs));
     }
 
+    @GetMapping("/hr/findByIdHr")
+    public ResponseEntity<ApiResponse<CompanyDTO>> findByIdHr(@RequestParam Integer id){
+        CompanyDTO companyDTO = companyService.findByIdHr(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Company retrieved successfully by HR id", companyDTO));
+    }
+
 }

@@ -14,7 +14,7 @@ import { CompanyServiceService } from '../../service/company-service.service';
   styleUrl: './hr-layout.component.css'
 })
 export class HrLayoutComponent implements OnInit {
-
+  userCurrent: User = new User();
   company:Company = new Company();
   idCompany?:number;
   users: User[] = [];
@@ -39,6 +39,10 @@ export class HrLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    const userCurrentStrin = localStorage.getItem('userCurrent');
+    if (userCurrentStrin) {
+      this.userCurrent = JSON.parse(userCurrentStrin);
+    }
     const userCurrentString = localStorage.getItem('idCompany');
     if(userCurrentString){
       this.idCompany = Number(userCurrentString);

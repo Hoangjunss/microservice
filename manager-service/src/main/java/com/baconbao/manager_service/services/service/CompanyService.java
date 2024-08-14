@@ -9,6 +9,7 @@ import java.util.List;
 @Service
 public interface CompanyService {
     CompanyDTO findById(Integer id);
+    CompanyDTO findByIdHr(Integer id);
     CompanyDTO getCompanyByIdManager(Integer id);
     CompanyDTO create(CompanyDTO company);
     CompanyDTO update(CompanyDTO company);

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core'
 import { Notification } from '../../model/notification';
 import { NotificationServiceService } from '../../service/notification-service.service';
+import { User } from '../../model/user';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { NotificationServiceService } from '../../service/notification-service.s
 })
 export class NotificationComponent implements OnInit {
   
+  userCurrent: User = new User();
   notifications : Notification[] = [];
   newNotification : Notification = new Notification();
 
@@ -72,7 +74,14 @@ export class NotificationComponent implements OnInit {
   constructor(private notificationService: NotificationServiceService) { }
 
   ngOnInit(): void {
-    this.getNotificationById(-1302706091);
+    const userCurrentString = localStorage.getItem('userCurrent');
+    if (userCurrentString) {
+      this.userCurrent = JSON.parse(userCurrentString);
+    }
+    if(this.userCurrent.id){
+      this.getNotificationById(this.userCurrent.id);
+    }
+    
   }
 
   markAsRead(notification: Notification) {
@@ -83,7 +92,6 @@ export class NotificationComponent implements OnInit {
   }
 
   allNotificationsRead(): boolean {
-    // This method checks if all notifications are read
     return this.notifications.every((notification) => notification.read);
   }
 

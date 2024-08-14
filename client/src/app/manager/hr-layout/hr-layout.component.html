@@ -12,7 +12,7 @@
             <option value="email">Email</option>
         </select>
         <div class="table-footer">
-            <button (click)="openModal('add')"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
+            <button (click)="openModal('add')" [disabled]="userCurrent.role === 'hr'" class="btn btn-add"><i class="fa fa-plus-square"></i>Add Hr</button>
         </div>
     </div>
     
@@ -53,9 +53,9 @@
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td class="button-action">
-                        <button class="btn btn-primary" (click)="openModal('edit', user)">Update</button>
+                        <button class="btn btn-primary" (click)="openModal('edit', user)" [disabled]="userCurrent.role === 'hr'">Update</button>
                         <button class="btn btn-danger"
-                            (click)="user.id !== undefined ? deleteUser(user.id) : null">Delete</button>
+                            (click)="user.id !== undefined ? deleteUser(user.id) : null" [disabled]="userCurrent.role === 'hr'">Delete</button>
                     </td>
                 </tr>
             </tbody>

@@ -1,6 +1,7 @@
 .container-1 {
     margin: 100px auto 0 auto;
     width: 1110px;
+    overflow-y: auto;
 }
 
 /* ==================== table ====================== */
@@ -267,4 +268,37 @@
 .confirmation-buttons .cancel {
     background: #f44336; /* Red */
     color: white;
+}
+
+/* Phong cách chung cho các nút */
+button.btn[disabled] {
+    background-color: #ccc; /* Màu nền nhạt hơn để biểu thị nút bị vô hiệu hóa */
+    color: #666; /* Màu chữ nhạt hơn */
+    border-color: #999; /* Màu viền nhạt hơn */
+    cursor: not-allowed; /* Đổi con trỏ chuột thành biểu tượng cấm */
+    opacity: 0.6; /* Giảm độ mờ để làm cho nút ít nổi bật hơn */
+}
+
+/* Phong cách cụ thể cho nút Thêm người dùng */
+button.btn.btn-outline-success[disabled] {
+    background-color: transparent;
+    color: #ccc;
+    border-color: #ccc;
+}
+
+/* Phong cách cho nút Cập nhật */
+button.btn.btn-primary[disabled] {
+    background-color: #7aa4d8;
+    color: #ddd;
+}
+
+/* Phong cách cho nút Xóa */
+button.btn.btn-danger[disabled] {
+    background-color: #e6a4a4;
+    color: #fdd;
+}
+
+/* Tùy chọn để thêm hiệu ứng khi di chuột qua nút bị vô hiệu hóa (nếu muốn) */
+button.btn[disabled]:hover {
+    opacity: 0.8; /* Tăng một chút độ mờ khi di chuột qua */
 }
