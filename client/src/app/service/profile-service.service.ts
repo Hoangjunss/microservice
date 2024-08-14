@@ -52,7 +52,7 @@ export class ProfileServiceService {
     );
   }
 
-  updateProfile(profile: Profile): Observable<Profile> {
+  updateProfile(profile: FormData): Observable<Profile> {
     let headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data' });
     const authHeaders = this.createAuthorizationHeader();
     if (authHeaders.has('Authorization')) {

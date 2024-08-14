@@ -59,9 +59,33 @@ export class CreateProfileComponent implements OnInit {
 
   updateProject(): void {
     if (this.profileForm.valid) {
-      const updatedProfile: Profile = this.profileForm.value;
-      console.log('Profile form value',updatedProfile);
-      this.profileService.updateProfile(updatedProfile).subscribe(response => {
+      const formData: FormData = new FormData();
+  
+      // Lấy giá trị của profileForm
+      const profileData = this.profileForm.value;
+  
+      // Thêm các trường không phải là nhóm (group) và không phải là file vào FormData
+      for (const key in profileData) {
+        if (profileData.hasOwnProperty(key) && key !== 'contact' && key !== 'imageFile') {
+          formData.append(key, profileData[key]);
+        }
+      }
+  
+      // Thêm các trường trong nhóm contact vào FormData
+      if (profileData.contact) {
+        for (const contactKey in profileData.contact) {
+          if (profileData.contact.hasOwnProperty(contactKey)) {
+            formData.append(`contact.${contactKey}`, profileData.contact[contactKey]);
+          }
+        }
+      }
+  
+      // Thêm trường imageFile vào FormData nếu có file
+      const imageFile = this.profileForm.get('imageFile')?.value;
+      if (imageFile) {
+        formData.append('imageFile', imageFile);
+      }
+      this.profileService.updateProfile(formData).subscribe(response => {
         console.log('Profile updated successfully', response);
         alert('Profile updated successfully')
         window.location.reload();
