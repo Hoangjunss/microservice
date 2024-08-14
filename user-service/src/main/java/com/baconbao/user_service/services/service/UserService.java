@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     UserDTO findById(String token, Integer id);
     boolean checkUser(Integer id);
-    UserDTO getCurrentUser(String token);
+    UserDTO getCurrentUser();
     UserDTO update(String token, UserDTO userDTO);
     List<UserDTO> getALl(String token);
     UserDTO updateIsActive(String token,Integer id);

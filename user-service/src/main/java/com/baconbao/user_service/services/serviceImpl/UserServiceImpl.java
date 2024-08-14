@@ -1,5 +1,6 @@
 package com.baconbao.user_service.services.serviceImpl;
 
+import com.baconbao.user_service.dto.ApiResponse;
 import com.baconbao.user_service.dto.UserDTO;
 import com.baconbao.user_service.exception.CustomException;
 import com.baconbao.user_service.exception.Error;
@@ -14,6 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,10 +58,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getCurrentUser(String token) {
-        log.info("Get current user by token: {}", token);
-        String email = jwtTokenUtil.extractUsername(token);
-        return convertToDto(userRepository.findByEmail(email)
+    public UserDTO getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+
+        }
+
+        // Giả sử bạn sử dụng UserDetails để lưu thông tin người dùng
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        return convertToDto(userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
     }
 

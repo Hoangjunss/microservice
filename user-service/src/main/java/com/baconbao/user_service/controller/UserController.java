@@ -96,9 +96,9 @@ public class UserController {
     }
 
     @GetMapping("/getCurrentUser")
-    public ResponseEntity<ApiResponse<UserDTO>> getCurrentUser(@RequestParam String token) {
+    public ResponseEntity<ApiResponse<UserDTO>> getCurrentUser() {
         ApiResponse<UserDTO> response = new ApiResponse<>(true, "Check user id successfully",
-                userService.getCurrentUser(token));
+                userService.getCurrentUser());
         return ResponseEntity.ok(response);
     }
 

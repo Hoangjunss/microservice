@@ -8,7 +8,7 @@ import java.util.List;
 
 @FeignClient(name = "profile-service")
 public interface ProfileClient {
-    @GetMapping("/profile/getAll")
+    @GetMapping("/user/profile/getAll")
    List< ProfileDTO> getAll() ;
 
 }
