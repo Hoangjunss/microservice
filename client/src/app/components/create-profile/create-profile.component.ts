@@ -83,8 +83,14 @@ export class CreateProfileComponent implements OnInit {
       // Thêm trường imageFile vào FormData nếu có file
       const imageFile = this.profileForm.get('imageFile')?.value;
       if (imageFile) {
-        formData.append('imageFile', imageFile);
+        formData.append('image', imageFile);
       }
+
+      console.log('FormData entries:');
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+      console.log('Profile form', this.profileForm.value);
       this.profileService.updateProfile(formData).subscribe(response => {
         console.log('Profile updated successfully', response);
         alert('Profile updated successfully')

@@ -53,11 +53,9 @@ export class ProfileServiceService {
   }
 
   updateProfile(profile: FormData): Observable<Profile> {
-    let headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data' });
-    const authHeaders = this.createAuthorizationHeader();
-    if (authHeaders.has('Authorization')) {
-        headers = headers.set('Authorization', authHeaders.get('Authorization')!);
-    }
+   
+    const headers = this.createAuthorizationHeader();
+   
     return this.httpClient.post<Apiresponse<Profile>>(`${this.baseURL}user/update`, profile, { headers }).pipe(
       map(response => {
         if (response.success) {

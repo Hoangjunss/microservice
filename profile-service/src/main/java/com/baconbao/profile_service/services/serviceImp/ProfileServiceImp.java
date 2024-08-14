@@ -22,6 +22,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,11 +61,7 @@ public class ProfileServiceImp implements ProfileService {
         try {
             log.info("Saving profile");
             ImageDTO imageDTO = null;
-            if (profileDTO.getImageFile() != null) {
-                imageDTO = imageClient.save(profileDTO.getImageFile());
-
-            }
-
+          
             Profile profile = Profile.builder()
                     .id(getGenerationId())
                     .objective(profileDTO.getObjective())
@@ -98,11 +95,31 @@ public class ProfileServiceImp implements ProfileService {
     }
 
     @Override
-    public ProfileDTO updateProfile(ProfileDTO profileDTO) {
+    public ProfileDTO updateProfile(ProfileDTO profileDTO,MultipartFile imageFile) {
         try {
-            
+
             log.info("Updating profile id: {}", profileDTO.getId());
-            return convertToDTO(profileRepository.save(convertToModel(profileDTO)));
+            String url = "";
+            if (imageFile != null) {
+              
+                url = imageClient.save(imageFile).getUrl();
+            }
+            log.info("url", url);
+
+            Profile profile= Profile.builder()
+                    .id(profileDTO.getId())
+                    .objective(profileDTO.getObjective())
+                    .education(profileDTO.getEducation())
+                    .workExperience(profileDTO.getWorkExperience())
+                    .typeProfile(TypeProfile.valueOf(profileDTO.getTypeProfile()))
+                    .skills(profileDTO.getSkills())
+                    .title(profileDTO.getTitle())
+                    .contact(profileDTO.getContact())
+                    .idUser(profileDTO.getIdUser())
+                    .url(url)
+                    .build();
+                    return convertToDTO(profileRepository.save(profile));
+            
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.PROFILE_UNABLE_TO_UPDATE);
         } catch (DataAccessException e) {

@@ -22,6 +22,6 @@ public class ProfileDTO {
     private String typeProfile;
     private Integer idUser;
     private String url;
-    private MultipartFile imageFile;
+    
     private String title;
 }

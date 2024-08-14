@@ -2,16 +2,23 @@ package com.baconbao.profile_service.controller;
 
 import com.baconbao.profile_service.dto.ApiResponse;
 import com.baconbao.profile_service.dto.ProfileDTO;
+import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
 import com.baconbao.profile_service.services.service.ProfileService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RequestMapping("profile")
 @RestController
+@Slf4j
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
@@ -23,8 +30,10 @@ public class ProfileController {
     }
 
     @PostMapping("/user/update")
-    public ResponseEntity<ApiResponse<ProfileDTO>> update(@RequestBody  ProfileDTO profileDTO) {
-        ProfileDTO resultProfileDTO = profileService.updateProfile(profileDTO);
+    public ResponseEntity<ApiResponse<ProfileDTO>> update(@ModelAttribute ProfileDTO profileDTO, @RequestParam(value="image", required = false) MultipartFile imageFile) {
+        log.info("ProfileDTO: {}", profileDTO);
+        log.info("iamge :{}", imageFile);
+        ProfileDTO resultProfileDTO = profileService.updateProfile(profileDTO,imageFile );
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile update successfully", resultProfileDTO));
     }
 
