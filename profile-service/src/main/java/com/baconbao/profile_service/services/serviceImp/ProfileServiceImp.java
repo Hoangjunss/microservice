@@ -1,5 +1,6 @@
 package com.baconbao.profile_service.services.serviceImp;
 
+import com.baconbao.profile_service.dto.ApiResponse;
 import com.baconbao.profile_service.dto.ImageDTO;
 import com.baconbao.profile_service.dto.ProfileDTO;
 import com.baconbao.profile_service.exception.CustomException;
@@ -101,10 +102,16 @@ public class ProfileServiceImp implements ProfileService {
             log.info("Updating profile id: {}", profileDTO.getId());
             String url = "";
             if (imageFile != null) {
-              
-                url = imageClient.getAll().getData();
-
+                ApiResponse<ImageDTO> response = imageClient.save(imageFile);
+                if (response == null || response.getData() == null) {
+                    log.info("Không lưu được ảnh hoặc nhận được ImageDTO null");
+                } else {
+                    ImageDTO imageDTO = response.getData();
+                    url = imageDTO.getUrl();
+                    log.info("Ảnh đã được lưu thành công với URL: {}", url);
+                }
             }
+            
             log.info("url", url);
 
             Profile profile= Profile.builder()
