@@ -31,8 +31,8 @@ public class JobController {
 
     @PostMapping("/hr/job/delete")
     public ResponseEntity<ApiResponse<String>> delete(@RequestParam Integer id) {
-        jobService.findById(id);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Job deleted", "ok"));
+        jobService.delete(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Job deleted", "Ok"));
     }
 
     @PutMapping("/user/job/apply")
@@ -42,13 +42,13 @@ public class JobController {
     }
 
     @PutMapping("/hr/job/accept")
-    public ResponseEntity<ApiResponse<JobDTO>> accept(@RequestParam Integer jobDTO,@RequestParam Integer idProfile) {
+    public ResponseEntity<ApiResponse<JobDTO>> accept(@RequestParam Integer jobDTO, @RequestParam Integer idProfile) {
         JobDTO job = jobService.acceptProfile(jobDTO, idProfile);
         return ResponseEntity.ok(new ApiResponse<>(true, "Job accepted", job));
     }
 
     @PutMapping("/hr/job/reject")
-    public ResponseEntity<ApiResponse<JobDTO>> reject(@RequestParam Integer jobDTO,@RequestParam Integer idProfile) {
+    public ResponseEntity<ApiResponse<JobDTO>> reject(@RequestParam Integer jobDTO, @RequestParam Integer idProfile) {
         JobDTO job = jobService.rejectProfile(jobDTO, idProfile);
         return ResponseEntity.ok(new ApiResponse<>(true, "Job rejected", job));
     }

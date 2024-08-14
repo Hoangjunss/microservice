@@ -4,7 +4,7 @@ export class Job {
     description?: string;
     typeJob?: string;
     size?:number;
-    idProfilePending?:number[];
+    idProfiePending?:number[];
     idProfile?: number[];
     idCompany?: number;
 }

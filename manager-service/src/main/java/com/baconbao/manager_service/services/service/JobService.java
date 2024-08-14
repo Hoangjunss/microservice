@@ -8,6 +8,7 @@ public interface JobService {
     JobDTO findById(Integer id);
     JobDTO create(JobDTO job);
     JobDTO update(JobDTO job);
+    JobDTO delete(Integer id);
     List<JobDTO> getAllJobs();
     List<JobDTO> getJobByCompany(Integer id);
     List<JobDTO> getNewJob(Integer id);

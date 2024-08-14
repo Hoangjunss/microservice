@@ -1,31 +1,31 @@
 <div class="container-1">
     <div class="search-navabar d-flex flex-row">
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search"
+        <form class="form-inline" (submit)="onSearch()">
+            <input class="form-control mr-sm-2" type="search" [(ngModel)]="searchTerm" placeholder="Search"
                 aria-label="Search" name="searchTerm">
             <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <select class="form-select" aria-label="Default select example"
-            name="searchCriteria">
-            <option value="id" selected>Id</option>
-            <option value="name">IdHr</option>
-            <option value="email">Type</option>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="searchCriteria"
+            name="searchCriteria" (change)="onCriteriaChange($event)">
+            <option value="typeJob" selected>Type Job</option>
+            <option value="title">Title</option>
         </select>
         <div class="table-footer">
-            <button><i class="fa fa-plus-square"></i> Create Job</button>
+            <button (click)="createJob()"><i class="fa fa-plus-square"></i> Create Job</button>
         </div>
     </div>
 
-    <div *ngIf="jobs.length>0; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
-        <div *ngFor="let job of jobs" class="job-card">
+    <div *ngIf="filteredUsers.length>0; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
+        <div *ngFor="let job of filteredUsers" class="job-card">
             <div class="job-header">
                 <h3 class="job-title">Title: {{job.title}}</h3>
-                <span class="job-type">Full-Time</span>
+                <span class="job-type">{{job.typeJob}}</span>
             </div>
             <p class="job-size">Team Size: {{job.size}}</p>
             <div class="job-actions">
-                <a class="btn apply-btn">Apply</a>
-                <a class="btn details-btn">Details</a>
+                <a (click)="editJob(job)" class="btn apply-btn">Edit</a>
+                <a (click)="viewDetailsJob(job)" class="btn btn-info">Details</a>
+                <a (click)="openModal('Comfirm Delete Job', 'Are you sure?', job?.id)" class="btn btn-danger">Delete</a>
             </div>
         </div>
     </div>
@@ -35,4 +35,109 @@
             <p>We have nothing to show here. Try searching again or adding a new user!</p>
         </div>
     </ng-template>
+</div>
+
+<div class="overlay-show-job" *ngIf="showJob"></div>
+<div *ngIf="showJob" class="container company-details-window">
+    <div class="window-header" (click)="closeViewJob()">
+        <h3 class="window-title">Jobs & Apply</h3>
+        <button class="close-button">&times;</button>
+    </div>
+
+    <!-- Company Information -->
+    <div class="company-header">
+        <div class="company-info">
+            <h2>{{job.title}}</h2>
+            <p>Recruitment position: {{job.title}}</p>
+            <p>Description: {{job.description}}</p>
+            <p>Type job: {{job.typeJob}}</p>
+            <p>Team size: {{job.size}}</p>
+        </div>
+    </div>
+
+    <!-- Jobs Section -->
+    <div class="jobs-section" *ngIf="profilePending && profilePending.length > 0; else noJobsOfCompany">
+        <h3 class="section-title">Profile Apply</h3>
+        <!-- Job Card -->
+        <div *ngFor="let profile of profilePending" class="jobs-card">
+            <div class="jobs-info">
+                <h4 class="jobs-title">Title: {{profile.title}}</h4>
+                <p class="jobs-details"> {{profile.education}}</p>
+                <p class="jobs-details"> {{profile.typeProfile}}</p>
+            </div>
+            <div class="jobs-actions">
+                <button (click)="acceptProfile(profile?.id, job.id, job.size)" class="btn btn-success">Accept</button>
+                <button (click)="rejectProfile(profile.id, job.id)" class="btn btn-danger">Reject</button>
+                <button (click)="viewProfile(profile.id)" class="btn btn-info">View profile</button>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noJobsOfCompany>
+        <div class="no-jobs-notification">
+            <div class="no-jobs-icon">
+                <i class="fas fa-suitcase-rolling"></i>
+            </div>
+            <div class="no-jobs-content">
+                <h2>No Profile apply Available</h2>
+                <p>It seems that this company currently has no job openings. Check back later or explore other
+                    opportunities!</p>
+            </div>
+        </div>
+    </ng-template>
+
+</div>
+
+
+<div *ngIf="option" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>{{ title }}</h3>
+      </div>
+      <div class="modal-body">
+        <p>{{ question }}</p>
+      </div>
+      <div class="modal-footer">
+        <button (click)="onOk()" class="btn btn-primary">OK</button>
+        <button (click)="onCancel()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+</div>
+
+<div *ngIf="showEditJob" class="profiledetails animate-overlay" id="edit_profile_user">
+    <div class="dialog">
+        <div class="overlay" id="overlay_user"></div>
+        <div class="edit_profile_container">
+            <h2>{{ isEditMode ? 'Edit' : 'Create' }} Job Details</h2>
+            <form [formGroup]="jobForm" class="form_edit_profile" id="form_edit_account">
+                <input type="hidden" id="id_project" formControlName="id" name="id_project">
+                <input type="hidden" id="id_profile" formControlName="idProfile" name="id_profile">
+                <div class="name_box">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" formControlName="title" placeholder="Enter title">
+                </div>
+                <div class="name_box">
+                    <label for="description">Description:</label>
+                    <textarea id="description" formControlName="description" rows="4"
+                        placeholder="Enter job description"></textarea>
+                </div>
+                <div class="name_box">
+                    <label for="typeJob">Type Job:</label>
+                    <select id="typeJob" formControlName="typeJob" class="form-control">
+                        <option selected value="java">Java</option>
+                        <option value="python">Python</option>
+                        <option value="php">PHP</option>
+                    </select>
+                </div>
+                <div class="name_box">
+                    <label for="size">Team size:</label>
+                    <input type="number" id="size" formControlName="size" placeholder="Enter job Team size">
+                </div>
+                <div class="form_buttons d-flex justify-content-between">
+                    <button type="button" (click)="onSubmit($event)" id="submitBtn" class="btn btn-primary">{{ isEditMode ? 'Save' : 'Create' }}</button>
+                    <button type="button" (click)="onClose()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

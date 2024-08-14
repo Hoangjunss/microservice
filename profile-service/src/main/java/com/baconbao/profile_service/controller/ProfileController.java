@@ -68,10 +68,18 @@ public class ProfileController {
         List<ProfileDTO> resultProfiles = profileService.findByTitle(title);
         return ResponseEntity.ok(new ApiResponse<>(true, "Find by title is successfully", resultProfiles));
     }
+    
     @GetMapping("/user/checkIdProfile")
     public ResponseEntity<ApiResponse<Boolean>> checkIdProfie(@RequestParam Integer id) {
-        boolean result = profileService.checkIdProfile(id);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Check id profile", result));
+        Boolean result = profileService.checkIdProfile(id);
+        return ResponseEntity.ok(new ApiResponse<Boolean>(true, "Check id profile", result.booleanValue()));
     }
+
+    @GetMapping("/manager/getProfileByIdPendingJob")
+    public ResponseEntity<ApiResponse<List<ProfileDTO>>> getProfileByIdPendingJob(@RequestParam List<Integer> ids) {
+        List<ProfileDTO> resultProfiles = profileService.findListProfileByIdPendingJob(ids);
+        return ResponseEntity
+                .ok(new ApiResponse<>(true, "Profiles retrieved successfully by pending job id", resultProfiles));
+    } 
 
 }

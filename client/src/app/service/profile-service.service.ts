@@ -35,7 +35,24 @@ export class ProfileServiceService {
     })
     );
   }
-  
+
+  getListProfileByIdPendingJob(id:number[]): Observable<Profile[]> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Apiresponse<Profile[]>>(`${this.baseURL}manager/getProfileByIdPendingJob?ids=${id}`, {headers}).pipe(
+      map(response => {
+        if (response.success) {
+          return response.data.map(this.mapToProfile);
+        } else {
+          throw new Error(response.message);
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching profile by user:', error);
+        return throwError(() => new Error('Something went wrong!'));
+      })
+    );
+  }
+
   createProfile(profile: Profile):Observable<Profile> {
     console.log('Creating profile:', profile);
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });

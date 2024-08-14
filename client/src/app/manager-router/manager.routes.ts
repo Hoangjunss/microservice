@@ -5,6 +5,7 @@ import { JobLayoutComponent } from "../manager/job-layout/job-layout.component";
 import { ApplyLayoutComponent } from "../manager/apply-layout/apply-layout.component";
 import { HrLayoutComponent } from "../manager/hr-layout/hr-layout.component";
 import { CompanyComponent } from "../manager/company/company.component";
+import { ProfileUserComponent } from "../components/profile-user/profile-user.component";
 
 
 export const managerRoutes: Routes = [
@@ -27,6 +28,10 @@ export const managerRoutes: Routes = [
             {
                 path: 'about',
                 component: CompanyComponent
+            },
+            {
+                path: 'profile/profile-user/:id',
+                component: ProfileUserComponent
             }
         ]
     }

@@ -16,6 +16,7 @@ public interface ProfileService {
     Profile convertToModel(ProfileDTO profileDTO);
     List<ProfileDTO> getAllProfile();
     List<ProfileDTO> findByTitle(String title);
+    List<ProfileDTO> findListProfileByIdPendingJob(List<Integer> idJobs);
     Boolean checkIdProfile(Integer id);
     
 }

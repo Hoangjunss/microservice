@@ -14,10 +14,12 @@ export class JobServiceService {
   constructor(private httpClient:HttpClient) { }
   private baseURL="http://localhost:8080/manager/";
 
-  createJob(job: Job): Observable<Job>{
+  createJob(job: Job): Observable<Job> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const authHeaders = this.createAuthorizationHeader();
-    return this.httpClient.post<Apiresponse<Job>>(`${this.baseURL}hr/job/create`, JSON.stringify(job), {headers}).pipe(
+    headers = headers.set('Authorization', authHeaders.get('Authorization') || '');
+
+    return this.httpClient.post<Apiresponse<Job>>(`${this.baseURL}hr/job/create`, job, { headers }).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -28,10 +30,12 @@ export class JobServiceService {
     );
   }
 
-  updateJob(job: Job): Observable<Job>{
+  updateJob(job: Job): Observable<Job> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const authHeaders = this.createAuthorizationHeader();
-    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/update`, JSON.stringify(job), {headers}).pipe(
+    headers = headers.set('Authorization', authHeaders.get('Authorization') || '');
+
+    return this.httpClient.post<Apiresponse<Job>>(`${this.baseURL}hr/job/update`, job, { headers }).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -41,18 +45,30 @@ export class JobServiceService {
       })
     );
   }
+  deleteJob(id: number): void {
+    const headers = this.createAuthorizationHeader();
+    this.httpClient.post<Apiresponse<any>>(
+        `${this.baseURL}hr/job/delete?id=${id}`, {},{ headers: headers }
+    ).subscribe(
+        response => {
+            if (!response.success) {
+                throw new Error(response.message);
+            } else {
+                alert('Deleted Job successfully');
+                window.location.reload();
+            }
+        },
+        error => {
+            if (error.status === 401) {
+                alert('Unauthorized access. Please log in again.');
+            } else {
+                console.error('Error deleting job:', error);
+                alert('Failed to delete job.');
+            }
+        }
+    );
+}
 
-  deleteJob(id: number): void{
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const authHeaders = this.createAuthorizationHeader();
-    this.httpClient.delete<Apiresponse<any>>(`${this.baseURL}hr/job/delete?id=${id}`, {headers}).subscribe(response => {
-      if (!response.success) {
-        throw new Error(response.message);
-      }else{
-        alert('Deleted Job successfully');
-      }
-    });
-  }
 
   applyJobs(idJob: number, idProfile: number): Observable<Job>{
     const headers = this.createAuthorizationHeader();
@@ -150,6 +166,32 @@ export class JobServiceService {
     );
   }
 
+  acceptProfileJob(idJob:number, idProfile:number){
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/accept?jobDTO=${idJob}&idProfile=${idProfile}`,{}, { headers }).pipe(
+      map(response => {
+        if (response.success) {
+          return this.mapToJob(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
+  rejectProfileJob(idJob:number, idProfile:number){
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/reject?jobDTO=${idJob}&idProfile=${idProfile}`,{}, { headers }).pipe(
+      map(response => {
+        if (response.success) {
+          return this.mapToJob(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      })
+    );
+  }
+
   setJob(job: Job) {
     this.job = job;
   }
@@ -166,7 +208,7 @@ export class JobServiceService {
       description: jobDTO.description,
       typeJob: jobDTO.typeJob,
       size: jobDTO.size,
-      idProfilePending: jobDTO.idProfilePending,
+      idProfiePending: jobDTO.idProfiePending,
       idProfile: jobDTO.idProfile,
       idCompany: jobDTO.idCompany
     }

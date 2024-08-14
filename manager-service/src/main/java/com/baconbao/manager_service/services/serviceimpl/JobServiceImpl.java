@@ -1,5 +1,6 @@
 package com.baconbao.manager_service.services.serviceimpl;
 
+import com.baconbao.manager_service.dto.ApiResponse;
 import com.baconbao.manager_service.dto.JobDTO;
 import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
@@ -164,7 +165,9 @@ public class JobServiceImpl implements JobService {
                 jobDTO.setIdProfile(new ArrayList<>());
             }
             List<Integer> idProfileJob = jobDTO.getIdProfile();
-            profileClient.checkIdProfile(idProfile);
+            // profileClient.checkIdProfile(idProfile);
+            int size = jobDTO.getSize() - 1;
+            jobDTO.setSize(size);
             idProfileJob.add(idProfile);
             jobDTO.setIdProfile(idProfileJob);
 
@@ -183,7 +186,7 @@ public class JobServiceImpl implements JobService {
             log.info("Rejecting profile id: {}, job id: {}", idProfile, idJob);
             JobDTO jobDTO = findById(idJob);
             List<Integer> idProfilePending = jobDTO.getIdProfiePending();
-            profileClient.checkIdProfile(idProfile);
+            // Boolean checkIdProfile = profileClient.checkIdProfile(idProfile);
             idProfilePending.remove(idProfile);
             jobDTO.setIdProfiePending(idProfilePending);
             return update(jobDTO);
@@ -234,6 +237,18 @@ public class JobServiceImpl implements JobService {
             return convertToListDTO(mongoTemplate.find(query, Job.class));
         } catch (MongoCommandException e) {
             throw new CustomException(Error.MONGO_QUERY_EXECUTION_ERROR);
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
+
+    @Override
+    public JobDTO delete(Integer id) {
+        try {
+            log.info("Deleting job by id: {}", id);
+            Job job = jobRepository.findById(id).orElseThrow(() -> new CustomException(Error.JOB_NOT_FOUND));
+            jobRepository.delete(job);
+            return convertToDTO(job);
         } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }

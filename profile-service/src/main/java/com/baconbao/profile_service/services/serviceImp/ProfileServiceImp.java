@@ -206,5 +206,14 @@ public class ProfileServiceImp implements ProfileService {
             }
     }
 
+    @Override
+    public List<ProfileDTO> findListProfileByIdPendingJob(List<Integer> idJobs) {
+        try {
+            return convertToDTOList(profileRepository.findByIdIn(idJobs));
+        } catch (DataAccessException e) {
+            throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+        }
+    }
+
 
 }
