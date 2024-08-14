@@ -7,6 +7,7 @@ import com.baconbao.manager_service.dto.CompanyDTO;
 import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
 import com.baconbao.manager_service.models.Company;
+import com.baconbao.manager_service.openfeign.ImageClient;
 import com.baconbao.manager_service.openfeign.UserClient;
 import com.baconbao.manager_service.repository.CompanyRepository;
 import com.baconbao.manager_service.services.service.CompanyService;
@@ -22,6 +23,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,10 +39,10 @@ public class CompanyServiceImpl implements CompanyService {
     private ModelMapper modelMapper;
     @Autowired
     private MongoTemplate mongoTemplate;
-    /*
-     * @Autowired
-     * private ImageClient imageClient;
-     */
+
+      @Autowired
+      private ImageClient imageClient;
+
     @Autowired
     private UserClient userClient;
 
@@ -63,11 +65,11 @@ public class CompanyServiceImpl implements CompanyService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    private Company save(CompanyDTO companyDTO) {
+    private Company save(CompanyDTO companyDTO,MultipartFile multipartFile) {
         log.info("Inserting company");
-        Integer idImage = null;
-        if (companyDTO.getImageFile() != null) {
-            // idImage = imageClient.save(companyDTO.getImageFile()).getData().getId();
+        String url = "";
+        if (multipartFile!= null) {
+            url = imageClient.save(multipartFile).getData().getUrl();
         }
         try {
             Company company = Company.builder()
@@ -80,8 +82,7 @@ public class CompanyServiceImpl implements CompanyService {
                     .phone(companyDTO.getPhone())
                     .email(companyDTO.getEmail())
                     .country(companyDTO.getCountry())
-                    .idJobs(companyDTO.getIdJobs())
-                    .idImage(idImage)
+                    .url(url)
                     .build();
             return companyRepository.insert(company);
         } catch (DuplicateKeyException e) {
@@ -99,8 +100,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDTO create(CompanyDTO companyDTO) {
-        return convertToDTO(save(companyDTO));
+    public CompanyDTO create(CompanyDTO companyDTO, MultipartFile multipartFile) {
+        return convertToDTO(save(companyDTO,multipartFile));
     }
 
     @Override
@@ -185,6 +186,15 @@ public class CompanyServiceImpl implements CompanyService {
         } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
+    }
+
+    @Override
+    public CompanyDTO setManagerToCompany(AuthenticationRequest authenticationRequest, Integer id) {
+        ApiResponse<AuthenticationResponse> authenticationResponseApiResponse = userClient
+                .signUp(authenticationRequest);
+        CompanyDTO companyDTO = findById(id);
+        companyDTO.setIdManager(authenticationResponseApiResponse.getData().getUser().getId());
+        return convertToDTO(companyRepository.save(convertToModel(companyDTO)));
     }
 
     @Override

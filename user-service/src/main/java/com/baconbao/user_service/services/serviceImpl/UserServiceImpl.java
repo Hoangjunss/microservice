@@ -45,16 +45,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findById(String token, Integer id) {
-        log.info("Get user by id: {}", id);
-        jwtTokenUtil.extractUsername(token);
+    public UserDTO findById( Integer id) {
+
         return convertToDto(userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
     }
 
     @Override
     public boolean checkUser(Integer id) {
+        UserDTO userDTO=findById(id);
+        if(userDTO!=null){
+            return true;
+        }
         return false;
+
     }
 
     @Override

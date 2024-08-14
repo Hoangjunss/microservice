@@ -141,7 +141,10 @@ public class JobServiceImpl implements JobService {
                 jobDTO.setIdProfiePending(new ArrayList<>());
             }
             List<Integer> idProfilePending = jobDTO.getIdProfiePending();
-            profileClient.checkIdProfile(idProfile);
+            Boolean checkProfile= profileClient.checkIdProfile(idProfile).getData();
+            if(!checkProfile) {
+                throw new CustomException(Error.COMPANY_UNABLE_TO_UPDATE);
+            }
             idProfilePending.add(idProfile);
             jobDTO.setIdProfiePending(idProfilePending);
             return update(jobDTO);

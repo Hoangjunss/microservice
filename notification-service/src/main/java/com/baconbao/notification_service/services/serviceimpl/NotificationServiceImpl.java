@@ -102,7 +102,10 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationDTO> getNotificationsByIdUser(Integer userId) {
         try {
             log.info("Get notifications by user id: {}", userId);
-            userClient.checkId(userId);
+            Boolean checkUser= userClient.checkId(userId).getData();
+            if(!checkUser){
+                throw new CustomException(Error.DATABASE_ACCESS_ERROR);
+            }
             return convertToDTOList(notificationRepository.getNotificationsByIdUser(userId));
         } catch (DataAccessException e){
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);

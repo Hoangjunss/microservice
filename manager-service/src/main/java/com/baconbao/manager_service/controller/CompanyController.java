@@ -8,6 +8,7 @@ import com.baconbao.manager_service.services.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class CompanyController {
     private CompanyService companyService;
 
     @PostMapping("/admin/company/create")
-    public ResponseEntity<ApiResponse<CompanyDTO>> create(@RequestBody CompanyDTO companyDTO){
-        CompanyDTO companyDTO1 = companyService.create(companyDTO);
+    public ResponseEntity<ApiResponse<CompanyDTO>> create(@ModelAttribute CompanyDTO companyDTO,@RequestPart(value="image",required = false) MultipartFile image){
+        CompanyDTO companyDTO1 = companyService.create(companyDTO,image);
         return ResponseEntity.ok(new ApiResponse<>(true, "Company created successfully", companyDTO1));
     }
 
@@ -39,6 +40,11 @@ public class CompanyController {
     public ResponseEntity<ApiResponse<String>> delete(@RequestParam Integer id){
         companyService.deleteById(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "Company deleted successfully", "ok"));
+    }
+    @PutMapping("/manager/setmaanagertocompany")
+    public ResponseEntity<ApiResponse<CompanyDTO>> setManagerToCompany(@RequestBody AuthenticationRequest authenticationRequest, @RequestParam Integer idCompany){
+        CompanyDTO companyDTO = companyService.setManagerToCompany(authenticationRequest, idCompany);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Head updated successfully", companyDTO));
     }
 
     @GetMapping("/user/company/getbyid")

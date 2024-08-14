@@ -25,7 +25,7 @@ public class Company {
     private String phone;
     private String city;
     private String country;
-    private Integer idImage;
+    private String url;
     private Integer idManager;
     private List<Integer> idHr;
     private List<Integer> idJobs;

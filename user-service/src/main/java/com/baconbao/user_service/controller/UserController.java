@@ -74,9 +74,9 @@ public class UserController {
     }
 
     @GetMapping("/findbyid")
-    public ResponseEntity<ApiResponse<UserDTO>> findById(@RequestParam String token, @RequestParam Integer id) {
+    public ResponseEntity<ApiResponse<UserDTO>> findById( @RequestParam Integer id) {
         ApiResponse<UserDTO> response = new ApiResponse<>(true, "User retrieved successfully",
-                userService.findById(token, id));
+                userService.findById( id));
         return ResponseEntity.ok(response);
     }
 

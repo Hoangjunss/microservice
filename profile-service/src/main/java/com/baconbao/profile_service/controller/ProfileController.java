@@ -72,7 +72,7 @@ public class ProfileController {
     @GetMapping("/user/checkIdProfile")
     public ResponseEntity<ApiResponse<Boolean>> checkIdProfie(@RequestParam Integer id) {
         Boolean result = profileService.checkIdProfile(id);
-        return ResponseEntity.ok(new ApiResponse<Boolean>(true, "Check id profile", result.booleanValue()));
+        return ResponseEntity.ok(new ApiResponse<Boolean>(true, "Check id profile", result));
     }
 
     @GetMapping("/manager/getProfileByIdPendingJob")

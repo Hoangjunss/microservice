@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "user-service")
 public interface UserClient {
-    @GetMapping("/checkId")
-    Boolean checkId(@RequestParam Integer id);
+    @GetMapping("/auth/checkId")
+    ApiResponse<Boolean> checkId(@RequestParam Integer id);
     @GetMapping("/auth/getCurrentUser")
     ApiResponse<UserDTO> getCurrentUser() ;
 }
