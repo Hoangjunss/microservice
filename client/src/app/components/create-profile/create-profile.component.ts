@@ -82,8 +82,8 @@ export class CreateProfileComponent implements OnInit {
   
       // Thêm trường imageFile vào FormData nếu có file
       const imageFile = this.profileForm.get('imageFile')?.value;
-      if (imageFile) {
-        formData.append('image', imageFile);
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile);
       }
 
       console.log('FormData entries:');
