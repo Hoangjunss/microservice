@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "profile-service")
 
 public interface ProfileClient {
-    @GetMapping("/user/checkIdProfile")
+    @GetMapping("/profile/user/checkIdProfile")
     Boolean checkIdProfile(@RequestParam Integer id);
 }

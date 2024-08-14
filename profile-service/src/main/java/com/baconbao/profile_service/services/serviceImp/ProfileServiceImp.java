@@ -64,8 +64,7 @@ public class ProfileServiceImp implements ProfileService {
                 imageDTO = imageClient.save(profileDTO.getImageFile());
 
             }
-            if (checkUserId(profileDTO.getIdUser())) {
-            }
+
             Profile profile = Profile.builder()
                     .id(getGenerationId())
                     .objective(profileDTO.getObjective())
