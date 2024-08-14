@@ -17,13 +17,13 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ImageDTO> save(@RequestPart(value="image",required = false)MultipartFile image) {
+    public ResponseEntity<ApiResponse<ImageDTO>> save(@RequestPart(value="image",required = false)MultipartFile image) {
         if (image == null || image.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         // Xử lý lưu ảnh và trả về ImageDTO
         ImageDTO imageDTO = imageService.saveImage(image);
-        return ResponseEntity.ok(imageDTO);
+        return ResponseEntity.ok(new ApiResponse<ImageDTO>(true, "Get all is successfully", imageDTO));
     }
 
     @GetMapping("getAll")
