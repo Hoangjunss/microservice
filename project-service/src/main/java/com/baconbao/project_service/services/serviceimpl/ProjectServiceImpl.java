@@ -8,6 +8,7 @@ import com.baconbao.project_service.exception.Error;
 import com.baconbao.project_service.model.Project;
 import com.baconbao.project_service.openFeign.ImageClient;
 import com.baconbao.project_service.openFeign.ProfileClient;
+import com.baconbao.project_service.openFeign.test;
 import com.baconbao.project_service.repository.ProjectRepository;
 import com.baconbao.project_service.services.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +35,8 @@ public class ProjectServiceImpl implements ProjectService {
     private ModelMapper modelMapper;
     @Autowired
     private ImageClient imageClient;
+    @Autowired
+    private test ts;
 
     private ProjectDTO convertToDTO(Project project) {
         return modelMapper.map(project, ProjectDTO.class);
@@ -52,9 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
         try {
             log.info("Saving project");
             ImageDTO imageDTO = null;
-            if (projectDTO.getImageFile() != null) {
-                imageDTO = imageClient.save(projectDTO.getImageFile());
-            }
+
             Project project = Project.builder()
                     .id(getGenerationId())
                     .title(projectDTO.getTitle())
@@ -122,5 +124,10 @@ public class ProjectServiceImpl implements ProjectService {
         } catch (DataAccessException e) {
             throw new CustomException(Error.DATABASE_ACCESS_ERROR);
         }
+    }
+
+    @Override
+    public ImageDTO getall(MultipartFile multipartFile) {
+        return imageClient.save(multipartFile).getData();
     }
 }

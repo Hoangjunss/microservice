@@ -35,5 +35,10 @@ public class NotificationController {
         List<NotificationDTO> notificationDTOS = notificationService.getNotificationsByIdUser(userId);
         return ResponseEntity.ok(new ApiResponse<>(true, "Find is success", notificationDTOS));
     }
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponse<String>> ok(){
+
+        return ResponseEntity.ok(new ApiResponse<>(true, "Find is success", "ok"));
+    }
 }
 

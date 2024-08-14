@@ -30,10 +30,10 @@ public class ProfileController {
     }
 
     @PostMapping(value = "/user/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<ProfileDTO>> update(@ModelAttribute ProfileDTO profileDTO, @RequestParam(value="image", required = false) MultipartFile imageFile) {
+    public ResponseEntity<ApiResponse<ProfileDTO>> update(@ModelAttribute ProfileDTO profileDTO, @RequestPart(value="image",required = false)MultipartFile image) {
         log.info("ProfileDTO: {}", profileDTO);
-        log.info("iamge :{}", imageFile);
-        ProfileDTO resultProfileDTO = profileService.updateProfile(profileDTO,imageFile );
+        log.info("iamge :{}", image);
+        ProfileDTO resultProfileDTO = profileService.updateProfile(profileDTO,image);
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile update successfully", resultProfileDTO));
     }
 

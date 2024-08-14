@@ -1,12 +1,15 @@
 package com.baconbao.project_service.controller;
 
 import com.baconbao.project_service.dto.ApiResponse;
+import com.baconbao.project_service.dto.ImageDTO;
 import com.baconbao.project_service.dto.ProfileDTO;
 import com.baconbao.project_service.dto.ProjectDTO;
+import com.baconbao.project_service.openFeign.ImageClient;
 import com.baconbao.project_service.services.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,6 +18,8 @@ import java.util.List;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private ImageClient imageClient;
 
     @PostMapping("/user/save")
     public ResponseEntity<ApiResponse<ProjectDTO>> save(@RequestBody ProjectDTO projectDTO) {
@@ -45,8 +50,13 @@ public class ProjectController {
     }
 
     @GetMapping("/user/get")
-    public ResponseEntity<ApiResponse<String>> get() {
-        ApiResponse<String> response = new ApiResponse<>(true, "ok", "ok");
+    public ResponseEntity<ApiResponse<ImageDTO>> get(@RequestPart(value="image",required = false)MultipartFile image) {
+        ApiResponse<ImageDTO> response = new ApiResponse<>(true, "ok", projectService.getall(image));
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/user/get1")
+    public ResponseEntity<ApiResponse<String>> get1() {
+        ApiResponse<String> response = new ApiResponse<>(true, "ok", imageClient.getAll().getData());
         return ResponseEntity.ok(response);
     }
 
