@@ -1,8 +1,11 @@
 package com.baconbao.email_service;
 
 import com.baconbao.email_service.dto.MailDTO;
+import com.baconbao.email_service.dto.MessageDTO;
 import com.baconbao.email_service.model.Mail;
+import com.baconbao.email_service.openfeign.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MailServiceImpl implements MailService {
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private UserClient userClient;
 
     @Override
     public void sendMail(Mail mail) {
@@ -45,8 +50,14 @@ public class MailServiceImpl implements MailService {
                 .mailContent(content)
                 .build();
     }
-    public  void listen(MailDTO mailDTO){
+    @KafkaListener(topics = "accept-job", groupId = "kafka-service-group")
+    public  void listen(MessageDTO messageDTO){
         log.info("send mail"  );
+        MailDTO mailDTO=MailDTO.builder()
+                .mailContent(messageDTO.getMessage())
+                .mailSubject(messageDTO.getMessage())
+                .mailTo(userClient.findById(messageDTO.getId()).getData().getEmail())
+                .build();
         sendMail(getMail(mailDTO.getMailTo(),mailDTO.getMailContent(),mailDTO.getMailSubject()));
     }
 }

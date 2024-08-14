@@ -2,10 +2,13 @@ package com.baconbao.manager_service.services.serviceimpl;
 
 import com.baconbao.manager_service.dto.ApiResponse;
 import com.baconbao.manager_service.dto.JobDTO;
+import com.baconbao.manager_service.dto.ProfileDTO;
 import com.baconbao.manager_service.exception.CustomException;
 import com.baconbao.manager_service.exception.Error;
 import com.baconbao.manager_service.models.Job;
 import com.baconbao.manager_service.models.TypeJob;
+import com.baconbao.manager_service.openfeign.KafkaClient;
+import com.baconbao.manager_service.openfeign.MessageDTO;
 import com.baconbao.manager_service.openfeign.ProfileClient;
 import com.baconbao.manager_service.repository.JobRepository;
 import com.baconbao.manager_service.services.service.JobService;
@@ -38,6 +41,8 @@ public class JobServiceImpl implements JobService {
     private MongoTemplate mongoTemplate;
     @Autowired
     private ProfileClient profileClient;
+    @Autowired
+    private KafkaClient kafkaClient;
 
     private Integer getGenerationId() {
         UUID uuid = UUID.randomUUID();
@@ -173,7 +178,10 @@ public class JobServiceImpl implements JobService {
             jobDTO.setSize(size);
             idProfileJob.add(idProfile);
             jobDTO.setIdProfile(idProfileJob);
-
+            JobDTO jobAccept=update(jobDTO);
+            ProfileDTO profileDTO=profileClient.getProfileById(idProfile).getData();
+            MessageDTO messageDTO=MessageDTO.builder().message("accept job successful by"+jobDTO.getTypeJob()).id(profileDTO.getIdUser()).build();
+            kafkaClient.sendMessage("accept-job",messageDTO);
             return update(jobDTO);
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.COMPANY_UNABLE_TO_UPDATE);

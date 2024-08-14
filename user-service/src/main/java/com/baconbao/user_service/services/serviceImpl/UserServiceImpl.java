@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateIsActive(String token, Integer id) {
         try {
             log.info("Updating active status by id: {}", id);
-            UserDTO user = findById(token, id);
+            UserDTO user = findById( id);
             user.setActive(!user.isActive());
             return convertToDto(userRepository.save(convertToEntity(user)));
         } catch (DataIntegrityViolationException e) {
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
         try {
             log.info("Deleting user by id: {}", id);
             jwtTokenUtil.extractUsername(token);
-            UserDTO user = findById(token, id);
+            UserDTO user = findById( id);
             userRepository.deleteById(id);
             return user;
         } catch (DataAccessException e) {

@@ -1,18 +1,19 @@
 package com.baconbao.kafka_service.service;
 
+import com.baconbao.kafka_service.dto.MessageDTO;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaProducerService {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, MessageDTO> kafkaTemplate;
 
-    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate) {
+    public KafkaProducerService(KafkaTemplate<String, MessageDTO> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String topic, String message) {
+    public void sendMessage(String topic, MessageDTO message) {
         kafkaTemplate.send(topic, message);
     }
 }

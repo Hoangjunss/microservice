@@ -1,5 +1,6 @@
 package com.baconbao.kafka_service.controller;
 
+import com.baconbao.kafka_service.dto.MessageDTO;
 import com.baconbao.kafka_service.service.KafkaProducerService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +16,7 @@ public class KafkaController {
     }
 
     @PostMapping("/send")
-    public void sendMessage(@RequestParam String topic, @RequestParam String message) {
+    public void sendMessage(@RequestParam String topic, @RequestParam MessageDTO message) {
         kafkaProducerService.sendMessage(topic, message);
     }
 }

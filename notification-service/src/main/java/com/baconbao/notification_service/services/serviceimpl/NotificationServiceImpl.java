@@ -1,5 +1,6 @@
 package com.baconbao.notification_service.services.serviceimpl;
 
+import com.baconbao.notification_service.dto.MessageDTO;
 import com.baconbao.notification_service.dto.NotificationDTO;
 import com.baconbao.notification_service.exception.CustomException;
 import com.baconbao.notification_service.exception.Error;
@@ -12,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -116,6 +118,15 @@ public class NotificationServiceImpl implements NotificationService {
         return notifications.stream()
                 .map(notification -> modelMapper.map(notification, NotificationDTO.class))
                 .collect(Collectors.toList());
+    }
+    @KafkaListener(topics = "accept-job", groupId = "kafka-service-group")
+    public  void listen(MessageDTO messageDTO){
+        log.info("send notification"  );
+       NotificationDTO notificationDTO=NotificationDTO.builder()
+               .message(messageDTO.getMessage())
+               .isRead(false)
+               .idUser(messageDTO.getId())
+               .build();
     }
 
 }
