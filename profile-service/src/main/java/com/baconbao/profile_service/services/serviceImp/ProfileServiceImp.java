@@ -205,7 +205,7 @@ public class ProfileServiceImp implements ProfileService {
     public ProfileDTO findByIdUser(Integer id) {
             log.info("Get profile by idUser: {}", id);
             Query query = new Query();
-            query.addCriteria(Criteria.where("idUser").regex(id + ""));
+            query.addCriteria(Criteria.where("idUser").is(id));
             Profile profile = mongoTemplate.findOne(query, Profile.class);
             if (profile!= null) {
                 return convertToDTO(profile);

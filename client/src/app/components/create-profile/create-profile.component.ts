@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class CreateProfileComponent implements OnInit {
   profileForm: FormGroup;
+  profileEdit : Profile = new Profile();
   selectedFile: File | null = null;
 
   @Input() profile: Profile | undefined;
@@ -31,6 +32,7 @@ export class CreateProfileComponent implements OnInit {
       skills: [''],
       typeProfile: [''],
       url: [''],
+      idUser: this.profile,
       contact: this.fb.group({
         address: [''],
         phone: [''],
@@ -61,17 +63,13 @@ export class CreateProfileComponent implements OnInit {
     if (this.profileForm.valid) {
       const formData: FormData = new FormData();
   
-      // Lấy giá trị của profileForm
       const profileData = this.profileForm.value;
-  
-      // Thêm các trường không phải là nhóm (group) và không phải là file vào FormData
       for (const key in profileData) {
         if (profileData.hasOwnProperty(key) && key !== 'contact' && key !== 'imageFile') {
           formData.append(key, profileData[key]);
         }
       }
   
-      // Thêm các trường trong nhóm contact vào FormData
       if (profileData.contact) {
         for (const contactKey in profileData.contact) {
           if (profileData.contact.hasOwnProperty(contactKey)) {
@@ -80,7 +78,6 @@ export class CreateProfileComponent implements OnInit {
         }
       }
   
-      // Thêm trường imageFile vào FormData nếu có file
       const imageFile = this.profileForm.get('imageFile')?.value;
       if (this.selectedFile) {
         formData.append('image', this.selectedFile);

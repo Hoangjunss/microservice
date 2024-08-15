@@ -35,8 +35,9 @@ export class ProjectListComponent implements OnInit {
     console.log("idProfile",this.idProfile);
     if(this.idProfile){
       this.getProjectByIdProfile(this.idProfile);
+    }else{
+      this.getProfileByIdUser(this.userCurrent.id);
     }
-    this.getProfileById(this.idProfile!);
   }
 
   getFormattedDate(createAt?:string) {
@@ -46,6 +47,17 @@ export class ProjectListComponent implements OnInit {
   getProjectByUser(id:number){
     this.projectService.getProjectByUser(id).subscribe(data=>{
       this.projects=data
+      this.isCurrentUserProfile();
+    })
+  }
+
+  getProfileByIdUser(id:number){
+    this.profileService.getProfileByUserId(id).subscribe(data=>{
+      this.profile=data;
+      if(this.profile.id)
+      {
+        this.getProjectByIdProfile(this.profile.id);
+      }
     })
   }
 
