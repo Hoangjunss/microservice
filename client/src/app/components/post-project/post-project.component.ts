@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrl: './post-project.component.css'
 })
 export class PostProjectComponent implements OnInit {
+  updateProject:Project = new Project();
   projects:Project[]=[]
   project:Project=new Project;
   projectForm: FormGroup;
@@ -30,7 +31,7 @@ export class PostProjectComponent implements OnInit {
       imageId: [''],
       display: [''],
       imageFile: [null],
-      idProfile: [null]
+      idProfile: [this.idProfile]
     })
   }
   ngOnInit(): void {
@@ -50,17 +51,20 @@ export class PostProjectComponent implements OnInit {
     })
   }
 
-  updateProject(event: Event): void {
+  updatedProject(event: Event): void {
     event.preventDefault();
     if (this.projectForm.valid) {
-      const updatedProject = this.projectForm.value;
-      updatedProject.idProfile=this.idProfile;
-      console.log(updatedProject + " ID project");
-      if(updatedProject?.id != ''){
-        this.projectService.updateProjectByUser(updatedProject).subscribe({
+      this.updateProject = this.projectForm.value;
+      if (this.idProfile !== null && this.idProfile !== undefined) {
+        this.updateProject.idProfile = this.idProfile;
+    }
+      console.log(JSON.stringify(this.updateProject) + " ID project");
+      console.log(this.updateProject + " ID project");
+      if(this.updateProject?.id != null){
+        this.projectService.updateProjectByUser(this.updateProject).subscribe({
         next: (response) => {
           alert('Project updated successfully');
-          this.router.navigate(['/list-project']).then(() => {
+          this.router.navigate(['/list-project/'+this.updateProject.idProfile]).then(() => {
             window.location.reload();
           });
         },
@@ -70,10 +74,10 @@ export class PostProjectComponent implements OnInit {
         }
       });
       }else{
-        this.projectService.createProjectByUser(updatedProject).subscribe({
+        this.projectService.createProjectByUser(this.updateProject).subscribe({
           next: (response) => {
             alert('Project created successfully');
-            this.router.navigate(['/list-project']).then(() => {
+            this.router.navigate(['/list-project/'+this.updateProject.idProfile]).then(() => {
               window.location.reload();
             });
           },

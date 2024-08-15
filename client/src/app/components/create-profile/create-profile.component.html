@@ -5,7 +5,7 @@
       <h2>Edit Project Details</h2>
       <form [formGroup]="profileForm" (ngSubmit)="updateProject()" enctype="multipart/form-data" class="form_edit_profile" id="form_edit_account">
         <input type="hidden" id="id_project" formControlName="id" name="id_project" [value]="profile?.id">
-
+        <input type="hidden" id="id_profile" formControlName="idUser" name="id_profile" [value]="profile?.idUser">
         <div class="image_box">
           <div class="item" id="image_box_item">
             <label for="imageInput">Image Index Project</label>

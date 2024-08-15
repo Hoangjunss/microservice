@@ -3,7 +3,7 @@
         <div class="overlay" id="overlay_user"></div>
         <div class="edit_profile_container">
             <h2>Edit Project Details</h2>
-            <form [formGroup]="projectForm" (ngSubmit)="updateProject($event)" class="form_edit_profile"
+            <form [formGroup]="projectForm" (ngSubmit)="updatedProject($event)" class="form_edit_profile"
                 id="form_edit_account">
                 <input type="hidden" id="id_project" formControlName="id" name="id_project" [value]="projectEdit?.id">
                 <input type="hidden" id="id_profile" formControlName="idProfile" name="id_profile"
