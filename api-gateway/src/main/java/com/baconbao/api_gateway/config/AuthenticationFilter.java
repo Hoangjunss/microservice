@@ -75,7 +75,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                                     if (path.startsWith("/list-project")) {
                                         return chain.filter(exchange);
                                     } else
-                                        return unauthenticated(exchange.getResponse());
+                                          return unauthenticated(exchange.getResponse());
                                 case "user":
                                     if (path.startsWith("/home")) {
                                         return chain.filter(exchange);

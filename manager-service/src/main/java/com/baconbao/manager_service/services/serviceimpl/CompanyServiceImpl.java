@@ -160,6 +160,7 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyDTO setHRToCompany(AuthenticationRequest authenticationRequest, Integer idCompany) {
         try {
             log.info("Setting HR to Company by idCompany: {}, idHR: {}", idCompany, authenticationRequest.getEmail());
+            authenticationRequest.setRole("hr");
             ApiResponse<AuthenticationResponse> authenticationResponseApiResponse = userClient
                     .signUp(authenticationRequest);
             CompanyDTO companyDTO = findById(idCompany);
@@ -191,6 +192,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDTO setManagerToCompany(AuthenticationRequest authenticationRequest, Integer id) {
+        authenticationRequest.setRole("manager");
         ApiResponse<AuthenticationResponse> authenticationResponseApiResponse = userClient
                 .signUp(authenticationRequest);
         CompanyDTO companyDTO = findById(id);
