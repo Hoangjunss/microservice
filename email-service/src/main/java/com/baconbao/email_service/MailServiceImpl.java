@@ -50,8 +50,8 @@ public class MailServiceImpl implements MailService {
                 .mailContent(content)
                 .build();
     }
-    @KafkaListener(topics = "accept-job", groupId = "kafka-service-group")
-    public  void listen(MessageDTO messageDTO){
+  @Override
+    public  void send(MessageDTO messageDTO){
         log.info("send mail"  );
         MailDTO mailDTO=MailDTO.builder()
                 .mailContent(messageDTO.getMessage())

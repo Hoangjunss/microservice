@@ -119,14 +119,15 @@ public class NotificationServiceImpl implements NotificationService {
                 .map(notification -> modelMapper.map(notification, NotificationDTO.class))
                 .collect(Collectors.toList());
     }
-    @KafkaListener(topics = "accept-job", groupId = "kafka-service-group")
-    public  void listen(MessageDTO messageDTO){
+ @Override
+    public  void send(MessageDTO messageDTO){
         log.info("send notification"  );
        NotificationDTO notificationDTO=NotificationDTO.builder()
                .message(messageDTO.getMessage())
                .isRead(false)
                .idUser(messageDTO.getId())
                .build();
+       create(notificationDTO);
     }
 
 }

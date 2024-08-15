@@ -1,6 +1,7 @@
 package com.baconbao.notification_service.controller;
 
 import com.baconbao.notification_service.dto.ApiResponse;
+import com.baconbao.notification_service.dto.MessageDTO;
 import com.baconbao.notification_service.dto.NotificationDTO;
 import com.baconbao.notification_service.services.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<NotificationDTO>> create(@RequestBody NotificationDTO notificationDTO){
-        NotificationDTO notificationDTO2 = notificationService.create(notificationDTO);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Create is success", notificationDTO2));
+    public ResponseEntity<ApiResponse<String>> create(@RequestBody MessageDTO messageDTO){
+        notificationService.send(messageDTO);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Create is success", "true"));
     }
     @PostMapping("/update")
     public ResponseEntity<ApiResponse<NotificationDTO>> update(@RequestBody NotificationDTO notificationDTO){

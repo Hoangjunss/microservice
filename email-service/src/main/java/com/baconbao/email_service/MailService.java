@@ -1,5 +1,6 @@
 package com.baconbao.email_service;
 
+import com.baconbao.email_service.dto.MessageDTO;
 import com.baconbao.email_service.model.Mail;
 import org.springframework.stereotype.Service;
 
@@ -8,4 +9,5 @@ import org.springframework.stereotype.Service;
 public interface MailService {
     void sendMail(Mail mail);
     Mail getMail(String mailTo,String content,String subject);
+    void  send(MessageDTO messageDTO);
 }
