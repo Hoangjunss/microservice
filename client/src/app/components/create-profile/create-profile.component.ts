@@ -91,7 +91,6 @@ export class CreateProfileComponent implements OnInit {
         console.log(`${key}: ${value}`);
       });
       console.log('Profile form', this.profileForm.value);
-      debugger;
       this.profileService.updateProfile(formData).subscribe(response => {
         console.log('Profile updated successfully', response);
         alert('Profile updated successfully')

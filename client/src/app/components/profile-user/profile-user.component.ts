@@ -29,6 +29,7 @@ export class ProfileUserComponent implements OnInit {
   idProfileNumber?: number;
   formEditProfile?: boolean;
   selectedFile: File | null = null;
+  userCurrent: any;
 
   constructor(
     private userService: UserServiceService,
@@ -36,21 +37,21 @@ export class ProfileUserComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router,
     private imageService: ImageServiceService
-  ) {
-    const idProfileUser = localStorage.getItem('idProfileUser');
-    this.idProfileUser = idProfileUser ? Number(idProfileUser) : undefined;
-  }
+  ) {}
 
   ngOnInit(): void {
+    const userCurrentString = localStorage.getItem('userCurrent');
+    if (userCurrentString) {
+      this.userCurrent = JSON.parse(userCurrentString);
+    }
+    console.log('User Current String from Local Storage:', userCurrentString);
     const url = this.router.url;
     this.idProfile = this.extractIdFromUrl(url);
     if (this.idProfile != 0 && this.idProfile) {
       this.getProfileById(this.idProfile);
     } else {
-      if (this.idProfileUser) {
-        this.idProfile = this.idProfileUser;
-        this.getProfileByUserId(this.idProfile);
-        console.log("ELSE " + JSON.stringify(this.profile));
+      if (userCurrentString) {
+        this.getProfileByUserId(this.userCurrent.id);
       }
     }
   }
@@ -87,7 +88,6 @@ export class ProfileUserComponent implements OnInit {
   getProfileById(idProfile: number): void {
     this.profileService.getProfileById(idProfile).subscribe(data => {
       this.profile = data;
-      console.log("IF " + JSON.stringify(this.profile));
       if (this.profile?.idUser) {
         this.getUserById(this.profile?.idUser);
       }
@@ -137,4 +137,12 @@ export class ProfileUserComponent implements OnInit {
       });
     }
   }
+
+  isCurrentUserProfile(): boolean {
+    if (this.profile && this.profile.idUser) {
+      return this.profile.idUser === this.userCurrent.id;
+    }
+    return false;
+  }
+  
 }

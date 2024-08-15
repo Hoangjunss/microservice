@@ -23,7 +23,7 @@
         </div>
         <h1 class="display-4">No Projects Available</h1>
         <p class="lead">It looks like you haven't added any projects yet. Start by clicking the button below!</p>
-        <button (click)="showEditForm(null)" class="btn btn-primary btn-lg mt-4">Add Your First Project</button>
+        <button (click)="showEditForm(null)" class="btn btn-primary btn-lg mt-4" *ngIf="isCurrentUserProfile()">Add Your First Project</button>
     </div>
 </ng-template>
 

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NotificationComponent } from '../notification/notification.component';
 import { CommonModule } from '@angular/common';
+import { Profile } from '../../model/profile';
+import { ProfileServiceService } from '../../service/profile-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,15 +15,16 @@ import { CommonModule } from '@angular/common';
 export class NavbarComponent implements OnInit {
   idProfileNumber:number | undefined;
   userCurrent: any;
-  constructor (private router: Router){
-    const idProfileUser = localStorage.getItem('idProfileUser');
-    this.idProfileNumber = idProfileUser ? Number(idProfileUser) : undefined;
-  }
+  profile?: Profile;
+  constructor (private router: Router , private profileService: ProfileServiceService) {}
+  
   ngOnInit(): void {
     const userCurrentString = localStorage.getItem('userCurrent');
     if (userCurrentString) {
       this.userCurrent = JSON.parse(userCurrentString);
       console.log('User Current:', this.userCurrent);
+      this.getUserProfile();
+      console.log(this.userCurrent.id);      
     }
   }
 
@@ -35,5 +38,24 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
+
+  getProfileImage(): string {
+    if (this.profile?.url) {
+      return this.profile.url;
+    }
+    return 'http://res.cloudinary.com/dgts7tmnb/image/upload/v1723548301/pi41b4rynddelbwfecle.jpg';
+  }
+
+  getUserProfile(): void {
+    if (this.userCurrent) {
+      this.profileService.getProfileByUserId(this.userCurrent.id).subscribe((profile: Profile) => {
+        this.profile = profile;
+        this.idProfileNumber = profile.id;
+        console.log('Profile:', this.profile);
+      });
+    }
+  }
+
+  
   
 }

@@ -140,6 +140,8 @@ export class ProfileServiceService {
     );
   }
 
+  
+
   private createAuthorizationHeader(): HttpHeaders {
     const token = localStorage.getItem('authToken');
     if(token){
