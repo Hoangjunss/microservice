@@ -1,9 +1,10 @@
 import { title } from 'process';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Job } from '../model/job';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Apiresponse } from '../apiresponse';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ import { Apiresponse } from '../apiresponse';
 export class JobServiceService {
   private job: Job | undefined;
 
-  constructor(private httpClient:HttpClient) { }
-  private baseURL="http://localhost:8080/manager/";
+  constructor(private httpClient: HttpClient, private router: Router) { }
+  private baseURL = "http://localhost:8080/manager/";
 
   createJob(job: Job): Observable<Job> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -26,7 +27,19 @@ export class JobServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -42,35 +55,47 @@ export class JobServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
   deleteJob(id: number): void {
     const headers = this.createAuthorizationHeader();
     this.httpClient.post<Apiresponse<any>>(
-        `${this.baseURL}hr/job/delete?id=${id}`, {},{ headers: headers }
-    ).subscribe(
-        response => {
-            if (!response.success) {
-                throw new Error(response.message);
-            } else {
-                alert('Deleted Job successfully');
-                window.location.reload();
-            }
-        },
-        error => {
-            if (error.status === 401) {
-                alert('Unauthorized access. Please log in again.');
-            } else {
-                console.error('Error deleting job:', error);
-                alert('Failed to delete job.');
-            }
+      `${this.baseURL}hr/job/delete?id=${id}`, {}, { headers: headers }).subscribe(
+      response => {
+        if (!response.success) {
+          throw new Error(response.message);
+        } else {
+          alert('Deleted Job successfully');
+          window.location.reload();
         }
+      },
+      error => {
+        if (error.status === 401) {
+          alert('Unauthorized access. Please log in again.');
+        } else {
+          console.error('Error deleting job:', error);
+          alert('Failed to delete job.');
+        }
+      },
+      
     );
-}
+  }
 
 
-  applyJobs(idJob: number, idProfile: number): Observable<Job>{
+  applyJobs(idJob: number, idProfile: number): Observable<Job> {
     const headers = this.createAuthorizationHeader();
     let params = new HttpParams();
     params = params.append('jobDTO', idJob.toString());
@@ -82,14 +107,26 @@ export class JobServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
 
-  getJobById(id:number): Observable<Job>{
+  getJobById(id: number): Observable<Job> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job>>(`${this.baseURL}user/job/findbyid?id=${id}`, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job>>(`${this.baseURL}user/job/findbyid?id=${id}`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -102,7 +139,7 @@ export class JobServiceService {
 
   getAllJobs(): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getall`, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getall`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -113,9 +150,9 @@ export class JobServiceService {
     );
   }
 
-  getJobByCompany(idCompany:number): Observable<Job[]>{
+  getJobByCompany(idCompany: number): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobbycompany?id=${idCompany}`, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobbycompany?id=${idCompany}`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -126,9 +163,9 @@ export class JobServiceService {
     );
   }
 
-  getJobPending(idProfile:number): Observable<Job[]> {
+  getJobPending(idProfile: number): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobpending?id=${idProfile}`, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobpending?id=${idProfile}`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -139,9 +176,9 @@ export class JobServiceService {
     );
   }
 
-  getJobAccepted(idProfile:number): Observable<Job[]> {
+  getJobAccepted(idProfile: number): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobaccepted?id=${idProfile}`, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getjobaccepted?id=${idProfile}`, { headers }).pipe(
       map(response => {
         if (response.success) {
           return response.data.map(this.mapToJob);
@@ -154,10 +191,10 @@ export class JobServiceService {
 
   getNewJob(idProfile: number): Observable<Job[]> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getnewjob?id=${idProfile}`, {headers}).pipe(
+    return this.httpClient.get<Apiresponse<Job[]>>(`${this.baseURL}user/job/getnewjob?id=${idProfile}`, { headers }).pipe(
       map(response => {
         if (response.success) {
-          console.log(response.data.length+" svjob")
+          console.log(response.data.length + " svjob")
           return response.data.map(this.mapToJob);
         } else {
           throw new Error(response.message);
@@ -166,9 +203,9 @@ export class JobServiceService {
     );
   }
 
-  acceptProfileJob(idJob:number, idProfile:number){
+  acceptProfileJob(idJob: number, idProfile: number) {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/accept?jobDTO=${idJob}&idProfile=${idProfile}`,{}, { headers }).pipe(
+    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/accept?jobDTO=${idJob}&idProfile=${idProfile}`, {}, { headers }).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -179,9 +216,9 @@ export class JobServiceService {
     );
   }
 
-  rejectProfileJob(idJob:number, idProfile:number){
+  rejectProfileJob(idJob: number, idProfile: number) {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/reject?jobDTO=${idJob}&idProfile=${idProfile}`,{}, { headers }).pipe(
+    return this.httpClient.put<Apiresponse<Job>>(`${this.baseURL}hr/job/reject?jobDTO=${idJob}&idProfile=${idProfile}`, {}, { headers }).pipe(
       map(response => {
         if (response.success) {
           return this.mapToJob(response.data);
@@ -201,7 +238,7 @@ export class JobServiceService {
   }
 
 
-  private mapToJob(jobDTO: any): Job{
+  private mapToJob(jobDTO: any): Job {
     return {
       id: jobDTO.id,
       title: jobDTO.title,
@@ -216,12 +253,11 @@ export class JobServiceService {
 
   private createAuthorizationHeader(): HttpHeaders {
     const token = localStorage.getItem('authToken');
-    if(token){
+    if (token) {
       console.log('Token found in local store:', token);
       return new HttpHeaders().set('Authorization', `Bearer ${token}`);
     }
-    else
-    {
+    else {
       console.log('Token not found in local store');
     }
     return new HttpHeaders();

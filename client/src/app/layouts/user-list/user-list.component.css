@@ -1,4 +1,3 @@
-
 /* ==================== table ====================== */
 .table-outline {
     width: 100%;
@@ -10,11 +9,11 @@
 }
 
 .table-header th {
-    color: #333; 
-    background-color: #f8f9fa; 
-    border-color: #ddd; 
+    color: #333;
+    background-color: #f8f9fa;
+    border-color: #ddd;
     border-collapse: collapse;
-    border: 1px solid #ddd; 
+    border: 1px solid #ddd;
 }
 
 .table-header th {
@@ -43,21 +42,23 @@
     width: 100%;
     border-collapse: collapse;
 }
+
 .table-content tr {
-    border: 1px solid transparent; 
+    border: 1px solid transparent;
 }
 
 .table-content tr:nth-of-type(even) td {
-    border: 1px solid #ddd; 
+    border: 1px solid #ddd;
 }
 
 .table-content tr:nth-of-type(even) {
     background-color: #f1f1f1;
 }
+
 .table-content td {
     position: relative;
     color: #333;
-    
+
 }
 
 /* Link chi tiet san pham */
@@ -70,8 +71,7 @@
     text-decoration: underline;
 }
 
-.button-action
-{   
+.button-action {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
@@ -79,10 +79,8 @@
 
 /*  phần footer table  */
 .table-footer {
-    background-color: #f8f9fa;
     padding: .75rem;
     vertical-align: top;
-    border-top: 1px solid #ddd;
 }
 
 .table-footer input,
@@ -102,34 +100,126 @@
     border: 1px solid #007bff;
 }
 
+.btn-add i {
+    padding: 0 6px;
+}
+
 .table-footer button:hover {
     background-color: #0056b3;
     border-color: #0056b3;
 }
 
-.search-navabar{
+.search-navabar {
     width: 100%;
     background-color: #fff !important;
 }
 
-.search-navabar form{
+.search-navabar form {
     width: 40%;
     display: flex;
     gap: 4px;
     margin: 5px;
 }
 
-.search-navabar form input{
+.search-navabar form input {
     margin-left: 5px;
 }
 
-.search-navabar select{
+.search-navabar select {
     width: 20%;
     margin: 5px;
 }
 
 /* user-list.component.css */
 
+.no-data-message {
+    padding: 20px;
+    text-align: center;
+    background-color: #f8d7da;
+    /* Background color */
+    color: #721c24;
+    /* Text color */
+    border: 1px solid #f5c6cb;
+    /* Border color */
+    border-radius: 5px;
+    /* Rounded corners */
+    margin-top: 20px;
+}
+
+.no-data-message p {
+    margin: 0;
+    font-size: 18px;
+}
+
+.no-data-message strong {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 10px;
+}
+#modalTitle
+{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 9999;
+    transition: .2s ease;
+    transform: scale(1);
+    background-color: #020202d8;
+}
+
+.overlayForm {
+    margin: 50px auto;
+    width: auto;
+    background-color: #23282c;
+}
+
+.overlayForm td:first-child {
+    text-align: right;
+}
+
+.overlayForm input {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e7e7e7;
+}
+.form-content
+{
+    margin: 0 auto;
+    padding: 20px 0;
+    width: 50%;
+}
+.close {
+    /* nút tắt form */
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    font-size: 3rem;
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    text-align: center;
+    color: #aaa;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.close:hover {
+    color: #fff;
+    background-color: #f33;
+    border-radius: 50%;
+}
+.form-group label {
+    color: #fff;
+}
 .no-data-message {
     padding: 20px;
     text-align: center;
@@ -150,4 +240,88 @@
     display: block;
     margin-bottom: 10px;
   }
-  
+  /* Overlay background */
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensures it is on top of other content */
+}
+
+/* Confirmation box styling */
+.confirmation-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+    max-width: 90%;
+}
+
+.confirmation-box h2 {
+    margin: 0 0 15px;
+    font-size: 18px;
+}
+
+.confirmation-buttons {
+    margin-top: 20px;
+}
+
+.confirmation-buttons .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.confirmation-buttons .confirm {
+    background: #4CAF50; /* Green */
+    color: white;
+}
+
+.confirmation-buttons .cancel {
+    background: #f44336; /* Red */
+    color: white;
+}
+
+/* Phong cách chung cho các nút */
+button.btn[disabled] {
+    background-color: #ccc; /* Màu nền nhạt hơn để biểu thị nút bị vô hiệu hóa */
+    color: #666; /* Màu chữ nhạt hơn */
+    border-color: #999; /* Màu viền nhạt hơn */
+    cursor: not-allowed; /* Đổi con trỏ chuột thành biểu tượng cấm */
+    opacity: 0.6; /* Giảm độ mờ để làm cho nút ít nổi bật hơn */
+}
+
+/* Phong cách cụ thể cho nút Thêm người dùng */
+button.btn.btn-outline-success[disabled] {
+    background-color: transparent;
+    color: #ccc;
+    border-color: #ccc;
+}
+
+/* Phong cách cho nút Cập nhật */
+button.btn.btn-primary[disabled] {
+    background-color: #7aa4d8;
+    color: #ddd;
+}
+
+/* Phong cách cho nút Xóa */
+button.btn.btn-danger[disabled] {
+    background-color: #e6a4a4;
+    color: #fdd;
+}
+
+/* Tùy chọn để thêm hiệu ứng khi di chuột qua nút bị vô hiệu hóa (nếu muốn) */
+button.btn[disabled]:hover {
+    opacity: 0.8; /* Tăng một chút độ mờ khi di chuột qua */
+}

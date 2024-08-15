@@ -13,14 +13,11 @@
                 <a routerLink="admin" class="nav-link" [ngClass]="{'active': isActive('/admin')}">
                     <i class="fa fa-home"></i> Home
                 </a>
-                <a routerLink="admin/list-project" class="nav-link" [ngClass]="{'active': isActive('/admin/list-project')}">
-                    <i class="fa fa-th-large"></i> Project List
-                </a>
                 <a routerLink="admin/list-company" class="nav-link" [ngClass]="{'active': isActive('/admin/list-company')}">
                     <i class="fa fa-file-text-o"></i> Company List
                 </a>
                 <a routerLink="admin/list-user" class="nav-link" [ngClass]="{'active': isActive('/admin/list-user')}">
-                    <i class="fa fa-address-book-o"></i> User List
+                    <i class="fa fa-address-book-o"></i> Manager List
                 </a>
                 <hr>
                 <a (click)="logout()" class="nav-link" >
@@ -36,24 +33,14 @@
                 <!-- Nội dung trang chủ -->
                 <div class="home-content text-center">
                     <h3 class="welcome-message mb-4">Chào mừng đến với trang Admin</h3>
-                    <div class="row">
+                    <div class="row justify-content-around">
                         <div class="col-md-4 mb-4">
                             <div class="card text-center">
                                 <div class="card-body">
                                     <i class="fa fa-users fa-3x mb-3"></i>
-                                    <h4 class="card-title">User Management</h4>
+                                    <h4 class="card-title">Manager Management</h4>
                                     <p class="card-text">Manage your users effectively and efficiently.</p>
                                     <a routerLink="/admin/list-user" class="btn btn-primary">View Users</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="card text-center">
-                                <div class="card-body">
-                                    <i class="fa fa-th-large fa-3x mb-3"></i>
-                                    <h4 class="card-title">Project Management</h4>
-                                    <p class="card-text">Keep track of all your projects in one place.</p>
-                                    <a routerLink="/admin/list-project" class="btn btn-primary">View Projects</a>
                                 </div>
                             </div>
                         </div>

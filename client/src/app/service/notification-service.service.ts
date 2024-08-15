@@ -1,15 +1,16 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Notification } from '../model/notification';
 import { Apiresponse } from '../apiresponse';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationServiceService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,private router:Router) { }
   private baseURL = 'http://localhost:8080/notification/create';
 
   createNotification(notification: Notification): Observable<Notification> {
@@ -21,10 +22,18 @@ export class NotificationServiceService {
     }
     return this.httpClient.post<any>(this.baseURL, notification, { headers }).pipe(
       map(this.mapToNotification),
-      catchError(error => {
-        console.error('Error creating notification:', error);
-        return throwError(() => new Error(error));
-      })
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -38,7 +47,19 @@ export class NotificationServiceService {
         else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -52,7 +73,18 @@ export class NotificationServiceService {
         else {
           throw new Error(response.message);
         }
-      })
+      }),catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 

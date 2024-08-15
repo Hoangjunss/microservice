@@ -1,9 +1,10 @@
 import { Apiresponse } from './../apiresponse';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Company } from '../model/company';
-import { BehaviorSubject, map, Observable, observeOn } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, observeOn, throwError } from 'rxjs';
 import { User } from '../model/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CompanyServiceService {
   private companySource = new BehaviorSubject<Company|null>(null);
   company$ = this.companySource.asObservable();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,private router:Router) { }
   private baseURL="http://localhost:8080/manager/";
 
   changeCompany(company: Company){
@@ -33,7 +34,19 @@ export class CompanyServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -50,7 +63,19 @@ export class CompanyServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -62,7 +87,19 @@ export class CompanyServiceService {
           throw new Error(response.message);
         }
         alert('Delete company completed successfully')
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -75,7 +112,19 @@ export class CompanyServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      // catchError(
+      //   error => {
+      //     if (error instanceof HttpErrorResponse && error.status === 401) {
+      //       console.error('Unauthorized:', error);
+      //       this.router.navigate(['/login']);
+      //       localStorage.removeItem('authToken');
+      //       localStorage.removeItem('userCurrent');
+      //     }
+      //     console.error('Error fetching profiles:', error);
+      //     return throwError(() => new Error('Something went wrong!'));
+      //   }
+      // )
     );
   }
 
@@ -88,7 +137,19 @@ export class CompanyServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -101,7 +162,19 @@ export class CompanyServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      // catchError(
+      //   error => {
+      //     if (error instanceof HttpErrorResponse && error.status === 401) {
+      //       console.error('Unauthorized:', error);
+      //       this.router.navigate(['/login']);
+      //       localStorage.removeItem('authToken');
+      //       localStorage.removeItem('userCurrent');
+      //     }
+      //     console.error('Error fetching profiles:', error);
+      //     return throwError(() => new Error('Something went wrong!'));
+      //   }
+      // )
     );
   }
 
@@ -118,7 +191,48 @@ export class CompanyServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
+    );
+  }
+
+  setManagerToCompany(user:User, idCompany: number): Observable<Company>{
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const authHeaders = this.createAuthorizationHeader();
+    if (authHeaders.has('Authorization')) {
+        headers = headers.set('Authorization', authHeaders.get('Authorization')!);
+    }
+    return this.httpClient.put<Apiresponse<Company>>(`${this.baseURL}manager/setmaanagertocompany?idCompany=${idCompany}`, user, { headers }).pipe(
+      map(response=>{
+        if (response.success) {
+          return this.mapToCompany(response.data);
+        } else {
+          throw new Error(response.message);
+        }
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -131,7 +245,19 @@ export class CompanyServiceService {
         } else {
           throw new Error(response?.message || 'Unknown error');
         }
-      })
+      }),
+      // catchError(
+      //   error => {
+      //     if (error instanceof HttpErrorResponse && error.status === 401) {
+      //       console.error('Unauthorized:', error);
+      //       this.router.navigate(['/login']);
+      //       localStorage.removeItem('authToken');
+      //       localStorage.removeItem('userCurrent');
+      //     }
+      //     console.error('Error fetching profiles:', error);
+      //     return throwError(() => new Error('Something went wrong!'));
+      //   }
+      // )
     );
   }
 
@@ -144,7 +270,19 @@ export class CompanyServiceService {
         } else {
           throw new Error(response.message);
         }
-      })
+      }),
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 

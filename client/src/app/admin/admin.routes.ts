@@ -17,10 +17,6 @@ export const adminRoutes: Routes = [
                 component: UserListComponent
             },
             {
-                path: 'list-project',
-                component: ProjectListComponent
-            },
-            {
                 path: 'list-company',
                 component: CompanyListComponent
             }

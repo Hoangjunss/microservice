@@ -80,7 +80,7 @@ export class HrLayoutComponent implements OnInit {
   openModal(action: 'add' | 'edit', user?: User): void {
     this.isModalOpen = true;
     this.isEdit = action === 'edit';
-    this.modalTitle = this.isEdit ? 'Edit Employee' : 'New Employee';
+    this.modalTitle = this.isEdit ? 'Edit Hr' : 'New Hr';
     this.modalButtonLabel = this.isEdit ? 'Update' : 'Save';
 
     if (this.isEdit && user) {
