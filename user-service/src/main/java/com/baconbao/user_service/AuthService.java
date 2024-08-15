@@ -56,13 +56,19 @@ public class AuthService {
                     .isVaild(false)
                     .build();
         }
+        String role="";
+        if(registrationRequest.getRole()==null){
+            role="user";
+        } else {
+            role=registrationRequest.getRole();
+        }
 
         User users = User.builder()
                 .id(getGenerationId())
                 .name(registrationRequest.getName())
                 .email(registrationRequest.getEmail())
                 .idEmployee(registrationRequest.getIdEmployee())
-                .role(Role.valueOf(registrationRequest.getRole()))
+                .role(Role.valueOf(role))
                 .isActive(true)
                 .build();
         if (registrationRequest.getIdEmployee() != null) {
