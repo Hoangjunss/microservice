@@ -40,6 +40,7 @@ export class JobListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("staảto bj ");
     const userCurrentString = localStorage.getItem('userCurrent');
     if (userCurrentString) {
       this.userCurrent = JSON.parse(userCurrentString);
@@ -57,8 +58,10 @@ export class JobListComponent implements OnInit {
   }
 
   getJobs(): void {
+    console.log("getJobs");
     this.jobService.getAllJobs().subscribe(data => {
-      this.jobs = data;
+      this.newJobs = data;
+      this.updateDisplayedProfiles();
     });
   }
 

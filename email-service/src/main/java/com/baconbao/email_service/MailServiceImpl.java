@@ -10,7 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -40,24 +39,27 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-
-
     @Override
     public Mail getMail(String mailTo, String content, String subject) {
         return Mail.builder()
                 .mailTo(mailTo)
                 .mailSubject(subject)
                 .mailContent(content)
+                .mailFrom("cvreviewbaconbao@gmail.com")
+                .contentType("text/plain")
                 .build();
     }
-  @Override
-    public  void send(MessageDTO messageDTO){
-        log.info("send mail"  );
-        MailDTO mailDTO=MailDTO.builder()
+
+    @Override
+    public void send(MessageDTO messageDTO) {
+        log.info("send mail");
+        log.info("send mail: {}", messageDTO.getId());
+        MailDTO mailDTO = MailDTO.builder()
                 .mailContent(messageDTO.getMessage())
                 .mailSubject(messageDTO.getMessage())
                 .mailTo(userClient.findById(messageDTO.getId()).getData().getEmail())
+
                 .build();
-        sendMail(getMail(mailDTO.getMailTo(),mailDTO.getMailContent(),mailDTO.getMailSubject()));
+        sendMail(getMail(mailDTO.getMailTo(), mailDTO.getMailContent(), mailDTO.getMailSubject()));
     }
 }

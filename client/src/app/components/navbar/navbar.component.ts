@@ -51,6 +51,9 @@ export class NavbarComponent implements OnInit {
       this.profileService.getProfileByUserId(this.userCurrent.id).subscribe((profile: Profile) => {
         this.profile = profile;
         this.idProfileNumber = profile.id;
+        if(this.idProfileNumber){
+          localStorage.setItem('idProfileUser',this.idProfileNumber+'');
+        }
         console.log('Profile:', this.profile);
       });
     }

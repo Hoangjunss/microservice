@@ -57,7 +57,6 @@
                 <h2>No Jobs Available</h2>
                 <p>It seems that this company currently has no job openings. Check back later or explore other
                     opportunities!</p>
-                <button class="explore-btn">Explore Other Companies</button>
             </div>
         </div>
     </ng-template>
@@ -80,7 +79,7 @@
             </div>
             <div class="d-flex justify-content-end">
                 <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
-                    </button>
+                    <</button>
                         <button class="nav-button next" (click)="nextPage()"
                             [disabled]="currentPage >= totalPages() - 1">></button>
             </div>
@@ -121,7 +120,6 @@
                 <h4 class="alert-heading">No Jobs Found</h4>
                 <p>You haven't applied for any jobs yet. Start exploring and applying to find your dream job!</p>
                 <hr>
-                <a href="#" class="btn btn-primary">Explore Jobs</a>
             </div>
         </ng-template>
         <h3>Your jobs</h3>
@@ -133,7 +131,7 @@
                 </div>
                 <p class="job-size">Team Size: {{job.size}}</p>
                 <div class="job-actions">
-                    <a class="btn apply-btn">Apply</a>
+                    <a class="btn apply-btn disabled">Apply</a>
                     <a (click)="viewJobDetails(job)" class="btn details-btn">Details</a>
                 </div>
             </div>
@@ -150,7 +148,6 @@
                 <h4 class="alert-heading">No Jobs Accepted</h4>
                 <p>You haven't accepted any job offers yet. Stay tuned for new opportunities!</p>
                 <hr>
-                <a href="#" class="btn btn-success">Find Jobs</a>
             </div>
         </ng-template>
     </div>

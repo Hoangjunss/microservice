@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class Mail
 {
-    private String mailFrom="mxhbaconbao@gmail.com";
+    private String mailFrom;
     private String mailTo;
     private String mailCc;
     private String mailBcc;
@@ -19,7 +19,7 @@ public class Mail
 
     private String mailSubject;
     private String mailContent;
-    private String contentType = "text/plain";
+    private String contentType;
     private List <Object> attachments;
 
     public Date getMailSendDate() {

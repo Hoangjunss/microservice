@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient("user-service")
 public interface UserClient {
-    @GetMapping("/findbyid")
+    @GetMapping("/auth/findbyid")
     ApiResponse<UserDTO> findById(@RequestParam Integer id);
 }
