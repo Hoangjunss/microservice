@@ -17,11 +17,11 @@
                     <i class="fa fa-file-text-o"></i> Company List
                 </a>
                 <a routerLink="admin/list-user" class="nav-link" [ngClass]="{'active': isActive('/admin/list-user')}">
-                    <i class="fa fa-address-book-o"></i> Manager List
+                    <i class="fa fa-address-book-o"></i> User List
                 </a>
                 <hr>
                 <a (click)="logout()" class="nav-link" >
-                    <i class="fa fa-arrow-left"></i> Đăng xuất (về Trang chủ)
+                    <i class="fa fa-arrow-left"></i> Logout (go home)
                 </a>
             </div>
         </nav>
@@ -32,7 +32,7 @@
             <ng-container *ngIf="currentUrl === '/admin'">
                 <!-- Nội dung trang chủ -->
                 <div class="home-content text-center">
-                    <h3 class="welcome-message mb-4">Chào mừng đến với trang Admin</h3>
+                    <h3 class="welcome-message mb-4">Welcome back Admin</h3>
                     <div class="row justify-content-around">
                         <div class="col-md-4 mb-4">
                             <div class="card text-center">

@@ -81,7 +81,7 @@ export class UserListComponent implements OnInit{
 
   getAllUsers(): void {
     this.userService.getAllUser().subscribe(users => {
-      this.users = users;
+      this.users = users.filter(users=>users.role === 'user');
       this.filteredUsers = [...this.users]; // Cập nhật filteredUsers ngay sau khi nhận dữ liệu
     });
   }

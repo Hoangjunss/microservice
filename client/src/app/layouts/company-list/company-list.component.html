@@ -1,45 +1,159 @@
 <div class="sanpham">
-    <table class="table-header">
-        <colgroup>
-            <col [ngStyle]="{'width': '5%'}">
-            <col [ngStyle]="{'width': '10%'}">
-            <col [ngStyle]="{'width': '15%'}">
-            <col [ngStyle]="{'width': '30%'}">
-            <col [ngStyle]="{'width': '30%'}">
-        </colgroup>
-        <thead>
-            <tr>
-                <th title="Số thứ tự">Stt</th>
-                <th title="Mã project">Mã</th>
-                <th title="Tên công ty">Tên công ty</th>
-                <th title="Địa chỉ">Địa chỉ</th>
-                <th title="Contact">Contact</th>
-            </tr>
-        </thead>
-    </table>
+  <div class="search-navabar d-flex flex-row">
+      <form class="form-inline">
+          <input class="form-control mr-sm-2" name="searchText" type="search"
+              placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      <select class="form-select" aria-label="Default select example"
+          name="searchCriteria">
+          <option value="1" selected>ID</option>
+          <option value="2">Name Company</option>
+          <option value="3">Address</option>
+      </select>
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="editCompany()">Create Company</button>
+  </div>
+  <table class="table-header">
+      <colgroup>
+          <col [ngStyle]="{'width': '5%'}">
+          <col [ngStyle]="{'width': '10%'}">
+          <col [ngStyle]="{'width': '15%'}">
+          <col [ngStyle]="{'width': '30%'}">
+          <col [ngStyle]="{'width': '30%'}">
+          <col [ngStyle]="{'width': '10%'}">
+      </colgroup>
+      <thead>
+          <tr>
+              <th title="Số thứ tự">Num</th>
+              <th title="Mã project">ID</th>
+              <th title="Tên công ty">Name</th>
+              <th title="Địa chỉ">Address</th>
+              <th title="Contact">Contact</th>
+              <th title="Action">Action</th>
+          </tr>
+      </thead>
+  </table>
 
-    <div class="table-content">
-        <table>
-            <colgroup>
-                <col [ngStyle]="{'width': '5%'}">
-                <col [ngStyle]="{'width': '10%'}">
-                <col [ngStyle]="{'width': '15%'}">
-                <col [ngStyle]="{'width': '30%'}">
-                <col [ngStyle]="{'width': '30%'}">
-            </colgroup>
-            <tbody>
-                <tr *ngFor="let company of listCompany; let i = index">
-                    <td>{{ i + 1 }}</td>
-                    <td>{{ company.id }}</td>
-                    <td>{{ company.name }}</td>
-                    <td>{{ company.street }}</td>
-                    <td class="contact">
-                        <div><strong>Email:</strong> <a href="mailto:{{company.email}}">{{company.email}}</a></div>
-                        <div><strong>Phone:</strong> {{company.phone}}</div>
-                        <div><strong>Website:</strong> <a href="{{company.country}}" target="_blank">{{company.country}}</a></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div class="table-content">
+      <table>
+          <colgroup>
+              <col [ngStyle]="{'width': '5%'}">
+              <col [ngStyle]="{'width': '10%'}">
+              <col [ngStyle]="{'width': '15%'}">
+              <col [ngStyle]="{'width': '30%'}">
+              <col [ngStyle]="{'width': '30%'}">
+              <col [ngStyle]="{'width': '10%'}">
+          </colgroup>
+          <tbody>
+              <tr *ngFor="let company of listCompany; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ company.id }}</td>
+                  <td>{{ company.name }}</td>
+                  <td>{{ company.street }}</td>
+                  <td class="contact">
+                      <div><strong>Email:</strong> <a href="mailto:{{company.email}}">{{company.email}}</a></div>
+                      <div><strong>Phone:</strong> {{company.phone}}</div>
+                      <div><strong>Manager:</strong>
+                          <ng-container *ngIf="company.idManager">
+                              <ng-container *ngIf="managers[company.idManager]">
+                                  <span>{{ managers[company.idManager]?.email || 'Loading...' }}</span>
+                              </ng-container>
+                              <ng-container *ngIf="!managers[company.idManager]">
+                                  <span>Loading...</span>
+                              </ng-container>
+                          </ng-container>
+                          <ng-container *ngIf="!company.idManager">
+                              <span>No Manager Assigned</span>
+                          </ng-container>
+                      </div>
+                  </td>
+                  <td>
+                      <button [disabled]="company.idManager" (click)="openModal('add', undefined, company.id)" class="btn btn-primary">
+                          Add Manager
+                      </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+
+<div id="employeeModal" class="overlay" *ngIf="isModalOpen">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <form class="overlayForm form-content" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <h2 id="modalTitle">{{ modalTitle }}</h2>
+      <input type="hidden" id="id" formControlName="id" name="id">
+  
+      <div class="form-group">
+        <label for="employeeName">Name Manager:</label>
+        <input type="text" id="employeeName" formControlName="name" class="form-control">
+        <div class="alert" *ngIf="userForm.controls['name'].invalid && (userForm.controls['name'].touched || userForm.controls['name'].dirty)">
+          <div class="text-danger" *ngIf="userForm.controls['name'].errors?.['required']">
+            Name is required
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="employeeEmail">Email Manager:</label>
+        <input type="email" id="employeeEmail" formControlName="email" class="form-control">
+        <div class="alert" *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].touched || userForm.controls['email'].dirty)">
+          <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['required']">
+            Email is required
+          </div>
+          <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['email']">
+            Email is invalid
+          </div>
+          <div class="text-danger" *ngIf="userForm.controls['email'].errors?.['emailExists']">
+            Email already exists
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group password-wrapper">
+        <label for="employeePassword">Password:</label>
+        <input type="password" id="employeePassword" formControlName="password" class="form-control">
+      </div>
+  
+      <div class="form-group password-wrapper">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control">
+      </div>
+  
+      <button type="submit" class="btn btn-primary">{{ modalButtonLabel }}</button>
+    </form>
+  </div>
+  
+
+
+<div *ngIf="isShowingCompany" class="modal-backdrop" (click)="closeModal()"></div>
+<div *ngIf="isShowingCompany" class="modal">
+  <div class="modal-content">
+    <h2>Create Company</h2>
+    <form [formGroup]="companyForm" (ngSubmit)="saveCompany()">
+      <div class="form-group">
+        <label class="label-manager" for="name">Company Name</label>
+        <input type="text" id="name" formControlName="name" required>
+      </div>
+      <div class="form-group">
+        <label class="label-manager" for="type">Company Type</label>
+        <input type="text" id="type" formControlName="type" required>
+      </div>
+      <div class="form-group">
+        <label class="label-manager" for="description">Description</label>
+        <textarea id="description" formControlName="description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label class="label-manager" for="email">Email</label>
+        <input type="email" id="email" formControlName="email" required>
+      </div>
+      <div class="form-group">
+        <label class="label-manager" for="phone">Phone</label>
+        <input type="tel" id="phone" formControlName="phone" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+    </form>
+  </div>
 </div>

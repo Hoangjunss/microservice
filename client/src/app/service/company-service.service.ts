@@ -21,12 +21,12 @@ export class CompanyServiceService {
     this.companySource.next(company);
   }
 
-  createCompany(company: Company): Observable<Company> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const authHeaders = this.createAuthorizationHeader();
-    if (authHeaders.has('Authorization')) {
-        headers = headers.set('Authorization', authHeaders.get('Authorization')!);
-    }
+  createCompany(company: FormData): Observable<Company> {
+      // No need to set 'Content-Type' header manually; the browser will handle it.
+      const authHeaders = this.createAuthorizationHeader();
+
+      // Merge authorization headers if present
+      let headers = authHeaders;
     return this.httpClient.post<Apiresponse<Company>>(`${this.baseURL}admin/company/create`, company, { headers }).pipe(
       map(response=>{
         if (response.success) {
