@@ -56,7 +56,7 @@
                       <div><strong>Manager:</strong>
                           <ng-container *ngIf="company.idManager">
                               <ng-container *ngIf="managers[company.idManager]">
-                                  <span>{{ managers[company.idManager]?.email || 'Loading...' }}</span>
+                                  <span>{{ managers[company.idManager]!.email || 'Loading...' }}</span>
                               </ng-container>
                               <ng-container *ngIf="!managers[company.idManager]">
                                   <span>Loading...</span>
