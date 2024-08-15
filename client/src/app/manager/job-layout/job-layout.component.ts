@@ -82,7 +82,8 @@ export class JobLayoutComponent implements OnInit {
   viewDetailsJob(job:Job){
     console.log(job+" View Details Job");
     this.job = job;
-    console.log("this.job.idProfilePending "+ this.job);
+    console.log("this.job.id "+ this.job.id);
+    console.log("this.job.idProfilePending "+ this.job.idProfiePending);
     if(this.job.idProfiePending){
       this.getProfileByJobPending(this.job.idProfiePending);
     }

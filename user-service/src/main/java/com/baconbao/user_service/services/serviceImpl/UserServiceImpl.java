@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findById( Integer id) {
+    public UserDTO findById(Integer id) {
 
         return convertToDto(userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
@@ -53,8 +53,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUser(Integer id) {
-        UserDTO userDTO=findById(id);
-        if(userDTO!=null){
+        UserDTO userDTO = findById(id);
+        if (userDTO != null) {
             return true;
         }
         return false;
@@ -64,14 +64,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication == null || !authentication.isAuthenticated()) {
-
+            throw new CustomException(Error.UNAUTHORIZED);
         }
-
-        // Giả sử bạn sử dụng UserDetails để lưu thông tin người dùng
+        log.info("getCurrentUser auth: ");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
+        log.info("getCurrentUser usm: {}", userDetails.getUsername());
         return convertToDto(userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND)));
     }
@@ -100,11 +98,12 @@ public class UserServiceImpl implements UserService {
         try {
             log.info("Updating user by id: {}", userDTO.getId());
 
-            User currentUser = userRepository.findById(userDTO.getId()).orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND));
+            User currentUser = userRepository.findById(userDTO.getId())
+                    .orElseThrow(() -> new CustomException(Error.USER_NOT_FOUND));
 
             // Mã hóa mật khẩu mới nếu có thay đổi
             if (userDTO.getPassword() != null && !userDTO.getPassword().equals(currentUser.getPassword())) {
-                
+
                 userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             } else {
                 userDTO.setPassword(currentUser.getPassword()); // Giữ mật khẩu hiện tại nếu không thay đổi
@@ -122,7 +121,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateIsActive(String token, Integer id) {
         try {
             log.info("Updating active status by id: {}", id);
-            UserDTO user = findById( id);
+            UserDTO user = findById(id);
             user.setActive(!user.isActive());
             return convertToDto(userRepository.save(convertToEntity(user)));
         } catch (DataIntegrityViolationException e) {
@@ -137,7 +136,7 @@ public class UserServiceImpl implements UserService {
         try {
             log.info("Deleting user by id: {}", id);
             jwtTokenUtil.extractUsername(token);
-            UserDTO user = findById( id);
+            UserDTO user = findById(id);
             userRepository.deleteById(id);
             return user;
         } catch (DataAccessException e) {

@@ -1,6 +1,7 @@
 package com.baconbao.profile_service.services.serviceImp;
 
 import com.baconbao.profile_service.dto.ApiResponse;
+import com.baconbao.profile_service.dto.BooleanDTO;
 import com.baconbao.profile_service.dto.ImageDTO;
 import com.baconbao.profile_service.dto.ProfileDTO;
 import com.baconbao.profile_service.exception.CustomException;
@@ -186,13 +187,13 @@ public class ProfileServiceImp implements ProfileService {
     }
 
     @Override
-    public Boolean checkIdProfile(Integer id) {
+    public BooleanDTO checkIdProfile(Integer id) {
         log.info("Check id profile: {}", id);
         Optional<Profile> profile = profileRepository.findById(id);
         if(profile.isPresent()){
-            return true;
+            return BooleanDTO.builder().isCheck(true).build();
         }
-        return false;
+        return BooleanDTO.builder().isCheck(false).build();
     }
 
     private boolean checkUserId(Integer id) {

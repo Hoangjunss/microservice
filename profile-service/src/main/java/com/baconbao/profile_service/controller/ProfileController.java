@@ -1,6 +1,7 @@
 package com.baconbao.profile_service.controller;
 
 import com.baconbao.profile_service.dto.ApiResponse;
+import com.baconbao.profile_service.dto.BooleanDTO;
 import com.baconbao.profile_service.dto.ProfileDTO;
 import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
@@ -70,9 +71,8 @@ public class ProfileController {
     }
     
     @GetMapping("/user/checkIdProfile")
-    public ResponseEntity<ApiResponse<Boolean>> checkIdProfie(@RequestParam Integer id) {
-        Boolean result = profileService.checkIdProfile(id);
-        return ResponseEntity.ok(new ApiResponse<Boolean>(true, "Check id profile", result));
+    public ResponseEntity<ApiResponse<String>> checkIdProfie(@RequestParam Integer id) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Check id profile", "true"));
     }
 
     @GetMapping("/manager/getProfileByIdPendingJob")

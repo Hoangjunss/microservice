@@ -90,8 +90,7 @@ export class UserServiceService {
   }
 
    getCurrentUser(): Observable<User>{
-    const token = localStorage.getItem('authToken');
-    return this.http.get<Apiresponse<User>>(this.baseURL+"/getCurrentUser?token="+token).pipe(
+    return this.http.get<Apiresponse<User>>(this.baseURL+"/getCurrentUser").pipe(
       map(response => {
         if(response.success){
           console.log(response.data+" user service");

@@ -146,10 +146,7 @@ public class JobServiceImpl implements JobService {
                 jobDTO.setIdProfiePending(new ArrayList<>());
             }
             List<Integer> idProfilePending = jobDTO.getIdProfiePending();
-            Boolean checkProfile= profileClient.checkIdProfile(idProfile).getData();
-            if(!checkProfile) {
-                throw new CustomException(Error.COMPANY_UNABLE_TO_UPDATE);
-            }
+            profileClient.getProfileById(idProfile);
             idProfilePending.add(idProfile);
             jobDTO.setIdProfiePending(idProfilePending);
             return update(jobDTO);
@@ -178,10 +175,11 @@ public class JobServiceImpl implements JobService {
             jobDTO.setSize(size);
             idProfileJob.add(idProfile);
             jobDTO.setIdProfile(idProfileJob);
-            JobDTO jobAccept=update(jobDTO);
-            ProfileDTO profileDTO=profileClient.getProfileById(idProfile).getData();
-            MessageDTO messageDTO=MessageDTO.builder().message("accept job successful by"+jobDTO.getTypeJob()).id(profileDTO.getIdUser()).build();
-            kafkaClient.sendMessage("accept-job",messageDTO);
+            JobDTO jobAccept = update(jobDTO);
+            ProfileDTO profileDTO = profileClient.getProfileById(idProfile).getData();
+            MessageDTO messageDTO = MessageDTO.builder().message("accept job successful by" + jobDTO.getTypeJob())
+                    .id(profileDTO.getIdUser()).build();
+            kafkaClient.sendMessage("accept-job", messageDTO);
             return update(jobDTO);
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(Error.COMPANY_UNABLE_TO_UPDATE);

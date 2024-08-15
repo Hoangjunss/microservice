@@ -1,5 +1,6 @@
 package com.baconbao.profile_service.services.service;
 
+import com.baconbao.profile_service.dto.BooleanDTO;
 import com.baconbao.profile_service.dto.ProfileDTO;
 import com.baconbao.profile_service.model.Profile;
 import com.baconbao.profile_service.model.TypeProfile;
@@ -17,6 +18,6 @@ public interface ProfileService {
     List<ProfileDTO> getAllProfile();
     List<ProfileDTO> findByTitle(String title);
     List<ProfileDTO> findListProfileByIdPendingJob(List<Integer> idJobs);
-    Boolean checkIdProfile(Integer id);
+    BooleanDTO checkIdProfile(Integer id);
     
 }
