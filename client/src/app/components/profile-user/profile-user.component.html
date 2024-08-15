@@ -10,6 +10,7 @@
             <li><a (click)="scrollToSection('testimonial')"><i class="bi fs-5 bi-columns-gap me-2"></i> Skill</a></li>
             <li><a (click)="scrollToSection('contact_us')"><i class="bi fs-5 bi-envelope me-2"></i> Contact</a></li>
             <li *ngIf="isCurrentUserProfile()"><a (click)="showEditForm()" class="btn btn-primary btn-edit-profile"><i class="bi fs-5 me-2">Edit profile</i></a></li>
+            <li *ngIf="isCreateProfile()"><a (click)="showEditForm()" class="btn btn-primary btn-edit-profile"><i class="bi fs-5 me-2">Create profile</i></a></li>
         </ul>
     </div>
 </header>

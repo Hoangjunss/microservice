@@ -1,13 +1,15 @@
 <!-- List Company - Home -->
 <div *ngIf="displayedProfiles.length>0 && router.url ==='/home'; else noItem"  class="row" [ngStyle]="{'text-align': 'center'}">
     <a *ngFor="let company of displayedProfiles" (click)="viewDetailsCompany(company.id)" class="company-card col-sm-6 col-lg-4 m-15px-tb">
-        <div class="company-logo">
+        <!-- <div class="company-logo">
             <img  alt="Company Logo">
-        </div>
+        </div> -->
         <div class="company-info">
             <h3>{{company.name}}</h3>
             <p>City: {{company.city}}</p>
             <p>Contact: {{company.email}}</p>
+            <p>Phone: {{company.phone}}</p>
+            <p>Address: {{company.street}}</p>
         </div>
     </a>
     <div class="d-flex justify-content-end">

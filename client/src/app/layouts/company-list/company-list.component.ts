@@ -55,7 +55,8 @@ export class CompanyListComponent implements OnInit {
       type: ['', Validators.required],
       description: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^\+?\d{10,}$/)]]
+      phone: ['', [Validators.required, Validators.pattern(/^\+?\d{10,}$/)]],
+      address: ['',Validators.required]
     });
   }
 
@@ -127,6 +128,7 @@ export class CompanyListComponent implements OnInit {
     formData.append('description', this.companyForm.get('description')?.value);
     formData.append('email', this.companyForm.get('email')?.value);
     formData.append('phone', this.companyForm.get('phone')?.value);
+    formData.append('street',this.companyForm.get('address')?.value);
   
     // Log each form data entry
     formData.forEach((value, key) => {

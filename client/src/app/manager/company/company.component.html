@@ -4,13 +4,13 @@
     </div>
     <div class="company-info">
       <h1><strong>About company</strong></h1>
-      <h2 class="company-name">{{company.name}}</h2>
-      <p class="company-type">{{company.type}}</p>
-      <p class="company-description">{{company.description}}</p>
+      <h2 class="company-name"><strong>Name Company : </strong>{{company.name}}</h2>
+      <p class="company-type"><strong>Type Company : </strong>{{company.type}}</p>
+      <p class="company-description"><strong>Description : </strong>{{company.description}}</p>
       <div class="company-contact">
-        <p><strong>Address:</strong> {{company.street}}, {{company.city}}, {{company.country}}</p>
-        <p><strong>Email:</strong> <a href="mailto:{{company.email}}">{{company.email}}</a></p>
-        <p><strong>Phone:</strong> <a href="tel:{{company.phone}}">{{company.phone}}</a></p>
+        <p><strong>Address : </strong> {{company.street}}, {{company.city}}, {{company.country}}</p>
+        <p><strong>Email : </strong> <a href="mailto:{{company.email}}">{{company.email}}</a></p>
+        <p><strong>Phone : </strong> <a href="tel:{{company.phone}}">{{company.phone}}</a></p>
         <button *ngIf="userCurrent.role === 'manager'" (click)="editCompany()" class="btn btn-dark">Edit company</button>
       </div>
     </div>

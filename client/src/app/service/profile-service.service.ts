@@ -24,18 +24,18 @@ export class ProfileServiceService {
           throw new Error(response.message);
         }
       }),
-      // catchError(
-      //   error => {
-      //     if (error instanceof HttpErrorResponse && error.status === 401) {
-      //       console.error('Unauthorized:', error);
-      //       this.router.navigate(['/login']);
-      //       localStorage.removeItem('authToken');
-      //       localStorage.removeItem('userCurrent');
-      //     }
-      //     console.error('Error fetching profiles:', error);
-      //     return throwError(() => new Error('Something went wrong!'));
-      //   }
-      // )
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -49,42 +49,43 @@ export class ProfileServiceService {
           throw new Error(response.message);
         }
       }),
-      // catchError(
-      //   error => {
-      //     if (error instanceof HttpErrorResponse && error.status === 401) {
-      //       console.error('Unauthorized:', error);
-      //       this.router.navigate(['/login']);
-      //       localStorage.removeItem('authToken');
-      //       localStorage.removeItem('userCurrent');
-      //     }
-      //     console.error('Error fetching profiles:', error);
-      //     return throwError(() => new Error('Something went wrong!'));
-      //   }
-      // )
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
-  createProfile(profile: Profile):Observable<Profile> {
+  createProfile(profile: FormData):Observable<Profile> {
     console.log('Creating profile:', profile);
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let headers = new HttpHeaders();
+    console.log("profile",profile);
     const authHeaders = this.createAuthorizationHeader();
     if (authHeaders.has('Authorization')) {
         headers = headers.set('Authorization', authHeaders.get('Authorization')!);
     }
-    return this.httpClient.post<any>(this.baseURL, profile, { headers }).pipe(
+    return this.httpClient.post<any>(`${this.baseURL}user/save`, profile, { headers }).pipe(
       map(this.mapToProfile),
-      // catchError(
-      //   error => {
-      //     if (error instanceof HttpErrorResponse && error.status === 401) {
-      //       console.error('Unauthorized:', error);
-      //       this.router.navigate(['/login']);
-      //       localStorage.removeItem('authToken');
-      //       localStorage.removeItem('userCurrent');
-      //     }
-      //     console.error('Error fetching profiles:', error);
-      //     return throwError(() => new Error('Something went wrong!'));
-      //   }
-      // )
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -100,18 +101,18 @@ export class ProfileServiceService {
           throw new Error(response.message);
         }
       }),
-      // catchError(
-      //   error => {
-      //     if (error instanceof HttpErrorResponse && error.status === 401) {
-      //       console.error('Unauthorized:', error);
-      //       this.router.navigate(['/login']);
-      //       localStorage.removeItem('authToken');
-      //       localStorage.removeItem('userCurrent');
-      //     }
-      //     console.error('Error fetching profiles:', error);
-      //     return throwError(() => new Error('Something went wrong!'));
-      //   }
-      // )
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -125,18 +126,18 @@ export class ProfileServiceService {
           throw new Error(response.message);
         }
       }),
-      // catchError(
-      //   error => {
-      //     if (error instanceof HttpErrorResponse && error.status === 401) {
-      //       console.error('Unauthorized:', error);
-      //       this.router.navigate(['/login']);
-      //       localStorage.removeItem('authToken');
-      //       localStorage.removeItem('userCurrent');
-      //     }
-      //     console.error('Error fetching profiles:', error);
-      //     return throwError(() => new Error('Something went wrong!'));
-      //   }
-      // )
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 
@@ -151,18 +152,18 @@ export class ProfileServiceService {
        throw new Error(response.message);
      }
    }),
-  //  catchError(
-  //   error => {
-  //     if (error instanceof HttpErrorResponse && error.status === 401) {
-  //       console.error('Unauthorized:', error);
-  //       this.router.navigate(['/login']);
-  //       localStorage.removeItem('authToken');
-  //       localStorage.removeItem('userCurrent');
-  //     }
-  //     console.error('Error fetching profiles:', error);
-  //     return throwError(() => new Error('Something went wrong!'));
-  //   }
-  // )
+   catchError(
+    error => {
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        console.error('Unauthorized:', error);
+        this.router.navigate(['/login']);
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userCurrent');
+      }
+      console.error('Error fetching profiles:', error);
+      return throwError(() => new Error('Something went wrong!'));
+    }
+  )
   );
   }
 
@@ -176,18 +177,18 @@ export class ProfileServiceService {
           throw new Error(response.message);
         }
       }),
-      // catchError(
-      //   error => {
-      //     if (error instanceof HttpErrorResponse && error.status === 401) {
-      //       console.error('Unauthorized:', error);
-      //       this.router.navigate(['/login']);
-      //       localStorage.removeItem('authToken');
-      //       localStorage.removeItem('userCurrent');
-      //     }
-      //     console.error('Error fetching profiles:', error);
-      //     return throwError(() => new Error('Something went wrong!'));
-      //   }
-      // )
+      catchError(
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            console.error('Unauthorized:', error);
+            this.router.navigate(['/login']);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userCurrent');
+          }
+          console.error('Error fetching profiles:', error);
+          return throwError(() => new Error('Something went wrong!'));
+        }
+      )
     );
   }
 

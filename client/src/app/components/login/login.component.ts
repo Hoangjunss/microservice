@@ -4,6 +4,8 @@ import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModu
 import { UserServiceService } from '../../service/user-service.service';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../model/user';
+import { ProfileServiceService } from '../../service/profile-service.service';
+import { Profile } from '../../model/profile';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +18,9 @@ export class LoginComponent {
 
   user:User = new User();
   userForm : FormGroup;
+  idProfile : number | undefined;
 
-  constructor(private fb: FormBuilder,private userService : UserServiceService,private router: Router) {
+  constructor(private fb: FormBuilder,private userService : UserServiceService,private router: Router , private profileService: ProfileServiceService) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]], 
@@ -43,6 +46,23 @@ export class LoginComponent {
         localStorage.setItem('authToken', token);
         localStorage.setItem('userCurrent', JSON.stringify(userCurrent));
         console.log('Login successful, token saved to localStorage');
+        console.log("Profile ID response:", response.user.id); 
+        this.profileService.getProfileByUserId(response.user.id).subscribe(
+          (data) => 
+          {
+            console.log("Profile ID:", data?.id); 
+            if(data!= null)
+            {
+              this.idProfile = data.id;
+              const idProfileString = this.idProfile !== undefined ? this.idProfile.toString() : '';
+
+              localStorage.setItem('idProfile', idProfileString);
+            }
+
+            
+          }
+        )
+
         console.log('Token:', token);
         if(response.role === 'admin') {
           this.router.navigateByUrl('/admin');

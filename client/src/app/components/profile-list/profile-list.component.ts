@@ -33,7 +33,6 @@ export class ProfileListComponent implements OnInit {
   }
 
   viewProfile(id?: number): void {
-    alert(id);
     if (id) {
       this.router.navigate(['profile/profile-user/', id]);
     }

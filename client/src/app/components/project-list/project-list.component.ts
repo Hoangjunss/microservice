@@ -32,9 +32,10 @@ export class ProjectListComponent implements OnInit {
       this.userCurrent = JSON.parse(userCurrentString);
     }
     console.log("Project start");
-    console.log("idProfile",this.idProfile);
-    if(this.idProfile){
-      this.getProjectByIdProfile(this.idProfile);
+    const idProfile = localStorage.getItem('idProfile');
+    console.log("idProfile",idProfile);
+    if(idProfile){
+      this.getProjectByIdProfile(Number(idProfile));
     }else{
       this.getProfileByIdUser(this.userCurrent.id);
     }
