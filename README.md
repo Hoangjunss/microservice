@@ -218,7 +218,7 @@ If you have any questions, feedback, or inquiries regarding the project, please 
   - Role: Responsible for Angular frontend development and UI/UX design.
   - Email: [Kien06112004@gmail.com](Kien06112004@gmail.com)
 
-- **Vu Hoang Chung**
+- **Vu Hoang Chung** (Backend Lead)
   - Role: Responsible for backend development including Spring Security, JWT, OpenFeign, email integration, Cloudinary configuration and handling service.
   - Email: [Vuhoangchung12122004@gmail.com](Vuhoangchung12122004@gmail.com)
 
