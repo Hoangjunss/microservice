@@ -25,8 +25,8 @@ public class ProfileController {
     private ProfileService profileService;
 
     @PostMapping("/user/save")
-    public ResponseEntity<ApiResponse<ProfileDTO>> save(@RequestBody ProfileDTO profileDTO) {
-        ProfileDTO resultProfileDTO = profileService.saveProfile(profileDTO);
+    public ResponseEntity<ApiResponse<ProfileDTO>> save(@ModelAttribute ProfileDTO profileDTO, @RequestPart(value="image",required = false)MultipartFile image) {
+        ProfileDTO resultProfileDTO = profileService.saveProfile(profileDTO,image);
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile saved successfully", resultProfileDTO));
     }
 

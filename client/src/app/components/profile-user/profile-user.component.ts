@@ -30,6 +30,7 @@ export class ProfileUserComponent implements OnInit {
   formEditProfile?: boolean;
   selectedFile: File | null = null;
   userCurrent: any;
+  
 
   constructor(
     private userService: UserServiceService,
@@ -143,6 +144,10 @@ export class ProfileUserComponent implements OnInit {
       return this.profile.idUser === this.userCurrent.id;
     }
     return false;
+  }
+  isCreateProfile(): boolean
+  {
+    return !this.profile;
   }
   
 }

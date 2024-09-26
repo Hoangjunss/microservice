@@ -1,9 +1,9 @@
 <div *ngIf="currentUrl === '/home'">
-    <div *ngIf="displayJob.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
+    <div *ngIf="newJobs.length>0 && !isListJob; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
         <div *ngFor="let job of displayJob" class="job-card">
             <div class="job-header">
                 <h3 class="job-title">Title: {{job.title}}</h3>
-                <span class="job-type">Full-Time</span>
+                <span class="job-type">Type job : {{job.typeJob}}</span>
             </div>
             <p class="job-size">Team Size: {{job.size}}</p>
             <div class="job-actions">
@@ -14,8 +14,10 @@
         <div class="d-flex justify-content-end">
             <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
                <</button>
+                    <!-- <button class="nav-button next" (click)="nextPage()"
+                        [disabled]="currentPage >= totalPages() - 1">></button> -->
                     <button class="nav-button next" (click)="nextPage()"
-                        [disabled]="currentPage >= totalPages() - 1">></button>
+                        >></button>
         </div>
     </div>
 
@@ -66,10 +68,10 @@
     <div class="container container-1">
         <h3>Jobs that may interest you</h3>
         <div *ngIf="newJobs.length>0; else noJobs" class="row" [ngStyle]="{'margin-top': '100px'}">
-            <div *ngFor="let job of newJobs" class="job-card">
+            <div *ngFor="let job of displayJob" class="job-card">
                 <div class="job-header">
                     <h3 class="job-title">Title: {{job.title}}</h3>
-                    <span class="job-type">Full-Time</span>
+                    <span class="job-type">Type job : {{job.typeJob}}</span>
                 </div>
                 <p class="job-size">Team Size: {{job.size}}</p>
                 <div class="job-actions">
@@ -80,8 +82,9 @@
             <div class="d-flex justify-content-end">
                 <button class="nav-button prev" (click)="prevPage()" [disabled]="currentPage === 0">
                     <</button>
-                        <button class="nav-button next" (click)="nextPage()"
-                            [disabled]="currentPage >= totalPages() - 1">></button>
+                        <!-- <button class="nav-button next" (click)="nextPage()"
+                            [disabled]="currentPage >= totalPages() - 1">></button> -->
+                        <button class="nav-button next" (click)="nextPage()">></button>
             </div>
         </div>
         <ng-template #noJobs>
@@ -99,7 +102,7 @@
             <div *ngFor="let job of sentJobs" class="job-card">
                 <div class="job-header">
                     <h3 class="job-title">Title: {{job.title}}</h3>
-                    <span class="job-type">Full-Time</span>
+                    <span class="job-type">Type job : {{job.typeJob}}</span>
                 </div>
                 <p class="job-size">Team Size: {{job.size}}</p>
                 <div class="job-actions">
@@ -127,7 +130,7 @@
             <div *ngFor="let job of acceptedJobs" class="job-card">
                 <div class="job-header">
                     <h3 class="job-title">Title: {{job.title}}</h3>
-                    <span class="job-type">Full-Time</span>
+                    <span class="job-type">Type job : {{job.typeJob}}</span>
                 </div>
                 <p class="job-size">Team Size: {{job.size}}</p>
                 <div class="job-actions">

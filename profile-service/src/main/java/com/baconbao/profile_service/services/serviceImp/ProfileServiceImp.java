@@ -59,10 +59,13 @@ public class ProfileServiceImp implements ProfileService {
         return modelMapper.map(profileDTO, Profile.class);
     }
 
-    private Profile save(ProfileDTO profileDTO) {
+    private Profile save(ProfileDTO profileDTO,MultipartFile image) {
         try {
             log.info("Saving profile");
-            ImageDTO imageDTO = null;
+            String url="";
+            if(image!=null){
+             url=imageClient.save(image).getData().getUrl();
+            }
           
             Profile profile = Profile.builder()
                     .id(getGenerationId())
@@ -74,7 +77,7 @@ public class ProfileServiceImp implements ProfileService {
                     .title(profileDTO.getTitle())
                     .contact(profileDTO.getContact())
                     .idUser(profileDTO.getIdUser())
-                    .url(imageDTO.getUrl())
+                    .url(url)
                     .build();
             return profileRepository.insert(profile);
         } catch (DataIntegrityViolationException e) {
@@ -90,9 +93,9 @@ public class ProfileServiceImp implements ProfileService {
     }
 
     @Override
-    public ProfileDTO saveProfile(ProfileDTO profileDTO) {
+    public ProfileDTO saveProfile(ProfileDTO profileDTO,MultipartFile imageFile) {
         log.debug("Save profile");
-        Profile profile = save(profileDTO);
+        Profile profile = save(profileDTO,imageFile);
         return convertToDTO(profile);
     }
 

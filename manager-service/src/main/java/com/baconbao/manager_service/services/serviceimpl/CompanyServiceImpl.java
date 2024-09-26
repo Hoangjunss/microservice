@@ -40,8 +40,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-      @Autowired
-      private ImageClient imageClient;
+    @Autowired
+    private ImageClient imageClient;
 
     @Autowired
     private UserClient userClient;
@@ -65,10 +65,11 @@ public class CompanyServiceImpl implements CompanyService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    private Company save(CompanyDTO companyDTO,MultipartFile multipartFile) {
+    private Company save(CompanyDTO companyDTO, MultipartFile multipartFile) {
         log.info("Inserting company");
+        System.out.println(companyDTO.toString());
         String url = "";
-        if (multipartFile!= null) {
+        if (multipartFile != null) {
             url = imageClient.save(multipartFile).getData().getUrl();
         }
         try {
@@ -101,7 +102,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDTO create(CompanyDTO companyDTO, MultipartFile multipartFile) {
-        return convertToDTO(save(companyDTO,multipartFile));
+        return convertToDTO(save(companyDTO, multipartFile));
     }
 
     @Override
@@ -132,7 +133,7 @@ public class CompanyServiceImpl implements CompanyService {
         try {
             log.info("Fetching all CompanyDTOs");
             Query query = new Query();
-            query.limit(20);
+            query.limit(50);
             return convertToListDTO(mongoTemplate.find(query, Company.class));
         } catch (DataAccessException e) {
             return Collections.emptyList();

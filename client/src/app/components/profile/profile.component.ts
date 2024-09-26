@@ -30,7 +30,6 @@ export class ProfileComponent implements OnInit{
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.param = +params['id'];
-        alert(this.param+" is already")
         //this.getProfileById(this.param);
       } else {
         this.id = 810437498; // default value or logic

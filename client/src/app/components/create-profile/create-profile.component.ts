@@ -5,6 +5,7 @@ import { ProfileServiceService } from '../../service/profile-service.service';
 import { Profile } from '../../model/profile';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-create-profile',
@@ -15,8 +16,10 @@ import { Router } from '@angular/router';
 })
 export class CreateProfileComponent implements OnInit {
   profileForm: FormGroup;
-  profileEdit : Profile = new Profile();
+  profileEdit: Profile = new Profile();
   selectedFile: File | null = null;
+  createProfile !: boolean;
+  userCurrent: User = new User();
 
   @Input() profile: Profile | undefined;
   @Input() idProfile?: number | null;
@@ -32,7 +35,7 @@ export class CreateProfileComponent implements OnInit {
       skills: [''],
       typeProfile: [''],
       url: [''],
-      idUser: this.profile,
+      idUser: [''],
       contact: this.fb.group({
         address: [''],
         phone: [''],
@@ -43,33 +46,45 @@ export class CreateProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    alert(this.profile);
+    const userCurrentStrin = localStorage.getItem('userCurrent');
+    if (userCurrentStrin) {
+      this.userCurrent = JSON.parse(userCurrentStrin);
+      
+      // Thiết lập giá trị idUser trong form
+      this.profileForm.patchValue({
+        idUser: this.userCurrent.id
+      });
+    }
     if (this.profile) {
       this.profileForm.patchValue(this.profile);
       if (this.profile.contact) {
         this.profileForm.get('contact')?.patchValue(this.profile.contact);
       }
     }
+    
   }
 
+
   onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement; 
+    const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
     }
   }
 
   updateProject(): void {
+
+    this.createProfile = this.isCreateProfile();
     if (this.profileForm.valid) {
       const formData: FormData = new FormData();
-  
+
       const profileData = this.profileForm.value;
       for (const key in profileData) {
         if (profileData.hasOwnProperty(key) && key !== 'contact' && key !== 'imageFile') {
           formData.append(key, profileData[key]);
         }
       }
-  
+
       if (profileData.contact) {
         for (const contactKey in profileData.contact) {
           if (profileData.contact.hasOwnProperty(contactKey)) {
@@ -77,25 +92,35 @@ export class CreateProfileComponent implements OnInit {
           }
         }
       }
-  
+
       const imageFile = this.profileForm.get('imageFile')?.value;
       if (this.selectedFile) {
         formData.append('image', this.selectedFile);
-      } 
+      }
+      
 
       console.log('FormData entries:');
       formData.forEach((value, key) => {
         console.log(`${key}: ${value}`);
       });
       console.log('Profile form', this.profileForm.value);
-      this.profileService.updateProfile(formData).subscribe(response => {
-        console.log('Profile updated successfully', response);
-        alert('Profile updated successfully')
-        window.location.reload();
-      }, error => {
-        console.error('Error updating profile', error);
-      });
+      if (this.createProfile) {
+        this.profileService.createProfile(formData).subscribe(response => {
+          window.location.reload();
+        }
+        )
+      }
+      else {
+        this.profileService.updateProfile(formData).subscribe(response => {
+          console.log('Profile updated successfully', response);
+          alert('Profile updated successfully')
+          window.location.reload();
+        }, error => {
+          console.error('Error updating profile', error);
+        });
+      }
     }
+
   }
 
   getProfileImage(): string {
@@ -104,5 +129,9 @@ export class CreateProfileComponent implements OnInit {
 
   onClose(): void {
     this.closeForm.emit();
+  }
+
+  isCreateProfile(): boolean {
+    return !this.profile;
   }
 }

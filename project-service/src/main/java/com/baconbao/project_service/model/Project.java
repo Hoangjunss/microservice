@@ -20,7 +20,7 @@ public class Project {
     private String title;
     private String description;
     private LocalDateTime createAt;
-    private Integer idImage;
+    private String idImage;
     private boolean isDisplay;
     @PrePersist
     protected void onCreate() {

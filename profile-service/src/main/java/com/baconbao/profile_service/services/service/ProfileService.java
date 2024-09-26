@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProfileService {
     ProfileDTO updateProfile(ProfileDTO profileDTO,MultipartFile imageFile);
-    ProfileDTO saveProfile(ProfileDTO profileDTO);
+    ProfileDTO saveProfile(ProfileDTO profileDTO,MultipartFile imageFile);
     ProfileDTO findById(Integer id);
     ProfileDTO findByIdUser(Integer id);
     List<ProfileDTO> findProfilesByType(TypeProfile typeProfile);
